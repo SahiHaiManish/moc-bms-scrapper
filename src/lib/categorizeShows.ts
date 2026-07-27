@@ -23,7 +23,7 @@ export function categorizeShows(shows: Show[]): Sections {
 
   shows.forEach((show) => {
 
-    const date = parseISO(show.date);
+const date = parseISO(show.startDate);
 
     if (isToday(date)) {
       tonight.push(show);
