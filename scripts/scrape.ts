@@ -1,3 +1,4 @@
+import { parseEventPage } from "../src/lib/parseEventPage";
 import { parseVenuePage } from "../src/lib/parseVenuePage";
 import { chromium, Page, BrowserContext } from "playwright";
 import fs from "fs/promises";
@@ -56,6 +57,60 @@ async function chooseBengaluru(page: Page, context: BrowserContext) {
 
 }
 
+async function saveEventPage(page: Page, url: string) {
+  console.log("\n🎭 Opening first event...\n");
+
+await page.goto(url, {
+  waitUntil: "domcontentloaded",
+  timeout: 60000,
+});
+
+// Give React time to render the page.
+await page.waitForTimeout(5000);
+
+console.log(await page.title());
+console.log(page.url());
+
+  await page.screenshot({
+    path: "playwright/event.png",
+    fullPage: true,
+  });
+
+  const html = await page.content();
+
+  await fs.writeFile(
+    path.join("playwright", "event.html"),
+    html
+  );
+
+  console.log("✅ Saved event.html");
+}
+
+async function fetchEventDetails(page: Page, url: string) {
+  await page.goto(url, {
+    waitUntil: "domcontentloaded",
+    timeout: 60000,
+  });
+
+  await page.waitForTimeout(5000);
+
+  const html = await page.content();
+
+  try {
+  return parseEventPage(html);
+} catch (error) {
+  const slug =
+    url.split("/").filter(Boolean).at(-1) ?? "unknown";
+
+  await fs.writeFile(
+    `playwright/failed-${slug}.html`,
+    html
+  );
+
+  throw error;
+}
+}
+
 async function run() {
 
   const browser = await chromium.launch({
@@ -93,15 +148,51 @@ const context = await getContext(browser);
 
   const shows = parseVenuePage(html);
 
-  console.table(shows);
+const finalShows = [];
+
+for (let i = 0; i < shows.length; i++) {
+  const summary = shows[i];
+
+  console.log(
+    `\n[${i + 1}/${shows.length}] ${summary.title}`
+  );
+
+  try {
+    const details = await fetchEventDetails(
+      page,
+      summary.bookingUrl
+    );
+
+    finalShows.push({
+      ...summary,
+      ...details,
+    });
+
+    console.log("✅ Parsed");
+
+  } catch (error) {
+    console.error("❌ Failed:", summary.bookingUrl);
+
+    console.error(error);
+  }
+
+  // Be polite to BookMyShow
+  await page.waitForTimeout(1500);
+}
+
+await fs.mkdir("data", {
+  recursive: true,
+});
 
 await fs.writeFile(
-  path.join("playwright", "shows.json"),
-  JSON.stringify(shows, null, 2)
+  path.join("data", "raw-shows.json"),
+  JSON.stringify(finalShows, null, 2)
 );
 
-  console.log(`✅ Parsed ${shows.length} shows`);
-  
+console.log(
+  `\n✅ Saved ${finalShows.length} shows to data/raw-shows.json`
+); 
+ 
   console.log("✅ Screenshot saved");
 
   await browser.close();

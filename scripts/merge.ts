@@ -9,15 +9,29 @@ const rawShows = fs.existsSync(rawPath)
   ? JSON.parse(fs.readFileSync(rawPath, "utf8"))
   : [];
 
-const admin = JSON.parse(fs.readFileSync(adminPath, "utf8"));
 
-// For now, just copy raw data.
-// Later we'll:
-// - hide shows
-// - add manual shows
-// - reorder
-// - pin featured
+const admin = fs.existsSync(adminPath)
+  ? JSON.parse(fs.readFileSync(adminPath, "utf8"))
+  : {
+      hidden: ["ET00314475",
+"ET00436601",
+"ET00316055",
+"ET00436929",
+"ET00477193"],
+      manual: [],
+      featured: [],
+      order: [],
+    };
 
-fs.writeFileSync(outputPath, JSON.stringify(rawShows, null, 2));
+const visibleShows = rawShows.filter(
+  (show) => !admin.hidden.includes(show.eventId)
+);
 
-console.log(`✅ Merged ${rawShows.length} shows`);
+fs.writeFileSync(
+  outputPath,
+  JSON.stringify(visibleShows, null, 2)
+);
+
+console.log(
+  `✅ Merged ${visibleShows.length} visible shows (from ${rawShows.length} total)`
+);
