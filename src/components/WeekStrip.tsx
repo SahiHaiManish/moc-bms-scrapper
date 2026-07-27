@@ -2,6 +2,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { format, parseISO, differenceInCalendarDays } from "date-fns";
 import { Show } from "@/lib/groupShows";
+import { formatInTimeZone } from "date-fns-tz";
+
 
 interface Props {
   shows: Show[];
@@ -34,7 +36,13 @@ export default function WeekStrip({ shows }: Props) {
 
       <div className="flex gap-6 overflow-x-auto pb-4 snap-x snap-mandatory">
         {upcoming.map((show) => {
-          const start = parseISO(show.startDate);
+const start = parseISO(show.startDate);
+
+formatInTimeZone(
+  start,
+  "Asia/Kolkata",
+  "EEE • h:mm a"
+);
 
           const daysAway = differenceInCalendarDays(start, new Date());
 

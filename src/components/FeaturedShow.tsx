@@ -1,15 +1,22 @@
 import Image from "next/image";
 import { Calendar, Clock, MapPin, Ticket } from "lucide-react";
-import { format, parseISO } from "date-fns";
 import { Show } from "@/lib/groupShows";
+import { format, parseISO } from "date-fns";
+import { formatInTimeZone } from "date-fns-tz";
 
 interface Props {
   show: Show;
 }
 
 export default function FeaturedShow({ show }: Props) {
-  const start = parseISO(show.startDate);
 
+const start = parseISO(show.startDate);
+
+formatInTimeZone(
+  start,
+  "Asia/Kolkata",
+  "EEE • h:mm a"
+);
   return (
     <section className="mb-16 overflow-hidden rounded-3xl border border-zinc-800 bg-zinc-900">
       <div className="grid lg:grid-cols-2">
