@@ -1,0 +1,32 @@
+[
+  {
+    "id": "1",
+    "title": "Rahul Dua Live",
+    "image": "https://picsum.photos/600/400?1",
+    "bookingUrl": "https://bookmyshow.com",
+    "date": "2026-07-31",
+    "startTime": "7:30 PM",
+    "performers": ["Rahul Dua"],
+    "source": "bookmyshow"
+  },
+  {
+    "id": "2",
+    "title": "Open Mic Friday",
+    "image": "https://picsum.photos/600/400?2",
+    "bookingUrl": "https://bookmyshow.com",
+    "date": "2026-08-01",
+    "startTime": "8:00 PM",
+    "performers": ["Various Comics"],
+    "source": "bookmyshow"
+  },
+  {
+    "id": "3",
+    "title": "Sunday Special",
+    "image": "https://picsum.photos/600/400?3",
+    "bookingUrl": "https://bookmyshow.com",
+    "date": "2026-08-02",
+    "startTime": "6:30 PM",
+    "performers": ["Guest Artist"],
+    "source": "bookmyshow"
+  }
+]
