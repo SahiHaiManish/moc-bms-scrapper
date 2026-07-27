@@ -13,12 +13,15 @@ export default function ShowCard({ show }: Props) {
   return (
     <article className="group overflow-hidden rounded-2xl border border-zinc-800 bg-zinc-900 transition-all duration-300 hover:-translate-y-1 hover:border-yellow-400 hover:shadow-2xl hover:shadow-yellow-500/10">
       <div className="relative aspect-[16/9] overflow-hidden">
-        <Image
-          src={show.image}
-          alt={show.title}
-          fill
-          className="object-cover transition duration-500 group-hover:scale-105"
-        />
+ <Image
+  src={show.image}
+  alt={show.title}
+  fill
+ sizes="(max-width: 640px) 100vw,
+         (max-width: 1280px) 50vw,
+         33vw"
+  className="object-cover transition duration-500 group-hover:scale-105"
+/>
 
         <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-black via-black/40 to-transparent" />
 
