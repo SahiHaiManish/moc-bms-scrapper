@@ -64,8 +64,8 @@ export default function Hero() {
     <p className="mx-auto mt-8 max-w-3xl text-lg leading-8 text-zinc-400">
       Discover every upcoming show at{" "}
       <span className="font-semibold text-white">
-        Ministry of Comedy
-      </span>.
+        friendly neighbourhood comedy club!
+      </span>
     </p>
 
   </div>

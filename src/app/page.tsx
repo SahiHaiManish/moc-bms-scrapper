@@ -31,7 +31,7 @@ const nextShow =
     (show) => parseISO(show.startDate) > now
   ) ?? sortedShows[0];
 
-const adminPath = path.join(process.cwd(), "config", "admin.json");
+const adminPath = path.join(process.cwd(), "src/config", "admin.json");
 
 const admin = fsSync.existsSync(adminPath)
   ? JSON.parse(fsSync.readFileSync(adminPath, "utf8"))
@@ -43,6 +43,8 @@ const featuredShow =
   sortedShows.find((show) =>
     admin.featured?.includes(show.eventId)
   ) ?? sortedShows[0];
+
+
 
   const sections = groupShows(sortedShows);
 
@@ -57,11 +59,11 @@ const featuredShow =
   className="mx-auto max-w-7xl px-6 py-10 lg:px-8"
 >
 
-<div className="mb-14">
+<div className="mb-16">
 
   {featuredShow.eventId === nextShow.eventId ? (
 
-    <div className="mx-auto max-w-xl">
+    <div className="mx-auto max-w-sm">
 
       <FeaturedShow
         show={nextShow}
@@ -72,18 +74,26 @@ const featuredShow =
 
   ) : (
 
-    <div className="grid gap-8 lg:grid-cols-2">
+    <div className="flex flex-wrap justify-center gap-8">
 
-      <FeaturedShow
-        show={nextShow}
-        title="NEXT UP"
-      />
+      <div className="w-full max-w-sm">
 
-      <FeaturedShow
-        show={featuredShow}
-        title="EDITOR'S PICK"
-        featured
-      />
+        <FeaturedShow
+          show={nextShow}
+          title="NEXT UP"
+        />
+
+      </div>
+
+      <div className="w-full max-w-sm">
+
+        <FeaturedShow
+          show={featuredShow}
+          title="EDITOR'S PICK"
+          featured
+        />
+
+      </div>
 
     </div>
 
@@ -91,7 +101,7 @@ const featuredShow =
 
 </div>
 
-  <WeekStrip shows={sortedShows} />
+ {/*  <WeekStrip shows={sortedShows} /> */}
 
   {sections.map((section) => (
     <ShowSection

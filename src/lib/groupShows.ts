@@ -35,16 +35,16 @@ export interface ShowSection {
 export function groupShows(shows: Show[]): ShowSection[] {
   const sorted = [...shows].sort(
     (a, b) =>
-      parseISO(a.startDate).getTime() - parseISO(b.startDate).getTime()
+      parseISO(a.startDate).getTime() -
+      parseISO(b.startDate).getTime()
   );
 
   const today = new Date();
-  const todayStart = startOfDay(today);
-  const todayEnd = endOfDay(today);
 
   const friday = startOfDay(nextFriday(today));
   const saturday = startOfDay(nextSaturday(today));
   const sunday = startOfDay(nextSunday(today));
+  const sundayEnd = endOfDay(nextSunday(today));
 
   const todayShows = sorted.filter((show) =>
     isSameDay(parseISO(show.startDate), today)
@@ -64,10 +64,10 @@ export function groupShows(shows: Show[]): ShowSection[] {
 
   const comingSoon = sorted.filter((show) => {
     const date = parseISO(show.startDate);
-    return isAfter(date, sunday);
+    return isAfter(date, sundayEnd);
   });
 
-  const weekday = today.getDay(); // 0 Sun ... 6 Sat
+  const weekday = today.getDay(); // 0 = Sun ... 6 = Sat
 
   const sections: ShowSection[] = [];
 
@@ -83,51 +83,54 @@ export function groupShows(shows: Show[]): ShowSection[] {
     case 2: // Tuesday
     case 3: // Wednesday
     case 4: // Thursday
-      if (fridayShows.length)
+      if (fridayShows.length) {
         sections.push({
           title: "Friday",
           shows: fridayShows,
         });
+      }
 
-      if (saturdayShows.length)
+      if (saturdayShows.length) {
         sections.push({
           title: "Saturday",
           shows: saturdayShows,
         });
+      }
 
-      if (sundayShows.length)
+      if (sundayShows.length) {
         sections.push({
           title: "Sunday",
           shows: sundayShows,
         });
-
+      }
       break;
 
     case 5: // Friday
-      if (saturdayShows.length)
+      if (saturdayShows.length) {
         sections.push({
           title: "Saturday",
           shows: saturdayShows,
         });
+      }
 
-      if (sundayShows.length)
+      if (sundayShows.length) {
         sections.push({
           title: "Sunday",
           shows: sundayShows,
         });
-
+      }
       break;
 
     case 6: // Saturday
-      if (sundayShows.length)
+      if (sundayShows.length) {
         sections.push({
           title: "Sunday",
           shows: sundayShows,
         });
-
+      }
       break;
 
-    case 0:
+    case 0: // Sunday
       break;
   }
 

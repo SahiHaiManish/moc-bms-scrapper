@@ -25,14 +25,9 @@ const admin: AdminConfig = fs.existsSync(adminPath)
   ? JSON.parse(fs.readFileSync(adminPath, "utf8"))
   : {
       hidden: [
-        "ET00314475",
-        "ET00436601",
-        "ET00316055",
-        "ET00436929",
-        "ET00477193",
-      ],
+     ],
       manual: [],
-      featured: [],
+      featured: ["ET00433099"],
       order: [],
     };
 

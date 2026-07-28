@@ -1,6 +1,6 @@
 import Image from "next/image";
-import { Calendar, Clock, MapPin, Ticket } from "lucide-react";
-import { format, parseISO } from "date-fns";
+import { Calendar, Clock, Ticket } from "lucide-react";
+import { parseISO } from "date-fns";
 import { Show } from "@/lib/groupShows";
 
 import { formatInTimeZone } from "date-fns-tz";
@@ -16,14 +16,12 @@ const start = parseISO(show.startDate);
   return (
     <article className="group overflow-hidden rounded-2xl border border-zinc-800 bg-zinc-900 transition-all duration-300 hover:-translate-y-1 hover:border-yellow-400 hover:shadow-2xl hover:shadow-yellow-500/10">
       <div className="relative aspect-[16/9] overflow-hidden">
- <Image
+<Image
   src={show.image}
   alt={show.title}
   fill
- sizes="(max-width: 640px) 100vw,
-         (max-width: 1280px) 50vw,
-         33vw"
-  className="object-cover transition duration-500 group-hover:scale-105"
+  className="object-contain bg-zinc-950 p-2"
+  sizes="(max-width: 768px) 100vw, 400px"
 />
 
         <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-black via-black/40 to-transparent" />
@@ -49,35 +47,34 @@ const start = parseISO(show.startDate);
           )}
         </div>
 
-        <div className="space-y-2 text-sm text-zinc-300">
-          <div className="flex items-center gap-2">
-            <Calendar size={16} className="text-yellow-400" />
-            <span>{formatInTimeZone(
-  start,
-  "Asia/Kolkata",
-  "EEEE, d MMM yyyy"
-)}</span>
-          </div>
 
-          <div className="flex items-center gap-2">
-            <Clock size={16} className="text-yellow-400" />
-            <span>{formatInTimeZone(
-  start,
-  "Asia/Kolkata",
-  "h:mm a"
-)}</span>
-          </div>
+<div className="space-y-2 text-sm text-zinc-300">
 
-          <div className="flex items-start gap-2">
-            <MapPin
-              size={16}
-              className="mt-0.5 shrink-0 text-yellow-400"
-            />
-            <span className="line-clamp-2">{show.venue}</span>
-          </div>
-        </div>
+  <div className="flex items-center gap-2">
+    <Calendar size={16} className="text-yellow-400" />
+    <span>
+      {formatInTimeZone(
+        start,
+        "Asia/Kolkata",
+        "EEEE, d MMM yyyy"
+      )}
+    </span>
+  </div>
 
-        <div className="flex items-center justify-between border-t border-zinc-800 pt-4">
+  <div className="flex items-center gap-2">
+    <Clock size={16} className="text-yellow-400" />
+    <span>
+      {formatInTimeZone(
+        start,
+        "Asia/Kolkata",
+        "h:mm a"
+      )}
+    </span>
+  </div>
+
+</div>
+
+<div className="flex items-center justify-between border-t border-zinc-800 pt-4">
           <div>
             <p className="text-xs uppercase tracking-wider text-zinc-500">
               Tickets from
