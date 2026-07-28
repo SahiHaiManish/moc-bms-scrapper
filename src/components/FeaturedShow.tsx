@@ -47,12 +47,13 @@ export default function FeaturedShow({
 
         <div className="relative aspect-[16/10]">
 
-          <Image
-            src={show.image}
-            alt={show.title}
-            fill
-            className="object-cover"
-          />
+ <Image
+  src={show.image}
+  alt={show.title}
+  fill
+  className="object-contain bg-zinc-950 p-2"
+  sizes="(max-width: 768px) 100vw, 400px"
+/>
 
         </div>
 

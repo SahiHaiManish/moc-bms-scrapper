@@ -9,6 +9,8 @@ import {
   nextSunday,
 } from "date-fns";
 
+import { toZonedTime } from "date-fns-tz";
+
 export interface Show {
   title: string;
   category: string;
@@ -39,7 +41,8 @@ export function groupShows(shows: Show[]): ShowSection[] {
       parseISO(b.startDate).getTime()
   );
 
-  const today = new Date();
+
+const today = toZonedTime(new Date(), "Asia/Kolkata");
 
   const friday = startOfDay(nextFriday(today));
   const saturday = startOfDay(nextSaturday(today));
