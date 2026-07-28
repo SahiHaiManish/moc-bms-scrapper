@@ -1,99 +1,138 @@
+"use client";
+
 import Image from "next/image";
-import { Calendar, Clock, MapPin, Ticket } from "lucide-react";
-import { Show } from "@/lib/groupShows";
-import { format, parseISO } from "date-fns";
+import {
+  Calendar,
+  Clock,
+  Ticket,
+} from "lucide-react";
+
+import {
+  parseISO,
+  differenceInMinutes,
+} from "date-fns";
+
 import { formatInTimeZone } from "date-fns-tz";
+
+import Countdown from "./Countdown";
+import { Show } from "@/lib/groupShows";
 
 interface Props {
   show: Show;
+  title: string;
+  featured?: boolean;
 }
 
-export default function FeaturedShow({ show }: Props) {
-
-const start = parseISO(show.startDate);
+export default function FeaturedShow({
+  show,
+  title,
+  featured = false,
+}: Props) {
+  const start = parseISO(show.startDate);
 
   return (
-    <section className="mb-16 overflow-hidden rounded-3xl border border-zinc-800 bg-zinc-900">
-      <div className="grid lg:grid-cols-2">
-        <div className="relative min-h-[340px]">
- 
-<Image
-    src={show.image}
-    alt={show.title}
-    fill
-    priority
-    sizes="(max-width: 1024px) 100vw, 50vw"
-    className="object-cover"
-/>
-          <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/30 to-transparent" />
-        </div>
+    <article className="overflow-hidden rounded-3xl border border-zinc-800 bg-zinc-900 transition hover:border-yellow-400">
 
-        <div className="flex flex-col justify-center p-8 lg:p-12">
-          <p className="mb-3 text-sm font-semibold uppercase tracking-[0.3em] text-yellow-400">
-            Next Show
-          </p>
+      {/* Header */}
 
-          <h2 className="text-4xl font-black leading-tight text-white">
-            {show.title}
-          </h2>
+      <div className="flex items-center justify-between border-b border-zinc-800 px-5 py-4">
 
-          {show.performers.length > 0 && (
-            <p className="mt-4 text-lg text-zinc-300">
-              Featuring{" "}
-              <span className="font-semibold text-white">
-                {show.performers.join(", ")}
-              </span>
-            </p>
-          )}
+        <p className="text-xs font-bold uppercase tracking-[0.35em] text-yellow-400">
+          {title}
+        </p>
 
-          <div className="mt-8 space-y-3 text-zinc-300">
-            <div className="flex items-center gap-3">
-              <Calendar className="text-yellow-400" size={18} />
-              {formatInTimeZone(
-  start,
-  "Asia/Kolkata",
-  "EEEE, d MMMM"
-)}
-            </div>
+        {!featured ? (
+          <Countdown startDate={show.startDate} />
+        ) : (
+          <span className="rounded-full bg-zinc-800 px-3 py-1 text-xs text-zinc-300">
+            ⭐ Editor's Pick
+          </span>
+        )}
 
-            <div className="flex items-center gap-3">
-              <Clock className="text-yellow-400" size={18} />
-{formatInTimeZone(
-  start,
-  "Asia/Kolkata",
-  "h:mm a"
-)}
-            </div>
-
-            <div className="flex items-center gap-3">
-              <MapPin className="text-yellow-400" size={18} />
-              {show.venue}
-            </div>
-          </div>
-
-          <div className="mt-10 flex items-center justify-between">
-            <div>
-              <p className="text-sm uppercase tracking-wide text-zinc-500">
-                Tickets from
-              </p>
-
-              <p className="text-4xl font-black text-white">
-                ₹{show.price}
-              </p>
-            </div>
-
-            <a
-              href={show.bookingUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-3 rounded-xl bg-yellow-400 px-8 py-4 font-bold text-black transition hover:bg-yellow-300"
-            >
-              <Ticket size={20} />
-              Book Tickets
-            </a>
-          </div>
-        </div>
       </div>
-    </section>
+
+      {/* Poster */}
+
+      <div className="relative h-52">
+
+        <Image
+          src={show.image}
+          alt={show.title}
+          fill
+          className="object-cover"
+        />
+
+      </div>
+
+      {/* Content */}
+
+      <div className="space-y-4 p-5">
+
+        <h2 className="line-clamp-2 text-2xl font-black text-white">
+          {show.title}
+        </h2>
+
+        {show.performers.length > 0 && (
+          <p className="line-clamp-1 text-sm text-zinc-400">
+            {show.performers.join(", ")}
+          </p>
+        )}
+
+        <div className="space-y-2 text-sm text-zinc-300">
+
+          <div className="flex items-center gap-2">
+
+            <Calendar size={15} />
+
+            {formatInTimeZone(
+              start,
+              "Asia/Kolkata",
+              "EEE, d MMM"
+            )}
+
+          </div>
+
+          <div className="flex items-center gap-2">
+
+            <Clock size={15} />
+
+            {formatInTimeZone(
+              start,
+              "Asia/Kolkata",
+              "h:mm a"
+            )}
+
+          </div>
+
+        </div>
+
+        <div className="flex items-center justify-between border-t border-zinc-800 pt-4">
+
+          <div>
+
+            <p className="text-xs uppercase tracking-wider text-zinc-500">
+              Tickets
+            </p>
+
+            <p className="text-3xl font-black text-white">
+              ₹{show.price}
+            </p>
+
+          </div>
+
+          <a
+            href={show.bookingUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="rounded-xl bg-yellow-400 px-5 py-3 font-bold text-black transition hover:bg-yellow-300"
+          >
+            Book
+          </a>
+
+        </div>
+
+      </div>
+
+    </article>
   );
 }

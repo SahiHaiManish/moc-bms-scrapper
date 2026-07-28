@@ -10,7 +10,7 @@ export default function ShowSection({ title, shows }: Props) {
   if (!shows.length) return null;
 
   return (
-    <section className="mb-20">
+    <section className="mb-16">
       <div className="mb-8 flex items-center gap-4">
         <div className="h-px flex-1 bg-zinc-800" />
 

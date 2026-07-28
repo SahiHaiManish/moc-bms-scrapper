@@ -1,4 +1,4 @@
-
+import Hero from "@/components/Hero";
 import fs from "fs/promises";
 import path from "path";
 import { parseISO } from "date-fns";
@@ -24,6 +24,13 @@ export default async function HomePage() {
       parseISO(b.startDate).getTime()
   );
 
+const now = new Date();
+
+const nextShow =
+  sortedShows.find(
+    (show) => parseISO(show.startDate) > now
+  ) ?? sortedShows[0];
+
 const adminPath = path.join(process.cwd(), "config", "admin.json");
 
 const admin = fsSync.existsSync(adminPath)
@@ -43,62 +50,59 @@ const featuredShow =
     <main className="min-h-screen bg-black text-white">
 
       {/* Hero */}
+<Hero />
 
-      <section className="relative overflow-hidden border-b border-zinc-900">
+<section
+  id="shows"
+  className="mx-auto max-w-7xl px-6 py-10 lg:px-8"
+>
 
-        <div className="absolute inset-0 bg-gradient-to-b from-yellow-500/10 via-transparent to-transparent" />
+<div className="mb-14">
 
-        <div className="mx-auto max-w-7xl px-6 py-24 lg:px-8 lg:py-32">
+  {featuredShow.eventId === nextShow.eventId ? (
 
-          <div className="max-w-3xl">
+    <div className="mx-auto max-w-xl">
 
-            <p className="mb-4 text-sm font-semibold uppercase tracking-[0.35em] text-yellow-400">
-              Bengaluru
-            </p>
+      <FeaturedShow
+        show={nextShow}
+        title="NEXT UP"
+      />
 
-            <h1 className="text-5xl font-black leading-tight tracking-tight md:text-7xl">
-              Ministry of
-              <br />
-              Comedy
-            </h1>
+    </div>
 
-            <p className="mt-8 text-lg leading-8 text-zinc-300">
-              The easiest way to discover every upcoming show at
-              <span className="font-semibold text-white">
-                {" "}
-                Ministry of Comedy.
-              </span>
+  ) : (
 
-              <br />
+    <div className="grid gap-8 lg:grid-cols-2">
 
-              Updated automatically from BookMyShow.
-            </p>
+      <FeaturedShow
+        show={nextShow}
+        title="NEXT UP"
+      />
 
-          </div>
+      <FeaturedShow
+        show={featuredShow}
+        title="EDITOR'S PICK"
+        featured
+      />
 
-        </div>
+    </div>
 
-      </section>
+  )}
 
-      <section className="mx-auto max-w-7xl px-6 py-14 lg:px-8">
+</div>
 
-        {featuredShow && (
-          <FeaturedShow show={featuredShow} />
-        )}
+  <WeekStrip shows={sortedShows} />
 
-        <WeekStrip shows={sortedShows} />
+  {sections.map((section) => (
+    <ShowSection
+      key={section.title}
+      title={section.title}
+      shows={section.shows}
+    />
+  ))}
 
-        {sections.map((section) => (
-          <ShowSection
-            key={section.title}
-            title={section.title}
-            shows={section.shows}
-          />
-        ))}
-
-      </section>
-
-      <footer className="border-t border-zinc-900 py-12">
+</section>
+          <footer className="border-t border-zinc-900 py-12">
 
         <div className="mx-auto max-w-7xl px-6 text-center">
 

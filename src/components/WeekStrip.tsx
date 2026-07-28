@@ -21,7 +21,7 @@ export default function WeekStrip({ shows }: Props) {
     .slice(0, 6);
 
   return (
-    <section className="mb-16">
+    <section className="mb-12">
       <div className="mb-6 flex items-center justify-between">
         <div>
           <p className="text-sm font-semibold uppercase tracking-[0.25em] text-yellow-400">
