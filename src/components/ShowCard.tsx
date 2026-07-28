@@ -13,11 +13,6 @@ export default function ShowCard({ show }: Props) {
 
 const start = parseISO(show.startDate);
 
-formatInTimeZone(
-  start,
-  "Asia/Kolkata",
-  "EEE • h:mm a"
-);
   return (
     <article className="group overflow-hidden rounded-2xl border border-zinc-800 bg-zinc-900 transition-all duration-300 hover:-translate-y-1 hover:border-yellow-400 hover:shadow-2xl hover:shadow-yellow-500/10">
       <div className="relative aspect-[16/9] overflow-hidden">
@@ -57,12 +52,20 @@ formatInTimeZone(
         <div className="space-y-2 text-sm text-zinc-300">
           <div className="flex items-center gap-2">
             <Calendar size={16} className="text-yellow-400" />
-            <span>{format(start, "EEEE, d MMM yyyy")}</span>
+            <span>{formatInTimeZone(
+  start,
+  "Asia/Kolkata",
+  "EEEE, d MMM yyyy"
+)}</span>
           </div>
 
           <div className="flex items-center gap-2">
             <Clock size={16} className="text-yellow-400" />
-            <span>{format(start, "h:mm a")}</span>
+            <span>{formatInTimeZone(
+  start,
+  "Asia/Kolkata",
+  "h:mm a"
+)}</span>
           </div>
 
           <div className="flex items-start gap-2">

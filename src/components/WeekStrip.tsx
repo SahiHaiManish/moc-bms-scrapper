@@ -38,15 +38,14 @@ export default function WeekStrip({ shows }: Props) {
         {upcoming.map((show) => {
 const start = parseISO(show.startDate);
 
-formatInTimeZone(
-  start,
-  "Asia/Kolkata",
-  "EEE • h:mm a"
-);
-
           const daysAway = differenceInCalendarDays(start, new Date());
 
-          let badge = format(start, "EEE");
+
+let badge = formatInTimeZone(
+  start,
+  "Asia/Kolkata",
+  "EEE"
+);
 
           if (daysAway === 0) badge = "Today";
           else if (daysAway === 1) badge = "Tomorrow";
@@ -79,8 +78,12 @@ formatInTimeZone(
                 </h3>
 
                 <p className="text-sm text-zinc-400">
-                  {format(start, "EEE • h:mm a")}
-                </p>
+{formatInTimeZone(
+  start,
+  "Asia/Kolkata",
+  "EEE • h:mm a"
+)}                
+</p>
 
                 <div className="flex items-center justify-between pt-2">
                   <span className="text-xl font-black text-white">

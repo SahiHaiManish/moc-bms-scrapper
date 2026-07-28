@@ -12,11 +12,6 @@ export default function FeaturedShow({ show }: Props) {
 
 const start = parseISO(show.startDate);
 
-formatInTimeZone(
-  start,
-  "Asia/Kolkata",
-  "EEE • h:mm a"
-);
   return (
     <section className="mb-16 overflow-hidden rounded-3xl border border-zinc-800 bg-zinc-900">
       <div className="grid lg:grid-cols-2">
@@ -54,12 +49,20 @@ formatInTimeZone(
           <div className="mt-8 space-y-3 text-zinc-300">
             <div className="flex items-center gap-3">
               <Calendar className="text-yellow-400" size={18} />
-              {format(start, "EEEE, d MMMM")}
+              {formatInTimeZone(
+  start,
+  "Asia/Kolkata",
+  "EEEE, d MMMM"
+)}
             </div>
 
             <div className="flex items-center gap-3">
               <Clock className="text-yellow-400" size={18} />
-              {format(start, "h:mm a")}
+{formatInTimeZone(
+  start,
+  "Asia/Kolkata",
+  "h:mm a"
+)}
             </div>
 
             <div className="flex items-center gap-3">
