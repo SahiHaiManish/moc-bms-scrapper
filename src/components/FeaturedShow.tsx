@@ -9,18 +9,25 @@ import { formatInTimeZone } from "date-fns-tz";
 import Countdown from "./Countdown";
 import { Show } from "@/lib/groupShows";
 
+
+import { useState } from "react";
+
 interface Props {
   show: Show;
   title: string;
   featured?: boolean;
+videoId?: string;
 }
 
 export default function FeaturedShow({
   show,
   title,
   featured = false,
+  videoId,
 }: Props) {
   const start = parseISO(show.startDate);
+
+const [playVideo, setPlayVideo] = useState(false);
 
   return (
     <div className="space-y-3">
@@ -45,7 +52,17 @@ export default function FeaturedShow({
 
       <article className="overflow-hidden rounded-2xl border border-zinc-800 bg-zinc-900 transition hover:border-yellow-400">
 
-        <div className="relative aspect-[16/10]">
+<div className="relative aspect-[16/10] overflow-hidden">
+    {videoId && playVideo ? (
+        <iframe
+            className="h-full w-full"
+            src={`https://www.youtube.com/embed/${videoId}?autoplay=1`}
+            title={show.title}
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+        />
+    ) : (
+        <>
 
  <Image
   src={show.image}
@@ -55,6 +72,18 @@ export default function FeaturedShow({
   sizes="(max-width: 768px) 100vw, 400px"
 />
 
+ {videoId && (
+                <button
+                    onClick={() => setPlayVideo(true)}
+                    className="absolute inset-0 flex items-center justify-center bg-black/20 transition hover:bg-black/30"
+                >
+                    <div className="flex h-16 w-16 items-center justify-center rounded-full bg-red-600 text-white shadow-xl">
+                        ▶
+                    </div>
+                </button>
+            )}
+        </>
+    )}
         </div>
 
 <div className="flex flex-col gap-4 p-5">
@@ -62,12 +91,14 @@ export default function FeaturedShow({
             {show.title}
           </h2>
 
-<div className="flex items-center gap-4 text-sm text-zinc-400">            
-<span className="flex items-center gap-1">
-
-              <Calendar size={15} />
-
-              {formatInTimeZone(
+<div className="flex items-center gap-4 text-sm">
+<span className="flex items-center gap-1 text-zinc-400">
+    <Calendar
+        size={15}
+        className="text-yellow-400"
+    />
+              
+	     {formatInTimeZone(
                 start,
                 "Asia/Kolkata",
                 "EEE, d MMM"
@@ -75,10 +106,12 @@ export default function FeaturedShow({
 
             </span>
 
-            <span className="flex items-center gap-1">
 
-              <Clock size={15} />
-
+<span className="flex items-center gap-1 text-zinc-400">
+    <Clock
+        size={15}
+        className="text-yellow-400"
+    />
               {formatInTimeZone(
                 start,
                 "Asia/Kolkata",
