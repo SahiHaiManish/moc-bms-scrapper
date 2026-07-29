@@ -7,6 +7,7 @@ import fsSync from "fs";
 
 import ShowSection from "@/components/ShowSection";
 import FeaturedShow from "@/components/FeaturedShow";
+import NextShow from "@/components/NextShow";
 import WeekStrip from "@/components/WeekStrip";
 
 import { Show, groupShows } from "@/lib/groupShows";
@@ -23,13 +24,6 @@ export default async function HomePage() {
       parseISO(a.startDate).getTime() -
       parseISO(b.startDate).getTime()
   );
-
-const now = new Date();
-
-const nextShow =
-  sortedShows.find(
-    (show) => parseISO(show.startDate) > now
-  ) ?? sortedShows[0];
 
 const adminPath = path.join(process.cwd(), "src/config", "admin.json");
 
@@ -61,14 +55,14 @@ const featuredShow =
 
 <div className="mb-16">
 
-  {featuredShow.eventId === nextShow.eventId ? (
+{featuredShow.eventId === sortedShows[0].eventId ? (  
 
     <div className="mx-auto max-w-sm">
 
-      <FeaturedShow
-        show={nextShow}
-        title="NEXT UP"
-      />
+<NextShow
+  shows={sortedShows}
+  videos={admin.videos}
+/>
 
     </div>
 
@@ -78,12 +72,10 @@ const featuredShow =
 
       <div className="w-full max-w-sm">
 
-        <FeaturedShow
-          show={nextShow}
-          title="NEXT UP"
-  videoId={admin.videos?.[nextShow.eventId]}
-        />
-
+<NextShow
+  shows={sortedShows}
+  videos={admin.videos}
+/>
       </div>
 
       <div className="w-full max-w-sm">
