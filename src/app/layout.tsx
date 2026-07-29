@@ -14,7 +14,7 @@ const bebas = Bebas_Neue({
 
 export const metadata = {
   title: "Ministry of Comedy",
-  description: "Laugh. Drink. Repeat.",
+  description: "A Comedy Club in Koramangala",
 };
 
 export default function RootLayout({
