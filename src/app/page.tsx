@@ -81,7 +81,6 @@ const featuredShow =
         <FeaturedShow
           show={nextShow}
           title="NEXT UP"
-  variant="next"
   videoId={admin.videos?.[nextShow.eventId]}
         />
 
