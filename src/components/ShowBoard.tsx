@@ -4,11 +4,8 @@ import { useEffect, useState } from "react";
 import { isAfter, format, parseISO } from "date-fns";
 import { bebas } from "@/lib/fonts";
 import { mono } from "@/lib/fonts";
+import { Show } from "@/lib/groupShows";
 
-interface Show {
-  title: string;
-  startDate: string;
-}
 
 export default function ShowBoard({
   shows,
@@ -29,6 +26,10 @@ export default function ShowBoard({
 const upcomingShows = shows.filter((show) =>
   isAfter(parseISO(show.startDate), new Date())
 );
+
+if (upcomingShows.length === 0) {
+  return null;
+}
   
 const show = upcomingShows[index];
 
@@ -50,7 +51,7 @@ const boardTitle = show.title
   href={show.bookingUrl}
   target="_blank"
   rel="noopener noreferrer"
-  className="block transition hover:bg-zinc-950"
+className="block cursor-pointer transition-colors hover:bg-zinc-950"
 >
 <p className="text-[11px] tracking-[0.35em] uppercase text-yellow-400">
   {format(parseISO(show.startDate), "EEE • d MMM • h:mm a")}
