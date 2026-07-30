@@ -61,17 +61,39 @@ export default function Hero() {
       Ministry of Comedy
     </h1>
 
-    <p className="mx-auto mt-8 max-w-3xl text-lg leading-8 text-zinc-400">
+{/*    
+<p className="mx-auto mt-8 max-w-3xl text-lg leading-8 text-zinc-400">
       Discover every upcoming show at{" "}
       <span className="font-semibold text-white">
         friendly neighbourhood comedy club!
       </span>
     </p>
+*/}
 
   </div>
 
 </div>
 
+<div className="mb-10 text-center">
+
+<a
+  href="https://share.google/DsCYkBi48Sc6vIX0a"
+  target="_blank"
+  rel="noopener noreferrer"
+  className="hover:underline"
+>
+  <span className="text-yellow-400">★★★★★</span>{" "}
+  4.5 · 430+ Google Reviews
+</a>
+
+  <blockquote className="mt-5 italic text-zinc-300 text-lg">
+    "Great little room."
+  </blockquote>
+
+  <div className="text-sm text-zinc-500">
+    — Daniel Sloss
+  </div>
+</div>
 
     </section>
   );
