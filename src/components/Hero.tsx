@@ -76,14 +76,19 @@ export default function Hero() {
 
 <div className="mb-10 text-center">
 
+ <div className="text-3xl tracking-wide text-yellow-400">
+    ★★★★★
+  </div>
+
 <a
   href="https://share.google/DsCYkBi48Sc6vIX0a"
   target="_blank"
   rel="noopener noreferrer"
-  className="hover:underline"
+  className="inline-block transition-opacity hover:opacity-80"
 >
-  <span className="text-yellow-400">★★★★★</span>{" "}
-  4.5 · 430+ Google Reviews
+  <p className="mt-1 text-base text-zinc-300">
+    Rated <span className="font-semibold text-white">4.5</span> on Google
+  </p>
 </a>
 
   <blockquote className="mt-5 italic text-zinc-300 text-lg">
