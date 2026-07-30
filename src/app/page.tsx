@@ -12,6 +12,8 @@ import WeekStrip from "@/components/WeekStrip";
 
 import { Show, groupShows } from "@/lib/groupShows";
 
+import MidnightRefresh from "@/components/MidnightRefresh";
+
 export default async function HomePage() {
   const filePath = path.join(process.cwd(), "public", "shows.json");
 
@@ -45,6 +47,7 @@ const featuredShow =
   return (
     <main className="min-h-screen bg-black text-white">
 
+	 <MidnightRefresh />
       {/* Hero */}
 <Hero />
 
