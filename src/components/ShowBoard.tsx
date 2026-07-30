@@ -17,7 +17,7 @@ export default function ShowBoard({
   useEffect(() => {
     const timer = setInterval(() => {
       setIndex((i) => (i + 1) % upcomingShows.length);
-    }, 4000);
+    }, 2500);
 
     return () => clearInterval(timer);
   }, [shows.length]);
