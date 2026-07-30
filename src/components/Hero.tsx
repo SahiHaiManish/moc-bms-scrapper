@@ -74,8 +74,7 @@ export default function Hero() {
 
 </div>
 
-<div className="mb-10 text-center">
-
+<div className="mb-4 text-center">
  <div className="text-3xl tracking-wide text-yellow-400">
     ★★★★★
   </div>

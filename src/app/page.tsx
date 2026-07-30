@@ -13,6 +13,9 @@ import WeekStrip from "@/components/WeekStrip";
 import { Show, groupShows } from "@/lib/groupShows";
 
 import MidnightRefresh from "@/components/MidnightRefresh";
+import WeekendTicker from "@/components/WeekendTicker";
+import ShowBoard from "@/components/ShowBoard";
+
 
 export default async function HomePage() {
   const filePath = path.join(process.cwd(), "public", "shows.json");
@@ -26,6 +29,11 @@ export default async function HomePage() {
       parseISO(a.startDate).getTime() -
       parseISO(b.startDate).getTime()
   );
+
+const weekendTitles = [
+  ...new Set(sortedShows.map((show) => show.title))
+];
+
 
 const adminPath = path.join(process.cwd(), "src/config", "admin.json");
 
@@ -50,6 +58,7 @@ const featuredShow =
 	 <MidnightRefresh />
       {/* Hero */}
 <Hero />
+<ShowBoard shows={sortedShows} />
 
 <section
   id="shows"
