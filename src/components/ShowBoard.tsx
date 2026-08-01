@@ -12,26 +12,33 @@ export default function ShowBoard({
 }: {
   shows: Show[];
 }) {
-  const [index, setIndex] = useState(0);
+const [index, setIndex] = useState(0);
+
+  const now = new Date();
+
+  const upcomingShows = shows.filter((show) =>
+    isAfter(parseISO(show.startDate), now)
+  );
+
+  if (upcomingShows.length === 0) {
+    return null;
+  }
 
   useEffect(() => {
     const timer = setInterval(() => {
       setIndex((i) => (i + 1) % upcomingShows.length);
-    }, 2500);
+    }, 4000);
 
     return () => clearInterval(timer);
-  }, [shows.length]);
+  }, [upcomingShows.length]);
 
+  useEffect(() => {
+    if (index >= upcomingShows.length) {
+      setIndex(0);
+    }
+  }, [index, upcomingShows.length]);
 
-const upcomingShows = shows.filter((show) =>
-  isAfter(parseISO(show.startDate), new Date())
-);
-
-if (upcomingShows.length === 0) {
-  return null;
-}
-  
-const show = upcomingShows[index];
+const show = upcomingShows[index]  ?? upcomingShows[0];;
 
 const boardTitle = show.title
   .replace(" - Standup Comedy Live", "")
