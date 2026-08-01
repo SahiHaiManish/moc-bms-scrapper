@@ -2,6 +2,7 @@ import scraperConfig from "../src/config/scraper.json";
 import { chromium, Page, BrowserContext } from "playwright";
 import fs from "fs/promises";
 import path from "path";
+import { parseISO, isAfter } from "date-fns";
 
 import { parseVenuePage } from "../src/lib/parseVenuePage";
 import { parseEventPage } from "../src/lib/parseEventPage";
@@ -217,6 +218,37 @@ console.log(
   }))
 );
 
+const rawPath = path.join("data", "raw-shows.json");
+
+let existingShows: any[] = [];
+
+try {
+  existingShows = JSON.parse(
+    await fs.readFile(rawPath, "utf8")
+  );
+} catch {
+  existingShows = [];
+}
+
+const now = new Date();
+
+// Keep only future shows
+existingShows = existingShows.filter((show) =>
+  isAfter(parseISO(show.startDate), now)
+);
+
+console.log(
+  `📦 Retained ${existingShows.length} upcoming cached shows`
+);
+
+const existingIds = new Set(
+  existingShows.map((s) => s.eventId)
+);
+
+const finalShows = [...existingShows];
+
+
+
 const ignoredShows = allShows.filter((show) =>
   scraperConfig.ignoredEvents.includes(show.eventId)
 );
@@ -226,14 +258,18 @@ ignoredShows.forEach((show) =>
 );
 
 const shows = allShows.filter(
-  (show) => !scraperConfig.ignoredEvents.includes(show.eventId)
+  (show) =>
+    !scraperConfig.ignoredEvents.includes(show.eventId) &&
+    !existingIds.has(show.eventId)
+);
+
+console.log(
+  `⚡ Skipping ${existingIds.size} cached event(s)`
 );
 
 console.log(
   `🚫 Ignoring ${allShows.length - shows.length} event(s)`
 );
-
-const finalShows = [];
 
 
   //
