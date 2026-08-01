@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { Calendar, Clock } from "lucide-react";
+import { Calendar, Clock, Ticket } from "lucide-react";
 import { parseISO } from "date-fns";
 import { formatInTimeZone } from "date-fns-tz";
 
@@ -16,6 +16,7 @@ interface Props {
   show: Show;
   title: string;
   featured?: boolean;
+live?: boolean;
 videoId?: string;
 }
 
@@ -24,6 +25,7 @@ export default function FeaturedShow({
   title,
   featured = false,
   videoId,
+live = false,
 }: Props) {
   const start = parseISO(show.startDate);
 
@@ -40,13 +42,17 @@ const [playVideo, setPlayVideo] = useState(false);
           {title}
         </h3>
 
-        {!featured ? (
-          <Countdown startDate={show.startDate} />
-        ) : (
-          <span className="rounded-full bg-zinc-800 px-3 py-1 text-xs text-zinc-300">
-            ⭐ Editor's Pick
-          </span>
-        )}
+ {live ? (
+  <span className="rounded-full bg-red-500/15 px-3 py-1 text-xs font-semibold text-red-300">
+    🔴 Live Now
+  </span>
+) : featured ? (
+  <span className="rounded-full bg-zinc-800 px-3 py-1 text-xs text-zinc-300">
+    ⭐ Editor's Pick
+  </span>
+) : (
+  <Countdown startDate={show.startDate} />
+)}
 
       </div>
 
@@ -130,9 +136,11 @@ const [playVideo, setPlayVideo] = useState(false);
             <Link
               href={show.bookingUrl}
               target="_blank"
-              className="rounded-xl bg-yellow-400 px-5 py-3 font-bold text-black transition hover:bg-yellow-300"
+rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 rounded-xl bg-yellow-400 px-5 py-3 font-semibold text-black transition hover:bg-yellow-300"
             >
-              Book
+                     <Ticket size={18} />
+	      Book
             </Link>
 
           </div>

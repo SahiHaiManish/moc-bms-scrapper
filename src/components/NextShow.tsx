@@ -14,11 +14,11 @@ interface Props {
 function getNextShow(shows: Show[]) {
   const now = new Date();
 
-  return (
-    shows.find(
-      (show) => parseISO(show.startDate) > now
-    ) ?? shows[0]
+  const upcoming = shows.filter(
+    (show) => parseISO(show.startDate) > now
   );
+
+  return upcoming[0] ?? shows[0];
 }
 
 export default function NextShow({
@@ -41,6 +41,9 @@ export default function NextShow({
     return () => clearInterval(timer);
   }, [shows]);
 
+if (!nextShow) {
+  return null;
+}
   return (
     <FeaturedShow
       show={nextShow}

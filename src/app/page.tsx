@@ -1,7 +1,7 @@
 import Hero from "@/components/Hero";
 import fs from "fs/promises";
 import path from "path";
-import { parseISO } from "date-fns";
+import { parseISO, addMinutes, isAfter, isBefore } from "date-fns";
 import fsSync from "fs";
 
 
@@ -30,6 +30,21 @@ export default async function HomePage() {
       parseISO(b.startDate).getTime()
   );
 
+const now = new Date();
+
+const liveShow = sortedShows.find((show) => {
+  const start = parseISO(show.startDate);
+
+  return (
+    isBefore(start, now) &&
+    isAfter(addMinutes(start, 30), now)
+  );
+});
+
+const upcomingShows = sortedShows.filter(
+  (show) => parseISO(show.startDate) > now
+);
+
 const weekendTitles = [
   ...new Set(sortedShows.map((show) => show.title))
 ];
@@ -44,13 +59,11 @@ const admin = fsSync.existsSync(adminPath)
     };
 
 const featuredShow =
-  sortedShows.find((show) =>
+  upcomingShows.find((show) =>
     admin.featured?.includes(show.eventId)
-  ) ?? sortedShows[0];
+  ) ?? upcomingShows[0];
 
-
-
-  const sections = groupShows(sortedShows);
+const sections = groupShows(upcomingShows);
 
   return (
     <main className="min-h-screen bg-black text-white">
@@ -58,12 +71,22 @@ const featuredShow =
 	 <MidnightRefresh />
       {/* Hero */}
 <Hero />
-<ShowBoard shows={sortedShows} />
+<ShowBoard shows={upcomingShows} />
 
 <section
   id="shows"
   className="mx-auto max-w-7xl px-6 py-10 lg:px-8"
 >
+
+{liveShow && (
+  <div className="mb-10 mx-auto max-w-sm">
+    <FeaturedShow
+      show={liveShow}
+      title="NOW PLAYING"
+      live
+    />
+  </div>
+)}
 
 <div className="mb-16">
 
@@ -72,7 +95,7 @@ const featuredShow =
     <div className="mx-auto max-w-sm">
 
 <NextShow
-  shows={sortedShows}
+  shows={upcomingShows}
   videos={admin.videos}
 />
 
