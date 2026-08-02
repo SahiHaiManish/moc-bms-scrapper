@@ -24,9 +24,9 @@ const rawShows: Show[] = fs.existsSync(rawPath)
 const admin: AdminConfig = fs.existsSync(adminPath)
   ? JSON.parse(fs.readFileSync(adminPath, "utf8"))
   : {
-      hidden: ["ET00433099"],
+      hidden: [],
       manual: [],
-      featured: ["ET00433099"],
+      featured: [],
       order: [],
     };
 
