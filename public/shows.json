@@ -610,8 +610,8 @@
     "description": "Book online tickets for Ministry of Comedy Presents! (Koramangala) in Bengaluru on BookMyShow which is a comedy-shows event",
     "venue": "Ministry Of Comedy: Koramangala",
     "address": "1018, Opp. Wooden Street, 80 Feet Road, 4th Block, Koramangala, Bengaluru, Karnataka 560034, India",
-    "startDate": "2026-08-04T21:00:00+05:30",
-    "endDate": "2026-08-04T22:15:00+05:30",
+    "startDate": "2026-08-04T23:00:00+05:30",
+    "endDate": "2026-08-04T23:59:00+05:30",
     "duration": "PT1H15M",
     "price": 199,
     "currency": "INR",
@@ -627,7 +627,7 @@
       "Hindi"
     ],
     "date": "Tue 4 Aug",
-    "time": "9:00 PM",
+    "time": "11:00 PM",
     "availability": "available"
   }
 ]
