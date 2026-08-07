@@ -2,6 +2,7 @@ import Hero from "@/components/Hero";
 import LiveSchedule from "@/components/LiveSchedule";
 import MidnightRefresh from "@/components/MidnightRefresh";
 import ShowBoard from "@/components/ShowBoard";
+import { Analytics } from "@vercel/analytics/next";
 
 import fs from "fs/promises";
 import fsSync from "fs";
@@ -48,6 +49,8 @@ export default async function HomePage() {
       <Hero />
 
       <ShowBoard shows={sortedShows} />
+
+<Analytics/>
 
       <section
         id="shows"
