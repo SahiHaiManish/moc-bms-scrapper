@@ -370,6 +370,35 @@
     "availability": "available"
   },
   {
+    "title": "Vinay Sharma Live",
+    "category": "Stand up Comedy",
+    "image": "https://assets-in.bmscdn.com/nmcms/events/banner/desktop/media-desktop-vinay-sharma-live-0-2026-7-27-t-20-32-7.jpg",
+    "bookingUrl": "https://in.bookmyshow.com/events/vinay-sharma-live/ET00494576",
+    "eventId": "ET00494576",
+    "language": [
+      "hindi",
+      "english"
+    ],
+    "description": "",
+    "venue": "Ministry Of Comedy: Koramangala",
+    "address": "1018, Opp. Wooden Street, 80 Feet Road, 4th Block, Koramangala, Bengaluru, Karnataka 560034, India",
+    "startDate": "2026-09-12T20:00:00+05:30",
+    "endDate": "2026-09-12T21:15:00+05:30",
+    "duration": "PT1H15M",
+    "price": 499,
+    "currency": "INR",
+    "performers": [
+      "Vinay Sharma (Comedian)"
+    ],
+    "languages": [
+      "Hindi",
+      "English"
+    ],
+    "date": "Sun 23 Aug",
+    "time": "6:00 PM",
+    "availability": "available"
+  },
+  {
     "title": "Stand Up Comedy Live",
     "category": "Stand up Comedy",
     "image": "https://assets-in.bmscdn.com/nmcms/events/banner/desktop/media-desktop-stand-up-comedy-live-0-2026-5-5-t-8-4-2.jpg",
@@ -382,8 +411,8 @@
     "description": "Comedy Shots presents Wild Comedy Nights Come on down with friends, family, enemies, random strangers, or by yourself for an absurd, edgy, and funny evening as these Bangalore regulars try to crack you up with their jokes. Add some food and beverages to the mix and the evening promises to be the one to remember. Come down and Support artists.",
     "venue": "Ministry Of Comedy: Koramangala",
     "address": "1018, Opp. Wooden Street, 80 Feet Road, 4th Block, Koramangala, Bengaluru, Karnataka 560034, India",
-    "startDate": "2026-08-10T21:00:00+05:30",
-    "endDate": "2026-08-10T22:10:00+05:30",
+    "startDate": "2026-08-11T21:00:00+05:30",
+    "endDate": "2026-08-11T22:10:00+05:30",
     "duration": "PT1H10M",
     "price": 199,
     "currency": "INR",
@@ -397,32 +426,8 @@
       "English",
       "Hindi"
     ],
-    "date": "Mon 10 Aug",
+    "date": "Wed 12 Aug",
     "time": "9:00 PM",
-    "availability": "available"
-  },
-  {
-    "title": "Koramangala Comedy Nights comedy-shows Event Tickets Bengaluru - BookMyShow",
-    "category": "Stand up Comedy",
-    "image": "",
-    "bookingUrl": "",
-    "eventId": "",
-    "language": [
-      "english",
-      "hinglish"
-    ],
-    "description": "Book online tickets for Shades of 2 - A Double Bill Stand Up Comedy Show in Bengaluru on BookMyShow which is a comedy-shows event. happening at Ministry Of Comedy: Koramangala",
-    "venue": "",
-    "address": "",
-    "startDate": "",
-    "endDate": "",
-    "duration": "",
-    "price": 249,
-    "currency": "",
-    "performers": [],
-    "languages": [],
-    "date": "Sat 29 Aug",
-    "time": "8:00 PM",
     "availability": "available"
   },
   {
@@ -438,8 +443,8 @@
     "description": "Book online tickets for Ministry of Comedy Presents! (Koramangala) in Bengaluru on BookMyShow which is a comedy-shows event",
     "venue": "Ministry Of Comedy: Koramangala",
     "address": "1018, Opp. Wooden Street, 80 Feet Road, 4th Block, Koramangala, Bengaluru, Karnataka 560034, India",
-    "startDate": "2026-08-10T23:00:00+05:30",
-    "endDate": "2026-08-11T00:15:00+05:30",
+    "startDate": "2026-08-11T23:00:00+05:30",
+    "endDate": "2026-08-12T00:15:00+05:30",
     "duration": "PT1H15M",
     "price": 199,
     "currency": "INR",
@@ -454,32 +459,38 @@
       "Hinglish",
       "Hindi"
     ],
-    "date": "Mon 10 Aug",
+    "date": "Tue 11 Aug",
     "time": "11:00 PM",
     "availability": "available"
   },
   {
-    "title": "Vinay Sharma Live Comedy Shows Event Tickets - BookMyShow",
+    "title": "Seriously Silly: A Double Bill Comedy Show",
     "category": "Stand up Comedy",
-    "image": "",
-    "bookingUrl": "",
-    "eventId": "",
+    "image": "https://assets-in.bmscdn.com/nmcms/events/banner/desktop/media-desktop-seriously-silly-a-double-bill-comedy-show-0-2026-8-3-t-19-31-5.jpg",
+    "bookingUrl": "https://in.bookmyshow.com/events/koramangala-comedy-nights/ET00313190",
+    "eventId": "ET00313190",
     "language": [
-      "hindi",
-      "english"
+      "english",
+      "hinglish"
     ],
-    "description": "Book online tickets for Vinay Sharma Live on BookMyShow which is a Comedy Shows event happening at venue near you.",
-    "venue": "",
-    "address": "",
-    "startDate": "",
-    "endDate": "",
-    "duration": "",
-    "price": 499,
-    "currency": "",
-    "performers": [],
-    "languages": [],
-    "date": "Sun 23 Aug",
-    "time": "6:00 PM",
+    "description": "LIVE Stand-Up Comedy in Bangalore !!!",
+    "venue": "Ministry Of Comedy: Koramangala",
+    "address": "1018, Opp. Wooden Street, 80 Feet Road, 4th Block, Koramangala, Bengaluru, Karnataka 560034, India",
+    "startDate": "2026-08-29T20:00:00+05:30",
+    "endDate": "2026-08-29T21:15:00+05:30",
+    "duration": "PT1H15M",
+    "price": 249,
+    "currency": "INR",
+    "performers": [
+      "Abhinav Anand",
+      "Joteen Patro"
+    ],
+    "languages": [
+      "English",
+      "Hinglish"
+    ],
+    "date": "Sat 29 Aug",
+    "time": "8:00 PM",
     "availability": "available"
   }
 ]
