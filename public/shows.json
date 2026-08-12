@@ -354,8 +354,8 @@
     "description": "Comedy Shots presents Wild Comedy Nights Come on down with friends, family, enemies, random strangers, or by yourself for an absurd, edgy, and funny evening as these Bangalore regulars try to crack you up with their jokes. Add some food and beverages to the mix and the evening promises to be the one to remember. Come down and Support artists.",
     "venue": "Ministry Of Comedy: Koramangala",
     "address": "1018, Opp. Wooden Street, 80 Feet Road, 4th Block, Koramangala, Bengaluru, Karnataka 560034, India",
-    "startDate": "2026-08-11T21:00:00+05:30",
-    "endDate": "2026-08-11T22:10:00+05:30",
+    "startDate": "2026-08-12T21:00:00+05:30",
+    "endDate": "2026-08-12T22:10:00+05:30",
     "duration": "PT1H10M",
     "price": 199,
     "currency": "INR",
@@ -386,17 +386,17 @@
     "description": "Book online tickets for Ministry of Comedy Presents! (Koramangala) in Bengaluru on BookMyShow which is a comedy-shows event",
     "venue": "Ministry Of Comedy: Koramangala",
     "address": "1018, Opp. Wooden Street, 80 Feet Road, 4th Block, Koramangala, Bengaluru, Karnataka 560034, India",
-    "startDate": "2026-08-11T23:00:00+05:30",
-    "endDate": "2026-08-12T00:15:00+05:30",
+    "startDate": "2026-08-12T23:00:00+05:30",
+    "endDate": "2026-08-13T00:15:00+05:30",
     "duration": "PT1H15M",
     "price": 199,
     "currency": "INR",
     "performers": [
+      "Danish Sait",
       "Manish Jain (Comic)",
-      "Pronoy Chowdhury",
       "Nisarg Avashia",
-      "Abhinav Anand",
-      "Sachin Kumar Gommaboy"
+      "Kritarth Srinivasan",
+      "Prasiddh Shetty"
     ],
     "languages": [
       "Hinglish",
