@@ -429,64 +429,6 @@
     "availability": "available"
   },
   {
-    "title": "Stand Up Comedy in Bangalore comedy-shows Event Tickets Mumbai - BookMyShow",
-    "category": "Stand up Comedy",
-    "image": "",
-    "bookingUrl": "",
-    "eventId": "",
-    "language": [
-      "english",
-      "hindi",
-      "hinglish"
-    ],
-    "description": "Book online tickets for Jokes Aaj Kal: Stand-Up Comedy in Bengaluru on BookMyShow which is a comedy-shows event. happening at Ministry Of Comedy: Koramangala",
-    "venue": "",
-    "address": "",
-    "startDate": "",
-    "endDate": "",
-    "duration": "",
-    "price": 199,
-    "currency": "",
-    "performers": [],
-    "languages": [],
-    "date": "Thu 13 Aug",
-    "time": "9:30 PM",
-    "availability": "available"
-  },
-  {
-    "title": "Ministry of Comedy Presents! (Koramangala)",
-    "category": "Stand up Comedy",
-    "image": "https://assets-in.bmscdn.com/nmcms/events/banner/desktop/media-desktop-ministry-of-comedy-presents-koramangala-0-2026-7-26-t-22-45-46.jpg",
-    "bookingUrl": "https://in.bookmyshow.com/events/pilot-gomma-an-aircrash-event-by-gommaboy/ET00433099",
-    "eventId": "ET00433099",
-    "language": [
-      "hinglish",
-      "hindi"
-    ],
-    "description": "Book online tickets for Ministry of Comedy Presents! (Koramangala) in Bengaluru on BookMyShow which is a comedy-shows event",
-    "venue": "Ministry Of Comedy: Koramangala",
-    "address": "1018, Opp. Wooden Street, 80 Feet Road, 4th Block, Koramangala, Bengaluru, Karnataka 560034, India",
-    "startDate": "2026-08-13T23:00:00+05:30",
-    "endDate": "2026-08-14T00:15:00+05:30",
-    "duration": "PT1H15M",
-    "price": 199,
-    "currency": "INR",
-    "performers": [
-      "Manish Jain (Comic)",
-      "Pronoy Chowdhury",
-      "Nisarg Avashia",
-      "Abhinav Anand",
-      "Sachin Kumar Gommaboy"
-    ],
-    "languages": [
-      "Hinglish",
-      "Hindi"
-    ],
-    "date": "Thu 13 Aug",
-    "time": "11:00 PM",
-    "availability": "available"
-  },
-  {
     "title": "Best In StandUp! (Koramangala)",
     "category": "Stand up Comedy",
     "image": "https://assets-in.bmscdn.com/nmcms/events/banner/desktop/media-desktop-best-in-standup-koramangala-0-2026-5-8-t-1-49-22.jpg",
@@ -517,27 +459,154 @@
     "availability": "available"
   },
   {
-    "title": "Very Late Night StandUp Comedy Show! comedy-shows Event Tickets Bengaluru - BookMyShow",
+    "title": "Very Late Night StandUp Comedy Show!",
+    "category": "Stand up Comedy",
+    "image": "https://assets-in.bmscdn.com/nmcms/events/banner/desktop/media-desktop-very-late-night-standup-comedy-show-0-2026-5-8-t-1-48-49.jpg",
+    "bookingUrl": "https://in.bookmyshow.com/events/rajat-chauhan-live-koramangala/ET00476821",
+    "eventId": "ET00476821",
+    "language": [
+      "hindi",
+      "hinglish"
+    ],
+    "description": "Book online tickets for Very Late Night StandUp Comedy Show! in Bengaluru on BookMyShow which is a comedy-shows event",
+    "venue": "Ministry Of Comedy: Koramangala",
+    "address": "1018, Opp. Wooden Street, 80 Feet Road, 4th Block, Koramangala, Bengaluru, Karnataka 560034, India",
+    "startDate": "2026-08-14T23:59:00+05:30",
+    "endDate": "2026-08-15T01:14:00+05:30",
+    "duration": "PT1H15M",
+    "price": 250,
+    "currency": "INR",
+    "performers": [
+      "Manish Jain (Comic)",
+      "Pronoy Chowdhury"
+    ],
+    "languages": [
+      "Hindi",
+      "Hinglish"
+    ],
+    "date": "Fri 14 Aug",
+    "time": "11:59 PM",
+    "availability": "available"
+  },
+  {
+    "title": "No Country For Funny Men - Standup Comedy Live comedy-shows Event Tickets Bengaluru - BookMyShow",
     "category": "Stand up Comedy",
     "image": "",
     "bookingUrl": "",
     "eventId": "",
     "language": [
-      "hindi",
-      "hinglish"
+      "english",
+      "hindi"
     ],
-    "description": "Book online tickets for Very Late Night StandUp Comedy Show! in Bengaluru on BookMyShow which is a comedy-shows event happening at Ministry Of Comedy: Koramangala",
+    "description": "Book online tickets for No Country For Funny Men - Standup Comedy Live in Bengaluru on BookMyShow which is a comedy-shows event happening at Ministry Of Comedy: Koramangala",
     "venue": "",
     "address": "",
     "startDate": "",
     "endDate": "",
     "duration": "",
-    "price": 250,
+    "price": 249,
     "currency": "",
     "performers": [],
     "languages": [],
+    "date": "Sun 16 Aug",
+    "time": "7:00 PM",
+    "availability": "available"
+  },
+  {
+    "title": "Are You Marriage Material? (Compatibility Show)",
+    "category": "Stand up Comedy",
+    "image": "https://assets-in.bmscdn.com/nmcms/events/banner/desktop/media-desktop-are-you-marriage-material-compatibility-show-0-2026-6-20-t-8-20-19.jpg",
+    "bookingUrl": "https://in.bookmyshow.com/events/are-you-marriage-material/ET00451064",
+    "eventId": "ET00451064",
+    "language": [
+      "hindi",
+      "english"
+    ],
+    "description": "Are You Marriage Material? A Comedy Panel Show About Love, Laughs, and Life Together Think you’re ready for “forever”? Or just want to watch others hilariously find out? Are You Marriage Material? is a laugh-out-loud live panel show where comedians put singles and couples through outrageous, revealing, and downright ridiculous challenges to see if they’ve got what it takes to be “marriage material.” From navigating a fake in-law encounter to budgeting for love and arguing over wedding plans, no test is too absurd—and no verdict too savage. With a rotating panel of witty comedians judging your every move, this show blends stand-up, improv, and interactive games for a night of big laughs and surprising truths. Come for the comedy, stay for the chaos. You might leave with a certificate... or a “Happily Never After” badge.",
+    "venue": "Ministry Of Comedy: Koramangala",
+    "address": "1018, Opp. Wooden Street, 80 Feet Road, 4th Block, Koramangala, Bengaluru, Karnataka 560034, India",
+    "startDate": "2026-08-16T19:00:00+05:30",
+    "endDate": "2026-08-16T20:15:00+05:30",
+    "duration": "PT1H15M",
+    "price": 199,
+    "currency": "INR",
+    "performers": [
+      "Taral Shah",
+      "Pronoy Chowdhury"
+    ],
+    "languages": [
+      "Hindi",
+      "English"
+    ],
+    "date": "Sun 16 Aug",
+    "time": "7:00 PM",
+    "availability": "available"
+  },
+  {
+    "title": "Ministry of Comedy Presents! (Koramangala)",
+    "category": "Stand up Comedy",
+    "image": "https://assets-in.bmscdn.com/nmcms/events/banner/desktop/media-desktop-ministry-of-comedy-presents-koramangala-0-2026-7-26-t-22-45-46.jpg",
+    "bookingUrl": "https://in.bookmyshow.com/events/pilot-gomma-an-aircrash-event-by-gommaboy/ET00433099",
+    "eventId": "ET00433099",
+    "language": [
+      "hinglish",
+      "hindi"
+    ],
+    "description": "Book online tickets for Ministry of Comedy Presents! (Koramangala) in Bengaluru on BookMyShow which is a comedy-shows event",
+    "venue": "Ministry Of Comedy: Koramangala",
+    "address": "1018, Opp. Wooden Street, 80 Feet Road, 4th Block, Koramangala, Bengaluru, Karnataka 560034, India",
+    "startDate": "2026-08-14T22:00:00+05:30",
+    "endDate": "2026-08-14T23:15:00+05:30",
+    "duration": "PT1H15M",
+    "price": 250,
+    "currency": "INR",
+    "performers": [
+      "Manish Jain (Comic)",
+      "Pronoy Chowdhury",
+      "Nisarg Avashia",
+      "Abhinav Anand",
+      "Sachin Kumar Gommaboy"
+    ],
+    "languages": [
+      "Hinglish",
+      "Hindi"
+    ],
     "date": "Fri 14 Aug",
-    "time": "11:59 PM",
+    "time": "10:00 PM",
+    "availability": "available"
+  },
+  {
+    "title": "Stand Up Comedy in Bangalore",
+    "category": "Stand up Comedy",
+    "image": "https://assets-in.bmscdn.com/nmcms/events/banner/desktop/media-desktop-stand-up-comedy-in-bangalore-0-2026-7-26-t-9-23-49.jpg",
+    "bookingUrl": "https://in.bookmyshow.com/events/the-local-lineup-stand-up-comedy-hsr/ET00313985",
+    "eventId": "ET00313985",
+    "language": [
+      "english",
+      "hindi",
+      "hinglish"
+    ],
+    "description": "Book online tickets for Jokes Aaj Kal: Stand-Up Comedy in Bengaluru on BookMyShow which is a comedy-shows event.",
+    "venue": "Bloom Creative Zone, Indiranagar: Bengaluru",
+    "address": "KFC Signal, 483, 2nd Floor Right Wing, BEA Center 100 Ft Road, Chinmaya Mission Hospital Road, Indiranagar, Bengaluru, Karnataka 560038, India",
+    "startDate": "2026-08-14T20:30:00+05:30",
+    "endDate": "2026-08-14T21:45:00+05:30",
+    "duration": "PT1H15M",
+    "price": 199,
+    "currency": "INR",
+    "performers": [
+      "Abhinav Anand",
+      "Joteen Patro",
+      "Somnath Padhy",
+      "Manish Jain (Comic)"
+    ],
+    "languages": [
+      "English",
+      "Hindi",
+      "Hinglish"
+    ],
+    "date": "Fri 14 Aug",
+    "time": "8:30 PM",
     "availability": "available"
   }
 ]
