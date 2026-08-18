@@ -55,8 +55,66 @@
       "Hindi",
       "Hinglish"
     ],
-    "date": "Sun 2 Aug",
-    "time": "8:30 PM",
+    "date": "Fri 21 Aug",
+    "time": "10:00 PM",
+    "availability": "available"
+  },
+  {
+    "title": "Mohd Suhel Live",
+    "category": "Stand up Comedy",
+    "image": "https://assets-in.bmscdn.com/nmcms/events/banner/desktop/media-desktop-mohd-suhel-live-0-2026-7-25-t-16-49-9.jpg",
+    "bookingUrl": "https://in.bookmyshow.com/events/mohd-suhel-live/ET00408882",
+    "eventId": "ET00408882",
+    "language": [
+      "hindi",
+      "hinglish"
+    ],
+    "description": "Get ready for an evening of unapologetic laughs with Mohd. Suhel Live — a stand-up comedy show where Suhel dives into brutally honest takes on his life, his parents, his brother, and everything that makes family gatherings weirdly funny. From Mumbai versus Delhi banter to dark, deadpan humor and a few jokes that almost got him into trouble, Suhel brings it all with a straight face and razor-sharp timing. It’s a mix of relatable, risky, and ridiculously funny stories that make you laugh, flinch, and nod all at once. If you love sharp observational comedy, a bit of edge, and a comic who says the things everyone’s thinking but no one says out loud — this one’s for you. Book your tickets now for Mohd. Suhel Live — raw, honest, and dangerously funny.",
+    "venue": "Ministry Of Comedy: Koramangala",
+    "address": "1018, Opp. Wooden Street, 80 Feet Road, 4th Block, Koramangala, Bengaluru, Karnataka 560034, India",
+    "startDate": "2026-08-22T20:00:00+05:30",
+    "endDate": "2026-08-22T21:30:00+05:30",
+    "duration": "PT1H30M",
+    "price": 499,
+    "currency": "INR",
+    "performers": [
+      "Mohd. Suhel"
+    ],
+    "languages": [
+      "Hindi",
+      "Hinglish"
+    ],
+    "date": "Sat 22 Aug",
+    "time": "08:00 PM",
+    "availability": "available"
+  }, 
+  {
+    "title": "Mohd Suhel Live",
+    "category": "Stand up Comedy",
+    "image": "https://assets-in.bmscdn.com/nmcms/events/banner/desktop/media-desktop-mohd-suhel-live-0-2026-7-25-t-16-49-9.jpg",
+    "bookingUrl": "https://in.bookmyshow.com/events/mohd-suhel-live/ET00408882",
+    "eventId": "ET00408882",
+    "language": [
+      "hindi",
+      "hinglish"
+    ],
+    "description": "Get ready for an evening of unapologetic laughs with Mohd. Suhel Live — a stand-up comedy show where Suhel dives into brutally honest takes on his life, his parents, his brother, and everything that makes family gatherings weirdly funny. From Mumbai versus Delhi banter to dark, deadpan humor and a few jokes that almost got him into trouble, Suhel brings it all with a straight face and razor-sharp timing. It’s a mix of relatable, risky, and ridiculously funny stories that make you laugh, flinch, and nod all at once. If you love sharp observational comedy, a bit of edge, and a comic who says the things everyone’s thinking but no one says out loud — this one’s for you. Book your tickets now for Mohd. Suhel Live — raw, honest, and dangerously funny.",
+    "venue": "Ministry Of Comedy: Koramangala",
+    "address": "1018, Opp. Wooden Street, 80 Feet Road, 4th Block, Koramangala, Bengaluru, Karnataka 560034, India",
+    "startDate": "2026-08-23T17:00:00+05:30",
+    "endDate": "2026-08-23T18:30:00+05:30",
+    "duration": "PT1H30M",
+    "price": 499,
+    "currency": "INR",
+    "performers": [
+      "Mohd. Suhel"
+    ],
+    "languages": [
+      "Hindi",
+      "Hinglish"
+    ],
+    "date": "Sun 23 Aug",
+    "time": "5:00 PM",
     "availability": "available"
   },
   {
@@ -169,34 +227,6 @@
     ],
     "date": "Sat 15 Aug",
     "time": "7:00 PM",
-    "availability": "available"
-  },
-  {
-    "title": "Seriously Silly: Double Bill Comedy Show",
-    "category": "Stand up Comedy",
-    "image": "https://assets-in.bmscdn.com/nmcms/events/banner/desktop/media-desktop-seriously-silly-double-bill-comedy-show-0-2026-8-2-t-21-58-30.jpg",
-    "bookingUrl": "https://in.bookmyshow.com/events/seriously-silly-double-bill-comedy-show/ET00510322",
-    "eventId": "ET00510322",
-    "language": [
-      "english"
-    ],
-    "description": "Book online tickets for Seriously Silly: Double Bill Comedy Show in Bengaluru on BookMyShow which is a comedy-shows event",
-    "venue": "Ministry Of Comedy: Koramangala",
-    "address": "1018, Opp. Wooden Street, 80 Feet Road, 4th Block, Koramangala, Bengaluru, Karnataka 560034, India",
-    "startDate": "2026-08-29T20:00:00+05:30",
-    "endDate": "2026-08-29T21:15:00+05:30",
-    "duration": "PT1H15M",
-    "price": 249,
-    "currency": "INR",
-    "performers": [
-      "Joteen Patro",
-      "Abhinav Anand"
-    ],
-    "languages": [
-      "English"
-    ],
-    "date": "Sat 29 Aug",
-    "time": "8:00 PM",
     "availability": "available"
   },
   {
@@ -437,6 +467,35 @@
     "date": "Fri 21 Aug",
     "time": "8:30 PM",
     "availability": "available"
+  }, {
+    "title": "Best In StandUp! (Koramangala)",
+    "category": "Stand up Comedy",
+    "image": "https://assets-in.bmscdn.com/nmcms/events/banner/desktop/media-desktop-best-in-standup-koramangala-0-2026-5-8-t-1-49-22.jpg",
+    "bookingUrl": "https://in.bookmyshow.com/events/pilot-gomma-feat-gommaboy/ET00453914",
+    "eventId": "ET00453914",
+    "language": [
+      "hinglish",
+      "hindi"
+    ],
+    "description": "Book online tickets for Best In StandUp! (Koramangala) in Bengaluru on BookMyShow which is a comedy-shows event",
+    "venue": "Ministry Of Comedy: Koramangala",
+    "address": "1018, Opp. Wooden Street, 80 Feet Road, 4th Block, Koramangala, Bengaluru, Karnataka 560034, India",
+    "startDate": "2026-08-22T22:00:00+05:30",
+    "endDate": "2026-08-22T23:30:00+05:30",
+    "duration": "PT1H25M",
+    "price": 199,
+    "currency": "INR",
+    "performers": [
+      "Manish Jain (Comic)",
+      "Abhinav Anand"
+    ],
+    "languages": [
+      "Hinglish",
+      "Hindi"
+    ],
+    "date": "Sat 22 Aug",
+    "time": "10:00 PM",
+    "availability": "available"
   },
   {
     "title": "Very Late Night StandUp Comedy Show!",
@@ -466,6 +525,66 @@
     ],
     "date": "Fri 21 Aug",
     "time": "11:59 PM",
+    "availability": "available"
+  },
+  {
+    "title": "Very Late Night StandUp Comedy Show!",
+    "category": "Stand up Comedy",
+    "image": "https://assets-in.bmscdn.com/nmcms/events/banner/desktop/media-desktop-very-late-night-standup-comedy-show-0-2026-5-8-t-1-48-49.jpg",
+    "bookingUrl": "https://in.bookmyshow.com/events/rajat-chauhan-live-koramangala/ET00476821",
+    "eventId": "ET00476821",
+    "language": [
+      "hindi",
+      "hinglish"
+    ],
+    "description": "Book online tickets for Very Late Night StandUp Comedy Show! in Bengaluru on BookMyShow which is a comedy-shows event",
+    "venue": "Ministry Of Comedy: Koramangala",
+    "address": "1018, Opp. Wooden Street, 80 Feet Road, 4th Block, Koramangala, Bengaluru, Karnataka 560034, India",
+    "startDate": "2026-08-22T23:59:00+05:30",
+    "endDate": "2026-08-23T01:14:00+05:30",
+    "duration": "PT1H15M",
+    "price": 199,
+    "currency": "INR",
+    "performers": [
+      "Manish Jain (Comic)",
+      "Pronoy Chowdhury"
+    ],
+    "languages": [
+      "Hindi",
+      "Hinglish"
+    ],
+    "date": "Sat 22 Aug",
+    "time": "11:59 PM",
+    "availability": "available"
+  },
+  {
+    "title": "Very Late Night StandUp Comedy Show!",
+    "category": "Stand up Comedy",
+    "image": "https://assets-in.bmscdn.com/nmcms/events/banner/desktop/media-desktop-very-late-night-standup-comedy-show-0-2026-5-8-t-1-48-49.jpg",
+    "bookingUrl": "https://in.bookmyshow.com/events/rajat-chauhan-live-koramangala/ET00476821",
+    "eventId": "ET00476821",
+    "language": [
+      "hindi",
+      "hinglish"
+    ],
+    "description": "Book online tickets for Very Late Night StandUp Comedy Show! in Bengaluru on BookMyShow which is a comedy-shows event",
+    "venue": "Ministry Of Comedy: Koramangala",
+    "address": "1018, Opp. Wooden Street, 80 Feet Road, 4th Block, Koramangala, Bengaluru, Karnataka 560034, India",
+    "startDate": "2026-08-23T23:00:00+05:30",
+    "endDate": "2026-08-23T23:59:00+05:30",
+    "duration": "PT1H15M",
+    "price": 199,
+    "currency": "INR",
+    "performers": [
+      "Manish Jain (Comic)",
+      "Pronoy Chowdhury"
+    ],
+    "languages": [
+      "Hindi",
+      "Hinglish"
+    ],
+    "date": "Sun 23 Aug",
+    "time": "11:00 PM",
     "availability": "available"
   }
 ]
