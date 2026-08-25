@@ -25,7 +25,7 @@
       "value": "78d8fa24d57240ef825f115ea9b856fa",
       "domain": ".bookmyshow.com",
       "path": "/",
-      "expires": 1818570241,
+      "expires": 1819229568,
       "httpOnly": false,
       "secure": false,
       "sameSite": "Lax"
@@ -35,7 +35,7 @@
       "value": "ENHtvEbcxW2O3rpLFU3aJyyqYph23WDzD05UvzNSRLKD2o9poxLomspP0Ev%2BgiNo",
       "domain": ".app.link",
       "path": "/",
-      "expires": 1802759042.150652,
+      "expires": 1803418368.808145,
       "httpOnly": false,
       "secure": true,
       "sameSite": "None"
@@ -55,7 +55,7 @@
       "value": "fb.1.1785169950996.700480501223803283",
       "domain": ".bookmyshow.com",
       "path": "/",
-      "expires": 1794810242,
+      "expires": 1795469568,
       "httpOnly": false,
       "secure": false,
       "sameSite": "Lax"
@@ -65,7 +65,7 @@
       "value": "GA1.2.466900589.1785169951",
       "domain": ".bookmyshow.com",
       "path": "/",
-      "expires": 1821594243.888102,
+      "expires": 1822253570.287262,
       "httpOnly": false,
       "secure": false,
       "sameSite": "Lax"
@@ -75,7 +75,7 @@
       "value": "%7B%22regionCode%22%3A%22BANG%22%2C%22regionName%22%3A%22Bengaluru%22%2C%22subCode%22%3A%22%22%2C%22subName%22%3A%22%22%2C%22regionNameSlug%22%3A%22bengaluru%22%2C%22regionCodeSlug%22%3A%22bang%22%2C%22Lat%22%3A%2212.971599%22%2C%22Long%22%3A%2277.594563%22%2C%22GeoHash%22%3A%22tdr%22%2C%22Seq%22%3A%223%22%2C%22subtitle%22%3A%22%22%2C%22countryCode%22%3A%22IN%22%7D",
       "domain": "in.bookmyshow.com",
       "path": "/",
-      "expires": 1821594243.72429,
+      "expires": 1822253569.682136,
       "httpOnly": false,
       "secure": false,
       "sameSite": "Lax"
@@ -142,7 +142,7 @@
     },
     {
       "name": "_cfuvid",
-      "value": "8ApAczeiXtsyHl.k4Nf_EYR5KUOYREeF.WMiyyC2vag-1786983391.642188-1.0.1.1-3Nn2mgIIXhDZewaGZLNJklVbIV50TWa0zDHezfMWynw",
+      "value": "oYvFvvR5ru8Q_jpHSj0hWjCvu_mMk6Xrv1bylyozeeg-1787693566.0890713-1.0.1.1-TO8T4v_zTjhOHWr9JbAdt2nooH4nh4955tfHRCa1LRs",
       "domain": ".bookmyshow.com",
       "path": "/",
       "expires": -1,
@@ -151,31 +151,11 @@
       "sameSite": "None"
     },
     {
-      "name": "tvc_bmscookie_gid",
-      "value": "GA1.2.1853751942.1786983395",
-      "domain": ".bookmyshow.com",
-      "path": "/",
-      "expires": 1787120643,
-      "httpOnly": false,
-      "secure": false,
-      "sameSite": "Lax"
-    },
-    {
-      "name": "WZRK_S_86Z-767-967Z",
-      "value": "%7B%22p%22%3A1%2C%22s%22%3A1787034241%2C%22t%22%3A1787034241%7D",
-      "domain": ".bookmyshow.com",
-      "path": "/",
-      "expires": 1787035441,
-      "httpOnly": false,
-      "secure": false,
-      "sameSite": "Lax"
-    },
-    {
       "name": "cf_clearance",
-      "value": "YY_19Yl5xixwNrWunvVtanTCf2Ne7N0pcQ3Qq5k4I8k-1787034243-1.2.1.1-rZwzBQ_wiqCh0ZI7jtOSS8R.BcHBp529KvfYmJFzSiP6WercA2VwU1qbmtxE5dqyOGLW3Gw8zlaaBF9BwFmfVC1_uDZvOMv38jTONMoV.KG3KH9hK8OOqLTg6jWcw0eYrkxG8Z4eDGM1wid1GusyXIypC2ltgF83rgPkG_R.R_KY73WxZ5entrSnJ2yqt400yiXJjLy.LHhcnuzrzrfgTDYqy1Z331S95YuekP8SL9rXRioQJzP7pdLD9bPUiH7lzRDLqcQeJSKlkhlOUT0whRrPdI2bV79RwhiRosY_qlbymvtHVaFi6mJ_wGvVscLdbJs0Z6Q8QGhPvND7lkndCXydQALAA_vmgdb7eTA5kec",
+      "value": "xIBBNn0qi5BDIZ98R2L7KsrQoPaAF_vmwN_kDOZkyOk-1787693567-1.2.1.1-Zn1m9d9_W_AdBhLHFYHNxnIiMz46aoAS7Ep2EGAqoPLAIHmL4_4Q_jTTbNgY2.pyBocnpn9KvJ7FF5Bv98X.aQ0RRDAVe2Rleuyf.RzM3w0MCwl7jWTv3ekLUtPZgcT1niBFl376QkLATCB.dZL3UoTvlkF_d0pPPDOV0BypP082QdBf8FyHffmD0MW9RE8oYcK.ZMXEA_ZYE6Ou87K_LMSSA_TTMByGkVGvOh3QrpSbleKAZy7X68kPTxvq1kRo9bJkQ7zHh3h_WqyocWw2T4W0YgAhH9PjvEgGz1_hnghk0VDOFluDxuErTb5vM7cBqGnVpfRuAt00_IhO5.sasko2H_tIUEj.B1ed9RJ6rlc",
       "domain": ".bookmyshow.com",
       "path": "/",
-      "expires": 1818570243.439261,
+      "expires": 1819229567.606917,
       "httpOnly": true,
       "secure": true,
       "sameSite": "None",
@@ -184,20 +164,40 @@
     },
     {
       "name": "__cf_bm",
-      "value": "jOlJ2wmUO.DnvsiyDuoERyXmKUSjDzpYgihkE54ttIQ-1787034243.3697786-1.0.1.1-_OsgUQAzS_eOxCIdj6X6CRXa12Jdbeo6eoODaiTynqUSvItTAFOZMvWojsIPkFSzKCK06FPO8BwN6VHY1NvuEOjfKSBM0e4lq.C26Zeen6NosxZKEXKsGN9Wguobv5E3",
+      "value": "Zr7hR.icavcZAiIbHHXyS8nCo73l25ILqKO4UOKUcDo-1787693567.6196373-1.0.1.1-OeTCpwZhI1.S0Mub8jbwpUMaanl02lffqy92NBXAbwDYT.tEeGwvDZm9LHh.WcheNKuiMbKGBhfwK4e2LhUKgx3we7B1yx9yQ4qxa2dOcW59MX3YrDfnPNlXDk5NibcG",
       "domain": ".bookmyshow.com",
       "path": "/",
-      "expires": 1787036043.439338,
+      "expires": 1787695367.606966,
       "httpOnly": true,
       "secure": true,
       "sameSite": "None"
     },
     {
+      "name": "WZRK_S_86Z-767-967Z",
+      "value": "%7B%22p%22%3A1%2C%22s%22%3A1787693568%2C%22t%22%3A1787693568%7D",
+      "domain": ".bookmyshow.com",
+      "path": "/",
+      "expires": 1787694768,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
       "name": "IDE",
-      "value": "AHWqTUkjouVJpNlP3kot7DmASxLlSlAWF_tlKVwroQDRCicIoxBcr4D9lSH5gPOFPQE",
+      "value": "AHWqTUmNj3o7cXuz5yTiDvasHw7TEXL2xz0iB0Gbcnsf0o5MJ4g8isoy5nyVFCG5",
       "domain": ".doubleclick.net",
       "path": "/",
-      "expires": 1821594243.704787,
+      "expires": 1822253568.587264,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "fr",
+      "value": "0gPyE1cTRCK2W5GPM..BqjgoA...1.0.BqjgoA.",
+      "domain": ".facebook.com",
+      "path": "/",
+      "expires": 1795469568.796208,
       "httpOnly": true,
       "secure": true,
       "sameSite": "None"
@@ -207,17 +207,17 @@
       "value": "%24NOT_FOUND",
       "domain": ".bookmyshow.com",
       "path": "/",
-      "expires": 1787037843,
+      "expires": 1787697169,
       "httpOnly": false,
       "secure": false,
       "sameSite": "Lax"
     },
     {
-      "name": "platform",
-      "value": "{\"segments\":\"\"}",
-      "domain": "in.bookmyshow.com",
+      "name": "tvc_bmscookie_gid",
+      "value": "GA1.2.207810606.1787693569",
+      "domain": ".bookmyshow.com",
       "path": "/",
-      "expires": 1821594243.724326,
+      "expires": 1787779970,
       "httpOnly": false,
       "secure": false,
       "sameSite": "Lax"
@@ -227,17 +227,27 @@
       "value": "1",
       "domain": ".bookmyshow.com",
       "path": "/",
-      "expires": 1787034303,
+      "expires": 1787693629,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "platform",
+      "value": "{\"segments\":\"\"}",
+      "domain": "in.bookmyshow.com",
+      "path": "/",
+      "expires": 1822253569.682191,
       "httpOnly": false,
       "secure": false,
       "sameSite": "Lax"
     },
     {
       "name": "_ga_84T5GTD0PC",
-      "value": "GS2.1.s1787034241$o11$g0$t1787034243$j58$l0$h0",
+      "value": "GS2.1.s1787693568$o12$g0$t1787693570$j58$l0$h0",
       "domain": ".bookmyshow.com",
       "path": "/",
-      "expires": 1821594243.892776,
+      "expires": 1822253570.291551,
       "httpOnly": false,
       "secure": true,
       "sameSite": "None"
@@ -269,7 +279,7 @@
         },
         {
           "name": "_gcl_ls",
-          "value": "{\"schema\":\"gcl\",\"version\":1,\"gsid_dc\":{\"value\":{\"joinId\":\"10rE_tpZH5_yl7SUM_sU6en3upOrkIKL2Q\",\"lastJoinedTimeMs\":1787034240701},\"expires\":1787034540701},\"gcl_ctr\":{\"value\":{\"value\":0,\"timeouts\":0,\"errors\":0,\"eopCount\":0,\"creationTimeMs\":1785169950173},\"expires\":1792945950173},\"last_convs\":{\"value\":[],\"expires\":1792957785528}}"
+          "value": "{\"schema\":\"gcl\",\"version\":1,\"gsid_dc\":{\"value\":{\"joinId\":\"gUJtXZKFxAOXWlwicYbt_sZwzRWFmJGx7w\",\"lastJoinedTimeMs\":1787693567762},\"expires\":1787693867762},\"gcl_ctr\":{\"value\":{\"value\":0,\"timeouts\":0,\"errors\":0,\"eopCount\":0,\"creationTimeMs\":1785169950173},\"expires\":1792945950173},\"last_convs\":{\"value\":[],\"expires\":1792957785528}}"
         },
         {
           "name": "recents",
@@ -281,7 +291,7 @@
         },
         {
           "name": "WZRK_META",
-          "value": "%7B%22useIP%22%3Atrue%2C%22ps%22%3A1786983393%2C%22cs%22%3A1787034241%2C%22sc%22%3A14%7D"
+          "value": "%7B%22useIP%22%3Atrue%2C%22ps%22%3A1787034241%2C%22cs%22%3A1787693568%2C%22sc%22%3A15%7D"
         },
         {
           "name": "fingerPrintId",
@@ -293,11 +303,11 @@
         },
         {
           "name": "WZRK_EV",
-          "value": "%7B%22wzrk_fetch%22%3A%5B13%2C1785169949%2C1787034241%5D%7D"
+          "value": "%7B%22wzrk_fetch%22%3A%5B14%2C1785169949%2C1787693567%5D%7D"
         },
         {
           "name": "lastExternalReferrerTime",
-          "value": "1787034242009"
+          "value": "1787693568571"
         },
         {
           "name": "WZRK_BLOCK",
