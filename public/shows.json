@@ -89,34 +89,6 @@
     "availability": "available"
   },
   {
-    "title": "Seriously Silly: Double Bill Comedy Show",
-    "category": "Stand up Comedy",
-    "image": "https://assets-in.bmscdn.com/nmcms/events/banner/desktop/media-desktop-seriously-silly-double-bill-comedy-show-0-2026-8-2-t-21-58-30.jpg",
-    "bookingUrl": "https://in.bookmyshow.com/events/seriously-silly-double-bill-comedy-show/ET00510322",
-    "eventId": "ET00510322",
-    "language": [
-      "english"
-    ],
-    "description": "Book online tickets for Seriously Silly: Double Bill Comedy Show in Bengaluru on BookMyShow which is a comedy-shows event",
-    "venue": "Ministry Of Comedy: Koramangala",
-    "address": "1018, Opp. Wooden Street, 80 Feet Road, 4th Block, Koramangala, Bengaluru, Karnataka 560034, India",
-    "startDate": "2026-08-29T20:00:00+05:30",
-    "endDate": "2026-08-29T21:15:00+05:30",
-    "duration": "PT1H15M",
-    "price": 249,
-    "currency": "INR",
-    "performers": [
-      "Joteen Patro",
-      "Abhinav Anand"
-    ],
-    "languages": [
-      "English"
-    ],
-    "date": "Sat 29 Aug",
-    "time": "8:00 PM",
-    "availability": "available"
-  },
-  {
     "title": "Vinay Sharma Live",
     "category": "Stand up Comedy",
     "image": "https://assets-in.bmscdn.com/nmcms/events/banner/desktop/media-desktop-vinay-sharma-live-0-2026-7-27-t-20-32-7.jpg",
@@ -232,119 +204,6 @@
     "availability": "available"
   },
   {
-    "title": "Stand Up Comedy Live",
-    "category": "Stand up Comedy",
-    "image": "https://assets-in.bmscdn.com/nmcms/events/banner/desktop/media-desktop-stand-up-comedy-live-0-2026-5-5-t-8-4-2.jpg",
-    "bookingUrl": "https://in.bookmyshow.com/events/stand-up-comedy-live/ET00312493",
-    "eventId": "ET00312493",
-    "language": [
-      "english",
-      "hindi"
-    ],
-    "description": "Comedy Shots presents Wild Comedy Nights Come on down with friends, family, enemies, random strangers, or by yourself for an absurd, edgy, and funny evening as these Bangalore regulars try to crack you up with their jokes. Add some food and beverages to the mix and the evening promises to be the one to remember. Come down and Support artists.",
-    "venue": "Ministry Of Comedy: Koramangala",
-    "address": "1018, Opp. Wooden Street, 80 Feet Road, 4th Block, Koramangala, Bengaluru, Karnataka 560034, India",
-    "startDate": "2026-08-26T21:00:00+05:30",
-    "endDate": "2026-08-26T22:10:00+05:30",
-    "duration": "PT1H10M",
-    "price": 199,
-    "currency": "INR",
-    "performers": [
-      "Gautham Govindan",
-      "Anand Rathnam",
-      "Somnath Padhy",
-      "Joteen Patro"
-    ],
-    "languages": [
-      "English",
-      "Hindi"
-    ],
-    "date": "Wed 26 Aug",
-    "time": "9:00 PM",
-    "availability": "available"
-  },
-  {
-    "title": "Stand Up Comedy in Bangalore",
-    "category": "Stand up Comedy",
-    "image": "https://assets-in.bmscdn.com/nmcms/events/banner/desktop/media-desktop-stand-up-comedy-in-bangalore-0-2026-7-26-t-9-23-49.jpg",
-    "bookingUrl": "https://in.bookmyshow.com/events/the-local-lineup-stand-up-comedy-hsr/ET00313985",
-    "eventId": "ET00313985",
-    "language": [
-      "english",
-      "hindi",
-      "hinglish"
-    ],
-    "description": "Book online tickets for Jokes Aaj Kal: Stand-Up Comedy in Bengaluru on BookMyShow which is a comedy-shows event.",
-    "venue": "Ministry Of Comedy: Koramangala",
-    "address": "1018, Opp. Wooden Street, 80 Feet Road, 4th Block, Koramangala, Bengaluru, Karnataka 560034, India",
-    "startDate": "2026-08-27T21:30:00+05:30",
-    "endDate": "2026-08-27T22:45:00+05:30",
-    "duration": "PT1H15M",
-    "price": 199,
-    "currency": "INR",
-    "performers": [
-      "Abhinav Anand",
-      "Joteen Patro",
-      "Somnath Padhy",
-      "Manish Jain (Comic)"
-    ],
-    "languages": [
-      "English",
-      "Hindi",
-      "Hinglish"
-    ],
-    "date": "Wed 26 Aug",
-    "time": "9:30 PM",
-    "availability": "available"
-  },
-  {
-    "title": "Let Your Stories Meet Mine: Nishant Tanwar LIVE! comedy-shows Event Tickets Bengaluru - BookMyShow",
-    "category": "Stand up Comedy",
-    "image": "",
-    "bookingUrl": "",
-    "eventId": "",
-    "language": [
-      "hindi",
-      "hinglish"
-    ],
-    "description": "Book online tickets for Let Your Stories Meet Mine: Nishant Tanwar LIVE! in Bengaluru on BookMyShow which is a comedy-shows event happening at Ministry Of Comedy: Koramangala",
-    "venue": "",
-    "address": "",
-    "startDate": "",
-    "endDate": "",
-    "duration": "",
-    "price": 599,
-    "currency": "",
-    "performers": [],
-    "languages": [],
-    "date": "Sun 30 Aug",
-    "availability": "available"
-  },
-  {
-    "title": "Ministry of Comedy Presents! (Koramangala) comedy-shows Event Tickets Bengaluru - BookMyShow",
-    "category": "Stand up Comedy",
-    "image": "",
-    "bookingUrl": "",
-    "eventId": "",
-    "language": [
-      "hinglish",
-      "hindi"
-    ],
-    "description": "Book online tickets for Ministry of Comedy Presents! (Koramangala) in Bengaluru on BookMyShow which is a comedy-shows event happening at Ministry Of Comedy: Koramangala",
-    "venue": "",
-    "address": "",
-    "startDate": "",
-    "endDate": "",
-    "duration": "",
-    "price": 199,
-    "currency": "",
-    "performers": [],
-    "languages": [],
-    "date": "Wed 26 Aug",
-    "time": "11:00 PM",
-    "availability": "available"
-  },
-  {
     "title": "Mohd Suhel Live",
     "category": "Stand up Comedy",
     "image": "https://assets-in.bmscdn.com/nmcms/events/banner/desktop/media-desktop-mohd-suhel-live-0-2026-7-25-t-16-49-9.jpg",
@@ -371,60 +230,6 @@
     ],
     "date": "Sun 30 Aug",
     "time": "5:00 PM",
-    "availability": "available"
-  },
-  {
-    "title": "Ritabrata Live Comedy Shows Event Tickets - BookMyShow",
-    "category": "Stand up Comedy",
-    "image": "",
-    "bookingUrl": "",
-    "eventId": "",
-    "language": [
-      "english",
-      "hindi"
-    ],
-    "description": "Book online tickets for Ritabrata Live on BookMyShow which is a Comedy Shows event happening at venue near you.",
-    "venue": "",
-    "address": "",
-    "startDate": "",
-    "endDate": "",
-    "duration": "",
-    "price": 399,
-    "currency": "",
-    "performers": [],
-    "languages": [],
-    "date": "Sat 3 Oct",
-    "time": "7:00 PM",
-    "availability": "available"
-  },
-  {
-    "title": "Ashuddh Hindi Comedy Show! (Koramangala)",
-    "category": "Stand up Comedy",
-    "image": "https://assets-in.bmscdn.com/nmcms/events/banner/desktop/media-desktop-ashuddh-hindi-comedy-show-koramangala-0-2025-3-7-t-2-22-8.jpg",
-    "bookingUrl": "https://in.bookmyshow.com/events/misogynist-by-ritabrata-dass-koramangala/ET00434396",
-    "eventId": "ET00434396",
-    "language": [
-      "hindi",
-      "hinglish"
-    ],
-    "description": "Ashuddh thoughts, Shuddh fun! This isn`t a family-friendly, clean, polite comedy show-this is Ashuddh comedy at its finest! Dirty jokes, unapologetic punchlines, and language as messed up as our thoughts-whether it`s in Hindi, English, or the beautiful mix of both. No shuddh bhasha, no censorship-just pure, unhinged laughter.",
-    "venue": "Ministry Of Comedy: Koramangala",
-    "address": "1018, Opp. Wooden Street, 80 Feet Road, 4th Block, Koramangala, Bengaluru, Karnataka 560034, India",
-    "startDate": "2026-08-26T23:00:00+05:30",
-    "endDate": "2026-08-27T00:15:00+05:30",
-    "duration": "PT1H15M",
-    "price": 199,
-    "currency": "INR",
-    "performers": [
-      "Manish Jain (Comic)",
-      "Pronoy Chowdhury"
-    ],
-    "languages": [
-      "Hindi",
-      "Hinglish"
-    ],
-    "date": "Wed 26 Aug",
-    "time": "11:00 PM",
     "availability": "available"
   },
   {
@@ -539,6 +344,242 @@
       "Hinglish"
     ],
     "date": "Sun 20 Sep",
+    "availability": "available"
+  },
+  {
+    "title": "Let Your Stories Meet Mine: Nishant Tanwar LIVE!",
+    "category": "Stand up Comedy",
+    "image": "https://assets-in.bmscdn.com/nmcms/events/banner/desktop/media-desktop-let-your-stories-meet-mine-nishant-tanwar-live-0-2026-5-8-t-14-5-16.jpg",
+    "bookingUrl": "https://in.bookmyshow.com/events/nishant-tanwar-live/ET00495380",
+    "eventId": "ET00495380",
+    "language": [
+      "hindi",
+      "hinglish"
+    ],
+    "description": "Book online tickets for Let Your Stories Meet Mine: Nishant Tanwar LIVE! in Bengaluru on BookMyShow which is a comedy-shows event",
+    "venue": "Ministry Of Comedy: Koramangala",
+    "address": "1018, Opp. Wooden Street, 80 Feet Road, 4th Block, Koramangala, Bengaluru, Karnataka 560034, India",
+    "startDate": "2026-08-30T17:00:00+05:30",
+    "endDate": "2026-08-30T18:30:00+05:30",
+    "duration": "PT1H30M",
+    "price": 599,
+    "currency": "INR",
+    "performers": [
+      "Nishant Tanwar"
+    ],
+    "languages": [
+      "Hindi",
+      "Hinglish"
+    ],
+    "date": "Sun 30 Aug",
+    "availability": "available"
+  },
+  {
+    "title": "Let Your Stories Meet Mine: Nishant Tanwar LIVE!",
+    "category": "Stand up Comedy",
+    "image": "https://assets-in.bmscdn.com/nmcms/events/banner/desktop/media-desktop-let-your-stories-meet-mine-nishant-tanwar-live-0-2026-5-8-t-14-5-16.jpg",
+    "bookingUrl": "https://in.bookmyshow.com/events/nishant-tanwar-live/ET00495380",
+    "eventId": "ET00495380",
+    "language": [
+      "hindi",
+      "hinglish"
+    ],
+    "description": "Book online tickets for Let Your Stories Meet Mine: Nishant Tanwar LIVE! in Bengaluru on BookMyShow which is a comedy-shows event",
+    "venue": "Ministry Of Comedy: Koramangala",
+    "address": "1018, Opp. Wooden Street, 80 Feet Road, 4th Block, Koramangala, Bengaluru, Karnataka 560034, India",
+    "startDate": "2026-08-30T19:00:00+05:30",
+    "endDate": "2026-08-30T20:30:00+05:30",
+    "duration": "PT1H30M",
+    "price": 599,
+    "currency": "INR",
+    "performers": [
+      "Nishant Tanwar"
+    ],
+    "languages": [
+      "Hindi",
+      "Hinglish"
+    ],
+    "date": "Sun 30 Aug",
+    "availability": "available"
+  },
+  {
+    "title": "Best In StandUp! (Koramangala)",
+    "category": "Stand up Comedy",
+    "image": "https://assets-in.bmscdn.com/nmcms/events/banner/desktop/media-desktop-best-in-standup-koramangala-0-2026-5-8-t-1-49-22.jpg",
+    "bookingUrl": "https://in.bookmyshow.com/events/pilot-gomma-feat-gommaboy/ET00453914",
+    "eventId": "ET00453914",
+    "language": [
+      "hinglish",
+      "hindi"
+    ],
+    "description": "Book online tickets for Best In StandUp! (Koramangala) in Bengaluru on BookMyShow which is a comedy-shows event",
+    "venue": "Ministry Of Comedy: Koramangala",
+    "address": "1018, Opp. Wooden Street, 80 Feet Road, 4th Block, Koramangala, Bengaluru, Karnataka 560034, India",
+    "startDate": "2026-08-28T22:00:00+05:30",
+    "endDate": "2026-08-28T23:25:00+05:30",
+    "duration": "PT1H25M",
+    "price": 225,
+    "currency": "INR",
+    "performers": [
+      "Manish Jain (Comic)",
+      "Abhinav Anand"
+    ],
+    "languages": [
+      "Hinglish",
+      "Hindi"
+    ],
+    "date": "Fri 28 Aug",
+    "time": "10:00 PM",
+    "availability": "available"
+  },
+  {
+    "title": "Best In StandUp! (Koramangala)",
+    "category": "Stand up Comedy",
+    "image": "https://assets-in.bmscdn.com/nmcms/events/banner/desktop/media-desktop-best-in-standup-koramangala-0-2026-5-8-t-1-49-22.jpg",
+    "bookingUrl": "https://in.bookmyshow.com/events/pilot-gomma-feat-gommaboy/ET00453914",
+    "eventId": "ET00453914",
+    "language": [
+      "hinglish",
+      "hindi"
+    ],
+    "description": "Book online tickets for Best In StandUp! (Koramangala) in Bengaluru on BookMyShow which is a comedy-shows event",
+    "venue": "Ministry Of Comedy: Koramangala",
+    "address": "1018, Opp. Wooden Street, 80 Feet Road, 4th Block, Koramangala, Bengaluru, Karnataka 560034, India",
+    "startDate": "2026-08-29T22:00:00+05:30",
+    "endDate": "2026-08-29T23:25:00+05:30",
+    "duration": "PT1H25M",
+    "price": 250,
+    "currency": "INR",
+    "performers": [
+      "Manish Jain (Comic)",
+      "Abhinav Anand"
+    ],
+    "languages": [
+      "Hinglish",
+      "Hindi"
+    ],
+    "date": "Fri 28 Aug",
+    "time": "10:00 PM",
+    "availability": "available"
+  },
+  {
+    "title": "Best In StandUp! (Koramangala)",
+    "category": "Stand up Comedy",
+    "image": "https://assets-in.bmscdn.com/nmcms/events/banner/desktop/media-desktop-best-in-standup-koramangala-0-2026-5-8-t-1-49-22.jpg",
+    "bookingUrl": "https://in.bookmyshow.com/events/pilot-gomma-feat-gommaboy/ET00453914",
+    "eventId": "ET00453914",
+    "language": [
+      "hinglish",
+      "hindi"
+    ],
+    "description": "Book online tickets for Best In StandUp! (Koramangala) in Bengaluru on BookMyShow which is a comedy-shows event",
+    "venue": "Ministry Of Comedy: Koramangala",
+    "address": "1018, Opp. Wooden Street, 80 Feet Road, 4th Block, Koramangala, Bengaluru, Karnataka 560034, India",
+    "startDate": "2026-08-30T21:00:00+05:30",
+    "endDate": "2026-08-30T22:25:00+05:30",
+    "duration": "PT1H25M",
+    "price": 225,
+    "currency": "INR",
+    "performers": [
+      "Manish Jain (Comic)",
+      "Abhinav Anand"
+    ],
+    "languages": [
+      "Hinglish",
+      "Hindi"
+    ],
+    "date": "Fri 28 Aug",
+    "time": "10:00 PM",
+    "availability": "available"
+  },
+  {
+    "title": "Very Late Night StandUp Comedy Show!",
+    "category": "Stand up Comedy",
+    "image": "https://assets-in.bmscdn.com/nmcms/events/banner/desktop/media-desktop-very-late-night-standup-comedy-show-0-2026-5-8-t-1-48-49.jpg",
+    "bookingUrl": "https://in.bookmyshow.com/events/rajat-chauhan-live-koramangala/ET00476821",
+    "eventId": "ET00476821",
+    "language": [
+      "hindi",
+      "hinglish"
+    ],
+    "description": "Book online tickets for Very Late Night StandUp Comedy Show! in Bengaluru on BookMyShow which is a comedy-shows event",
+    "venue": "Ministry Of Comedy: Koramangala",
+    "address": "1018, Opp. Wooden Street, 80 Feet Road, 4th Block, Koramangala, Bengaluru, Karnataka 560034, India",
+    "startDate": "2026-08-28T23:59:00+05:30",
+    "endDate": "2026-08-29T01:14:00+05:30",
+    "duration": "PT1H15M",
+    "price": 199,
+    "currency": "INR",
+    "performers": [
+      "Manish Jain (Comic)",
+      "Pronoy Chowdhury"
+    ],
+    "languages": [
+      "Hindi",
+      "Hinglish"
+    ],
+    "date": "Fri 28 Aug",
+    "time": "11:59 PM",
+    "availability": "available"
+  },
+  {
+    "title": "Very Late Night StandUp Comedy Show!",
+    "category": "Stand up Comedy",
+    "image": "https://assets-in.bmscdn.com/nmcms/events/banner/desktop/media-desktop-very-late-night-standup-comedy-show-0-2026-5-8-t-1-48-49.jpg",
+    "bookingUrl": "https://in.bookmyshow.com/events/rajat-chauhan-live-koramangala/ET00476821",
+    "eventId": "ET00476821",
+    "language": [
+      "hindi",
+      "hinglish"
+    ],
+    "description": "Book online tickets for Very Late Night StandUp Comedy Show! in Bengaluru on BookMyShow which is a comedy-shows event",
+    "venue": "Ministry Of Comedy: Koramangala",
+    "address": "1018, Opp. Wooden Street, 80 Feet Road, 4th Block, Koramangala, Bengaluru, Karnataka 560034, India",
+    "startDate": "2026-08-29T23:59:00+05:30",
+    "endDate": "2026-08-30T01:14:00+05:30",
+    "duration": "PT1H15M",
+    "price": 250,
+    "currency": "INR",
+    "performers": [
+      "Manish Jain (Comic)",
+      "Pronoy Chowdhury"
+    ],
+    "languages": [
+      "Hindi",
+      "Hinglish"
+    ],
+    "date": "Fri 28 Aug",
+    "time": "11:59 PM",
+    "availability": "available"
+  },
+  {
+    "title": "Very Late Night StandUp Comedy Show!",
+    "category": "Stand up Comedy",
+    "image": "https://assets-in.bmscdn.com/nmcms/events/banner/desktop/media-desktop-very-late-night-standup-comedy-show-0-2026-5-8-t-1-48-49.jpg",
+    "bookingUrl": "https://in.bookmyshow.com/events/rajat-chauhan-live-koramangala/ET00476821",
+    "eventId": "ET00476821",
+    "language": [
+      "hindi",
+      "hinglish"
+    ],
+    "description": "Book online tickets for Very Late Night StandUp Comedy Show! in Bengaluru on BookMyShow which is a comedy-shows event",
+    "venue": "Ministry Of Comedy: Koramangala",
+    "address": "1018, Opp. Wooden Street, 80 Feet Road, 4th Block, Koramangala, Bengaluru, Karnataka 560034, India",
+    "startDate": "2026-08-30T23:00:00+05:30",
+    "endDate": "2026-08-30T23:59:00+05:30",
+    "duration": "PT1H15M",
+    "price": 199,
+    "currency": "INR",
+    "performers": [
+      "Manish Jain (Comic)",
+      "Pronoy Chowdhury"
+    ],
+    "languages": [
+      "Hindi",
+      "Hinglish"
+    ],
+    "date": "Fri 28 Aug",
+    "time": "11:59 PM",
     "availability": "available"
   }
 ]
