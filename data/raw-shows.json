@@ -313,38 +313,6 @@
     "availability": "available"
   },
   {
-    "title": "Stand Up Comedy Live",
-    "category": "Stand up Comedy",
-    "image": "https://assets-in.bmscdn.com/nmcms/events/banner/desktop/media-desktop-stand-up-comedy-live-0-2026-5-5-t-8-4-2.jpg",
-    "bookingUrl": "https://in.bookmyshow.com/events/stand-up-comedy-live/ET00312493",
-    "eventId": "ET00312493",
-    "language": [
-      "english",
-      "hindi"
-    ],
-    "description": "Comedy Shots presents Wild Comedy Nights Come on down with friends, family, enemies, random strangers, or by yourself for an absurd, edgy, and funny evening as these Bangalore regulars try to crack you up with their jokes. Add some food and beverages to the mix and the evening promises to be the one to remember. Come down and Support artists.",
-    "venue": "Ministry Of Comedy: Koramangala",
-    "address": "1018, Opp. Wooden Street, 80 Feet Road, 4th Block, Koramangala, Bengaluru, Karnataka 560034, India",
-    "startDate": "2026-09-09T21:00:00+05:30",
-    "endDate": "2026-09-09T22:10:00+05:30",
-    "duration": "PT1H10M",
-    "price": 199,
-    "currency": "INR",
-    "performers": [
-      "Gautham Govindan",
-      "Anand Rathnam",
-      "Somnath Padhy",
-      "Joteen Patro"
-    ],
-    "languages": [
-      "English",
-      "Hindi"
-    ],
-    "date": "Wed 9 Sep",
-    "time": "9:00 PM",
-    "availability": "available"
-  },
-  {
     "title": "Finding Love : Standup Comedy Solo By Vaibhav Karn",
     "category": "Stand up Comedy",
     "image": "https://assets-in.bmscdn.com/nmcms/events/banner/desktop/media-desktop-finding-love-standup-comedy-solo-by-vaibhav-karn-0-2026-9-7-t-12-21-34.jpg",
@@ -415,8 +383,8 @@
     "description": "Book online tickets for Ministry of Comedy Presents! (Koramangala) in Bengaluru on BookMyShow which is a comedy-shows event",
     "venue": "Ministry Of Comedy: Koramangala",
     "address": "1018, Opp. Wooden Street, 80 Feet Road, 4th Block, Koramangala, Bengaluru, Karnataka 560034, India",
-    "startDate": "2026-09-09T23:00:00+05:30",
-    "endDate": "2026-09-10T00:15:00+05:30",
+    "startDate": "2026-09-10T23:00:00+05:30",
+    "endDate": "2026-09-11T00:15:00+05:30",
     "duration": "PT1H15M",
     "price": 199,
     "currency": "INR",
@@ -431,7 +399,7 @@
       "Hinglish",
       "Hindi"
     ],
-    "date": "Wed 9 Sep",
+    "date": "Thu 10 Sep",
     "time": "11:00 PM",
     "availability": "available"
   }
