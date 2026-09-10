@@ -85,35 +85,6 @@
     "availability": "available"
   },
   {
-    "title": "Ritabrata Live",
-    "category": "Stand up Comedy",
-    "image": "https://assets-in.bmscdn.com/nmcms/events/banner/desktop/media-desktop-ritabrata-live-0-2026-8-16-t-22-17-54.jpg",
-    "bookingUrl": "https://in.bookmyshow.com/events/ritabrata-live/ET00512775",
-    "eventId": "ET00512775",
-    "language": [
-      "english",
-      "hindi"
-    ],
-    "description": "Book online tickets for Ritabrata Live in Kolkata on BookMyShow which is a comedy-shows event",
-    "venue": "Ministry Of Comedy: Koramangala",
-    "address": "1018, Opp. Wooden Street, 80 Feet Road, 4th Block, Koramangala, Bengaluru, Karnataka 560034, India",
-    "startDate": "2026-10-11T19:00:00+05:30",
-    "endDate": "2026-10-11T20:10:00+05:30",
-    "duration": "PT1H10M",
-    "price": 499,
-    "currency": "INR",
-    "performers": [
-      "Ritabrata Dass"
-    ],
-    "languages": [
-      "English",
-      "Hindi"
-    ],
-    "date": "Sat 3 Oct",
-    "time": "7:00 PM",
-    "availability": "available"
-  },
-  {
     "title": "Mohd Suhel Live",
     "category": "Stand up Comedy",
     "image": "https://assets-in.bmscdn.com/nmcms/events/banner/desktop/media-desktop-mohd-suhel-live-0-2026-7-25-t-16-49-9.jpg",
@@ -200,7 +171,36 @@
     "date": "Sun 20 Sep",
     "availability": "available"
   },
-    {
+  {
+    "title": "Ritabrata Live",
+    "category": "Stand up Comedy",
+    "image": "https://assets-in.bmscdn.com/nmcms/events/banner/desktop/media-desktop-ritabrata-live-0-2026-8-18-t-8-17-38.jpg",
+    "bookingUrl": "https://in.bookmyshow.com/events/ritabrata-live/ET00512943",
+    "eventId": "ET00512943",
+    "language": [
+      "english",
+      "hindi"
+    ],
+    "description": "Book online tickets for Ritabrata Live in Kolkata on BookMyShow which is a comedy-shows event",
+    "venue": "Ministry Of Comedy: Koramangala",
+    "address": "1018, Opp. Wooden Street, 80 Feet Road, 4th Block, Koramangala, Bengaluru, Karnataka 560034, India",
+    "startDate": "2026-10-11T19:00:00+05:30",
+    "endDate": "2026-10-11T20:10:00+05:30",
+    "duration": "PT1H10M",
+    "price": 399,
+    "currency": "INR",
+    "performers": [
+      "Ritabrata Dass"
+    ],
+    "languages": [
+      "English",
+      "Hindi"
+    ],
+    "date": "Sat 3 Oct",
+    "time": "7:00 PM",
+    "availability": "available"
+  },
+  {
     "title": "Not Clean At All - A Standup Comedy Solo Show",
     "category": "Stand up Comedy",
     "image": "https://assets-in.bmscdn.com/nmcms/events/banner/desktop/media-desktop-not-clean-at-all-a-standup-comedy-solo-show-0-2026-9-2-t-16-44-41.jpg",
@@ -317,7 +317,7 @@
     "category": "Stand up Comedy",
     "image": "https://assets-in.bmscdn.com/nmcms/events/banner/desktop/media-desktop-let-your-stories-meet-mine-nishant-tanwar-live-0-2026-5-8-t-14-5-16.jpg",
     "bookingUrl": "https://in.bookmyshow.com/events/nishant-tanwar-live/ET00495380",
-    "eventId": "ET00495380",
+    "eventId": "ET00491180",
     "language": [
       "hindi",
       "hinglish"
@@ -342,36 +342,357 @@
     "availability": "available"
   },
   {
-    "title": "Ministry of Comedy Presents! (Koramangala)",
+    "title": "Very Late Night StandUp Comedy Show!",
     "category": "Stand up Comedy",
-    "image": "https://assets-in.bmscdn.com/nmcms/events/banner/desktop/media-desktop-ministry-of-comedy-presents-koramangala-0-2026-7-26-t-22-45-46.jpg",
-    "bookingUrl": "https://in.bookmyshow.com/events/pilot-gomma-an-aircrash-event-by-gommaboy/ET00433099",
-    "eventId": "ET00433099",
+    "image": "https://assets-in.bmscdn.com/nmcms/events/banner/desktop/media-desktop-very-late-night-standup-comedy-show-0-2026-5-8-t-1-48-49.jpg",
+    "bookingUrl": "https://in.bookmyshow.com/events/rajat-chauhan-live-koramangala/ET00476821",
+    "eventId": "ET00476821",
+    "language": [
+      "hindi",
+      "hinglish"
+    ],
+    "description": "Book online tickets for Very Late Night StandUp Comedy Show! in Bengaluru on BookMyShow which is a comedy-shows event",
+    "venue": "Ministry Of Comedy: Koramangala",
+    "address": "1018, Opp. Wooden Street, 80 Feet Road, 4th Block, Koramangala, Bengaluru, Karnataka 560034, India",
+    "startDate": "2026-09-11T23:59:00+05:30",
+    "endDate": "2026-09-12T01:14:00+05:30",
+    "duration": "PT1H15M",
+    "price": 250,
+    "currency": "INR",
+    "performers": [
+      "Manish Jain (Comic)",
+      "Pronoy Chowdhury"
+    ],
+    "languages": [
+      "Hindi",
+      "Hinglish"
+    ],
+    "date": "Fri 11 Sep",
+    "time": "11:59 PM",
+    "availability": "available"
+  },
+  {
+    "title": "Best In StandUp! (Koramangala)",
+    "category": "Stand up Comedy",
+    "image": "https://assets-in.bmscdn.com/nmcms/events/banner/desktop/media-desktop-best-in-standup-koramangala-0-2026-5-8-t-1-49-22.jpg",
+    "bookingUrl": "https://in.bookmyshow.com/events/pilot-gomma-feat-gommaboy/ET00453914",
+    "eventId": "ET00453914",
     "language": [
       "hinglish",
       "hindi"
     ],
-    "description": "Book online tickets for Ministry of Comedy Presents! (Koramangala) in Bengaluru on BookMyShow which is a comedy-shows event",
+    "description": "Book online tickets for Best In StandUp! (Koramangala) in Bengaluru on BookMyShow which is a comedy-shows event",
     "venue": "Ministry Of Comedy: Koramangala",
     "address": "1018, Opp. Wooden Street, 80 Feet Road, 4th Block, Koramangala, Bengaluru, Karnataka 560034, India",
-    "startDate": "2026-09-10T23:00:00+05:30",
-    "endDate": "2026-09-11T00:15:00+05:30",
-    "duration": "PT1H15M",
-    "price": 199,
+    "startDate": "2026-09-11T22:00:00+05:30",
+    "endDate": "2026-09-11T23:25:00+05:30",
+    "duration": "PT1H25M",
+    "price": 225,
     "currency": "INR",
     "performers": [
       "Manish Jain (Comic)",
-      "Pronoy Chowdhury",
-      "Nisarg Avashia",
-      "Abhinav Anand",
-      "Sachin Kumar Gommaboy"
+      "Abhinav Anand"
     ],
     "languages": [
       "Hinglish",
       "Hindi"
     ],
-    "date": "Thu 10 Sep",
-    "time": "11:00 PM",
+    "date": "Fri 11 Sep",
+    "time": "10:00 PM",
+    "availability": "available"
+  },
+  {
+    "title": "Best In StandUp! (Koramangala)",
+    "category": "Stand up Comedy",
+    "image": "https://assets-in.bmscdn.com/nmcms/events/banner/desktop/media-desktop-best-in-standup-koramangala-0-2026-5-8-t-1-49-22.jpg",
+    "bookingUrl": "https://in.bookmyshow.com/events/pilot-gomma-feat-gommaboy/ET00453914",
+    "eventId": "ET00453914",
+    "language": [
+      "hinglish",
+      "hindi"
+    ],
+    "description": "Book online tickets for Best In StandUp! (Koramangala) in Bengaluru on BookMyShow which is a comedy-shows event",
+    "venue": "Ministry Of Comedy: Koramangala",
+    "address": "1018, Opp. Wooden Street, 80 Feet Road, 4th Block, Koramangala, Bengaluru, Karnataka 560034, India",
+    "startDate": "2026-09-12T22:00:00+05:30",
+    "endDate": "2026-09-12T23:25:00+05:30",
+    "duration": "PT1H25M",
+    "price": 250,
+    "currency": "INR",
+    "performers": [
+      "Manish Jain (Comic)",
+      "Abhinav Anand"
+    ],
+    "languages": [
+      "Hinglish",
+      "Hindi"
+    ],
+    "date": "Fri 11 Sep",
+    "time": "10:00 PM",
+    "availability": "available"
+  },
+  {
+    "title": "Very Late Night StandUp Comedy Show!",
+    "category": "Stand up Comedy",
+    "image": "https://assets-in.bmscdn.com/nmcms/events/banner/desktop/media-desktop-very-late-night-standup-comedy-show-0-2026-5-8-t-1-48-49.jpg",
+    "bookingUrl": "https://in.bookmyshow.com/events/rajat-chauhan-live-koramangala/ET00476821",
+    "eventId": "ET00476821",
+    "language": [
+      "hindi",
+      "hinglish"
+    ],
+    "description": "Book online tickets for Very Late Night StandUp Comedy Show! in Bengaluru on BookMyShow which is a comedy-shows event",
+    "venue": "Ministry Of Comedy: Koramangala",
+    "address": "1018, Opp. Wooden Street, 80 Feet Road, 4th Block, Koramangala, Bengaluru, Karnataka 560034, India",
+    "startDate": "2026-09-12T23:59:00+05:30",
+    "endDate": "2026-09-13T01:14:00+05:30",
+    "duration": "PT1H15M",
+    "price": 250,
+    "currency": "INR",
+    "performers": [
+      "Manish Jain (Comic)",
+      "Pronoy Chowdhury"
+    ],
+    "languages": [
+      "Hindi",
+      "Hinglish"
+    ],
+    "date": "Fri 11 Sep",
+    "time": "11:59 PM",
+    "availability": "available"
+  },
+  {
+    "title": "Very Late Night StandUp Comedy Show!",
+    "category": "Stand up Comedy",
+    "image": "https://assets-in.bmscdn.com/nmcms/events/banner/desktop/media-desktop-very-late-night-standup-comedy-show-0-2026-5-8-t-1-48-49.jpg",
+    "bookingUrl": "https://in.bookmyshow.com/events/rajat-chauhan-live-koramangala/ET00476821",
+    "eventId": "ET00476821",
+    "language": [
+      "hindi",
+      "hinglish"
+    ],
+    "description": "Book online tickets for Very Late Night StandUp Comedy Show! in Bengaluru on BookMyShow which is a comedy-shows event",
+    "venue": "Ministry Of Comedy: Koramangala",
+    "address": "1018, Opp. Wooden Street, 80 Feet Road, 4th Block, Koramangala, Bengaluru, Karnataka 560034, India",
+    "startDate": "2026-09-13T23:00:00+05:30",
+    "endDate": "2026-09-13T23:59:00+05:30",
+    "duration": "PT1H15M",
+    "price": 225,
+    "currency": "INR",
+    "performers": [
+      "Manish Jain (Comic)",
+      "Pronoy Chowdhury"
+    ],
+    "languages": [
+      "Hindi",
+      "Hinglish"
+    ],
+    "date": "Fri 11 Sep",
+    "time": "11:59 PM",
+    "availability": "available"
+  },
+  {
+    "title": "Let Your Stories Meet Mine: Nishant Tanwar LIVE!",
+    "category": "Stand up Comedy",
+    "image": "https://assets-in.bmscdn.com/nmcms/events/banner/desktop/media-desktop-let-your-stories-meet-mine-nishant-tanwar-live-0-2026-5-8-t-14-5-16.jpg",
+    "bookingUrl": "https://in.bookmyshow.com/events/nishant-tanwar-live/ET00495380",
+    "eventId": "ET00495380",
+    "language": [
+      "hindi",
+      "hinglish"
+    ],
+    "description": "Book online tickets for Let Your Stories Meet Mine: Nishant Tanwar LIVE! in Bengaluru on BookMyShow which is a comedy-shows event",
+    "venue": "Ministry Of Comedy: Koramangala",
+    "address": "1018, Opp. Wooden Street, 80 Feet Road, 4th Block, Koramangala, Bengaluru, Karnataka 560034, India",
+    "startDate": "2026-09-14T19:00:00+05:30",
+    "endDate": "2026-09-14T20:30:00+05:30",
+    "duration": "PT1H30M",
+    "price": 599,
+    "currency": "INR",
+    "performers": [
+      "Nishant Tanwar"
+    ],
+    "languages": [
+      "Hindi",
+      "Hinglish"
+    ],
+    "date": "Fri 11 Sep",
+    "time": "6:00 PM",
+    "availability": "available"
+  },
+  {
+    "title": "Let Your Stories Meet Mine: Nishant Tanwar LIVE!",
+    "category": "Stand up Comedy",
+    "image": "https://assets-in.bmscdn.com/nmcms/events/banner/desktop/media-desktop-let-your-stories-meet-mine-nishant-tanwar-live-0-2026-5-8-t-14-5-16.jpg",
+    "bookingUrl": "https://in.bookmyshow.com/events/nishant-tanwar-live/ET00495380",
+    "eventId": "ET00495380",
+    "language": [
+      "hindi",
+      "hinglish"
+    ],
+    "description": "Book online tickets for Let Your Stories Meet Mine: Nishant Tanwar LIVE! in Bengaluru on BookMyShow which is a comedy-shows event",
+    "venue": "Ministry Of Comedy: Koramangala",
+    "address": "1018, Opp. Wooden Street, 80 Feet Road, 4th Block, Koramangala, Bengaluru, Karnataka 560034, India",
+    "startDate": "2026-09-19T16:00:00+05:30",
+    "endDate": "2026-09-19T17:30:00+05:30",
+    "duration": "PT1H30M",
+    "price": 599,
+    "currency": "INR",
+    "performers": [
+      "Nishant Tanwar"
+    ],
+    "languages": [
+      "Hindi",
+      "Hinglish"
+    ],
+    "date": "Fri 11 Sep",
+    "time": "6:00 PM",
+    "availability": "available"
+  },
+  {
+    "title": "Let Your Stories Meet Mine: Nishant Tanwar LIVE!",
+    "category": "Stand up Comedy",
+    "image": "https://assets-in.bmscdn.com/nmcms/events/banner/desktop/media-desktop-let-your-stories-meet-mine-nishant-tanwar-live-0-2026-5-8-t-14-5-16.jpg",
+    "bookingUrl": "https://in.bookmyshow.com/events/nishant-tanwar-live/ET00495380",
+    "eventId": "ET00495380",
+    "language": [
+      "hindi",
+      "hinglish"
+    ],
+    "description": "Book online tickets for Let Your Stories Meet Mine: Nishant Tanwar LIVE! in Bengaluru on BookMyShow which is a comedy-shows event",
+    "venue": "Ministry Of Comedy: Koramangala",
+    "address": "1018, Opp. Wooden Street, 80 Feet Road, 4th Block, Koramangala, Bengaluru, Karnataka 560034, India",
+    "startDate": "2026-09-20T16:00:00+05:30",
+    "endDate": "2026-09-20T17:30:00+05:30",
+    "duration": "PT1H30M",
+    "price": 599,
+    "currency": "INR",
+    "performers": [
+      "Nishant Tanwar"
+    ],
+    "languages": [
+      "Hindi",
+      "Hinglish"
+    ],
+    "date": "Fri 11 Sep",
+    "time": "6:00 PM",
+    "availability": "available"
+  },
+  {
+    "title": "The Independents: Documentary Screening",
+    "category": "Screening & QnA",
+    "image": "https://d10y46cwh6y6x1.cloudfront.net/images/C002594431C347E08622E34091715187_converted_webp.webp",
+    "bookingUrl": "https://urbanaut.app/spot/the-independents",
+    "eventId": "ET00005380",
+    "language": [
+      "hindi",
+      "hinglish"
+    ],
+    "description": "Book online tickets for Let Your Stories Meet Mine: Nishant Tanwar LIVE! in Bengaluru on BookMyShow which is a comedy-shows event",
+    "venue": "Ministry Of Comedy: Koramangala",
+    "address": "1018, Opp. Wooden Street, 80 Feet Road, 4th Block, Koramangala, Bengaluru, Karnataka 560034, India",
+    "startDate": "2026-09-12T11:00:00+05:30",
+    "endDate": "2026-09-12T12:30:00+05:30",
+    "duration": "PT1H30M",
+    "price": 799,
+    "currency": "INR",
+    "performers": [
+      "Meghnad & Satvik"
+    ],
+    "languages": [
+      "Hindi",
+      "Hinglish"
+    ],
+    "date": "Fri 11 Sep",
+    "time": "6:00 PM",
+    "availability": "available"
+  },
+  {
+    "title": "The Independents: Documentary Screening",
+    "category": "Screening & QnA",
+    "image": "https://d10y46cwh6y6x1.cloudfront.net/images/8ACE32038A0A43759B8DE039630BFA03_converted_webp.webp",
+    "bookingUrl": "https://urbanaut.app/spot/the-independents",
+    "eventId": "ET00005381",
+    "language": [
+      "hindi",
+      "hinglish"
+    ],
+    "description": "Book online tickets for Let Your Stories Meet Mine: Nishant Tanwar LIVE! in Bengaluru on BookMyShow which is a comedy-shows event",
+    "venue": "Ministry Of Comedy: Koramangala",
+    "address": "1018, Opp. Wooden Street, 80 Feet Road, 4th Block, Koramangala, Bengaluru, Karnataka 560034, India",
+    "startDate": "2026-09-12T16:00:00+05:30",
+    "endDate": "2026-09-12T17:30:00+05:30",
+    "duration": "PT1H30M",
+    "price": 799,
+    "currency": "INR",
+    "performers": [
+      "Meghnad and Satvik"
+    ],
+    "languages": [
+      "Hindi",
+      "Hinglish"
+    ],
+    "date": "Fri 11 Sep",
+    "time": "6:00 PM",
+    "availability": "available"
+  },
+  {
+    "title": "The Independents: Documentary Screening",
+    "category": "Screening & QnA",
+    "image": "https://d10y46cwh6y6x1.cloudfront.net/images/C002594431C347E08622E34091715187_converted_webp.webp",
+    "bookingUrl": "https://urbanaut.app/spot/the-independents",
+    "eventId": "ET00005382",
+    "language": [
+      "hindi",
+      "hinglish"
+    ],
+    "description": "Book online tickets for Let Your Stories Meet Mine: Nishant Tanwar LIVE! in Bengaluru on BookMyShow which is a comedy-shows event",
+    "venue": "Ministry Of Comedy: Koramangala",
+    "address": "1018, Opp. Wooden Street, 80 Feet Road, 4th Block, Koramangala, Bengaluru, Karnataka 560034, India",
+    "startDate": "2026-09-13T11:00:00+05:30",
+    "endDate": "2026-09-13T12:30:00+05:30",
+    "duration": "PT1H30M",
+    "price": 799,
+    "currency": "INR",
+    "performers": [
+      "Meghnad & Satvik"
+    ],
+    "languages": [
+      "Hindi",
+      "Hinglish"
+    ],
+    "date": "Fri 11 Sep",
+    "time": "6:00 PM",
+    "availability": "available"
+  },
+  {
+    "title": "The Independents: Documentary Screening",
+    "category": "Screening & QnA",
+    "image": "https://d10y46cwh6y6x1.cloudfront.net/images/8ACE32038A0A43759B8DE039630BFA03_converted_webp.webp",
+    "bookingUrl": "https://urbanaut.app/spot/the-independents",
+    "eventId": "ET00005383",
+    "language": [
+      "hindi",
+      "hinglish"
+    ],
+    "description": "Book online tickets for Let Your Stories Meet Mine: Nishant Tanwar LIVE! in Bengaluru on BookMyShow which is a comedy-shows event",
+    "venue": "Ministry Of Comedy: Koramangala",
+    "address": "1018, Opp. Wooden Street, 80 Feet Road, 4th Block, Koramangala, Bengaluru, Karnataka 560034, India",
+    "startDate": "2026-09-13T15:00:00+05:30",
+    "endDate": "2026-09-13T16:30:00+05:30",
+    "duration": "PT1H30M",
+    "price": 799,
+    "currency": "INR",
+    "performers": [
+      "Meghnad and Satvik"
+    ],
+    "languages": [
+      "Hindi",
+      "Hinglish"
+    ],
+    "date": "Fri 11 Sep",
+    "time": "6:00 PM",
     "availability": "available"
   }
+
 ]
