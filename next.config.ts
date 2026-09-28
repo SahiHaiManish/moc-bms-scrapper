@@ -27,4 +27,4 @@ async rewrites() {
     { source: "/mics", destination: "https://mics-omega.vercel.app/mics" },
     { source: "/mics/:path*", destination: "https://mics-omega.vercel.app/mics/:path*" },
   ];
-},
+}
