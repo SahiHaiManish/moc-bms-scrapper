@@ -27,7 +27,36 @@
     "date": "Sat 3 Oct",
     "time": "7:00 PM",
     "availability": "available"
+  },  {
+    "title": "Gujaratis Assemble! - A StandUp Panel Show",
+    "category": "Stand up Comedy",
+    "image": "https://assets-in.bmscdn.com/nmcms/events/banner/desktop/media-desktop-gujaratiyo-assemble-koramangala-0-2026-10-1-t-15-13-52.jpg",
+    "bookingUrl": "https://in.bookmyshow.com/events/anurag-singh-toby-thomas-presents/ET00513940",
+    "eventId": "ET00513940",
+    "language": [
+      "gujarati",
+      "hindi", "english"
+    ],
+    "description": "Book online tickets for Ritabrata Live in Kolkata on BookMyShow which is a comedy-shows event",
+    "venue": "Ministry Of Comedy: Koramangala",
+    "address": "1018, Opp. Wooden Street, 80 Feet Road, 4th Block, Koramangala, Bengaluru, Karnataka 560034, India",
+    "startDate": "2026-10-02T22:00:00+05:30",
+    "endDate": "2026-10-02T23:30:00+05:30",
+    "duration": "PT1H10M",
+    "price": 250,
+    "currency": "INR",
+    "performers": [
+      "Manish Jain & Nisarg Avashia"
+    ],
+    "languages": [
+      "English",
+      "Hindi"
+    ],
+    "date": "Sat 3 Oct",
+    "time": "7:00 PM",
+    "availability": "available"
   },
+
   {
     "title": "Satyabrat Mohapatra LIVE",
     "category": "Stand up Comedy",
@@ -619,35 +648,7 @@
     ],
     "date": "Fri 2 Oct",
     "availability": "available"
-  },{
-    "title": "Let Your Stories Meet Mine: Nishant Tanwar LIVE!",
-    "category": "Stand up Comedy",
-    "image": "https://assets-in.bmscdn.com/nmcms/events/banner/desktop/media-desktop-let-your-stories-meet-mine-nishant-tanwar-live-0-2026-5-8-t-14-5-16.jpg",
-    "bookingUrl": "https://in.bookmyshow.com/events/nishant-tanwar-live/ET00495380",
-    "eventId": "ET00495380",
-    "language": [
-      "hindi",
-      "hinglish"
-    ],
-    "description": "Book online tickets for Let Your Stories Meet Mine: Nishant Tanwar LIVE! in Bengaluru on BookMyShow which is a comedy-shows event",
-    "venue": "Ministry Of Comedy: Koramangala",
-    "address": "1018, Opp. Wooden Street, 80 Feet Road, 4th Block, Koramangala, Bengaluru, Karnataka 560034, India",
-    "startDate": "2026-10-02T18:00:00+05:30",
-    "endDate": "2026-10-02T19:30:00+05:30",
-    "duration": "PT1H30M",
-    "price": 599,
-    "currency": "INR",
-    "performers": [
-      "Nishant Tanwar"
-    ],
-    "languages": [
-      "Hindi",
-      "Hinglish"
-    ],
-    "date": "Fri 2 Oct",
-    "availability": "available"
-  },
-  {
+  }, {
     "title": "Ministry of Comedy Presents! (Koramangala)",
     "category": "Stand up Comedy",
     "image": "https://assets-in.bmscdn.com/nmcms/events/banner/desktop/media-desktop-ministry-of-comedy-presents-koramangala-0-2026-7-26-t-22-45-46.jpg",
