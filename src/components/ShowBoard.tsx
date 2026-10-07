@@ -51,7 +51,7 @@ const boardTitle = show.title
 
 <div className="border-y border-zinc-800 py-3 text-center overflow-hidden">
       <div
-        key={show.startDate}
+        key={show.sessionId ?? `${show.eventId}-${show.startDate}`}
         className="animate-fade"
       >
 <a

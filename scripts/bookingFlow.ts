@@ -168,7 +168,7 @@ async function isTicketPage(page: Page) {
   return false;
 }
 
-async function findBookButton(
+export async function findBookButton(
   page: Page
 ): Promise<Locator | null> {
   const selectors = [

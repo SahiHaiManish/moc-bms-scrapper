@@ -1,0 +1,1682 @@
+diff -ruN a/scripts/bookingFlow.ts b/scripts/bookingFlow.ts
+--- a/scripts/bookingFlow.ts	2026-10-07 14:06:21.104545193 +0000
++++ b/scripts/bookingFlow.ts	2026-10-07 14:06:21.235702266 +0000
+@@ -168,7 +168,7 @@
+   return false;
+ }
+ 
+-async function findBookButton(
++export async function findBookButton(
+   page: Page
+ ): Promise<Locator | null> {
+   const selectors = [
+diff -ruN a/scripts/collectSessions.ts b/scripts/collectSessions.ts
+--- a/scripts/collectSessions.ts	1970-01-01 00:00:00.000000000 +0000
++++ b/scripts/collectSessions.ts	2026-10-07 14:06:21.235737199 +0000
+@@ -0,0 +1,302 @@
++import { Page } from "playwright";
++import fs from "fs/promises";
++
++import { SCAN_DATE_TABS, SCAN_TIME_SLOTS } from "./lib/domScanners";
++import { RawSession, labelFromIso } from "./lib/sessions";
++import { findBookButton } from "./bookingFlow";
++
++const DEFAULT_VENUE_CODE = "MCBK"; // Ministry Of Comedy: Koramangala
++const VIEW_TIMEOUT_MS = 12_000;
++const SLOTS_ONLY_GRACE_MS = 5_000;
++const MAX_SCAN_PASSES = 8; // safety net for date strips that load more on scroll
++
++interface DateTab {
++  index: number;
++  label: string;
++  disabled: boolean;
++}
++
++interface TimeSlot {
++  time: string;
++  price?: number;
++  soldOut: boolean;
++}
++
++const DEBUG = Boolean(process.env.DEBUG_SESSIONS);
++
++/**
++ * BookMyShow's "Book Now" button links to
++ *   <event url>/date-time/<venueCode>
++ * (it is in the page's __INITIAL_STATE__), so we can go there directly
++ * instead of clicking through the booking dialog.
++ */
++export function dateTimeUrl(
++  bookingUrl: string,
++  venueCode = DEFAULT_VENUE_CODE
++): string {
++  const url = new URL(bookingUrl);
++
++  url.search = "";
++  url.hash = "";
++  url.pathname = url.pathname.replace(/\/+$/, "").replace(/\/date-time\/.*$/, "");
++  url.pathname += `/date-time/${venueCode}`;
++
++  return url.toString();
++}
++
++const scanTabs = (page: Page) =>
++  page.evaluate(SCAN_DATE_TABS) as Promise<DateTab[]>;
++
++const scanSlots = (page: Page) =>
++  page.evaluate(SCAN_TIME_SLOTS) as Promise<TimeSlot[]>;
++
++/**
++ * Polls until the date strip has rendered.
++ *
++ * The time pills and the date strip don't necessarily render together. If we
++ * returned as soon as we saw *either*, we could start scanning before the date
++ * strip existed, conclude "single date", and only ever read the first day.
++ * So: tabs => go. Slots without tabs => wait a grace period first, since that
++ * is also what a genuine single-date listing looks like.
++ */
++async function waitForDateView(page: Page): Promise<boolean> {
++  const deadline = Date.now() + VIEW_TIMEOUT_MS;
++  let slotsFirstSeen = 0;
++
++  while (Date.now() < deadline) {
++    const [tabs, slots] = await Promise.all([
++      scanTabs(page).catch(() => [] as DateTab[]),
++      scanSlots(page).catch(() => [] as TimeSlot[]),
++    ]);
++
++    if (tabs.length) return true;
++
++    if (slots.length) {
++      slotsFirstSeen ||= Date.now();
++
++      if (Date.now() - slotsFirstSeen >= SLOTS_ONLY_GRACE_MS) return true;
++    }
++
++    await page.waitForTimeout(400);
++  }
++
++  return false;
++}
++
++async function openDateTimeView(
++  page: Page,
++  bookingUrl: string,
++  venueCode: string
++): Promise<void> {
++  // 1) straight to the date-time page
++  await page.goto(dateTimeUrl(bookingUrl, venueCode), {
++    waitUntil: "domcontentloaded",
++    timeout: 60_000,
++  });
++
++  if (await waitForDateView(page)) return;
++
++  // 2) fall back to clicking Book Now on the event page, once
++  await page.goto(bookingUrl, {
++    waitUntil: "domcontentloaded",
++    timeout: 60_000,
++  });
++
++  await page.waitForTimeout(3000);
++
++  const book = await findBookButton(page);
++
++  if (book) {
++    await book.scrollIntoViewIfNeeded().catch(() => {});
++    await book.click({ force: true }).catch(() => {});
++
++    if (await waitForDateView(page)) return;
++  }
++
++  throw new Error("Could not find a date/time view for this listing.");
++}
++
++async function clickDate(page: Page, label: string): Promise<void> {
++  // Re-scan right before clicking: the strip may have re-rendered since
++  // the last scan, which would make an old data-moc-date index stale.
++  const tabs = await scanTabs(page);
++  const tab = tabs.find((t) => t.label === label);
++
++  if (!tab) throw new Error(`Date tab vanished: ${label}`);
++
++  const target = page.locator(`[data-moc-date="${tab.index}"]`).first();
++
++  try {
++    await target.scrollIntoViewIfNeeded({ timeout: 3000 });
++    await target.click({ timeout: 4000 });
++  } catch {
++    // overlay in the way? click it programmatically instead
++    await target.evaluate((el: HTMLElement) => el.click());
++  }
++}
++
++/** Reads the slot list once it has stopped changing. */
++async function readStableSlots(page: Page): Promise<TimeSlot[]> {
++  const signature = (s: TimeSlot[]) =>
++    s.map((x) => `${x.time}|${x.soldOut}|${x.price ?? ""}`).join(",");
++
++  await page.waitForTimeout(600);
++
++  let last = await scanSlots(page);
++  const deadline = Date.now() + 4000;
++
++  while (Date.now() < deadline) {
++    await page.waitForTimeout(350);
++
++    const next = await scanSlots(page);
++
++    if (signature(next) === signature(last)) return next;
++
++    last = next;
++  }
++
++  return last;
++}
++
++/** DEBUG_SESSIONS=1: dump every JSON response so an API parser can be built. */
++function attachNetworkDump(page: Page, eventId: string): () => void {
++  let n = 0;
++  const dir = `playwright/debug/${eventId}`;
++
++  const handler = async (res: import("playwright").Response) => {
++    const type = res.request().resourceType();
++
++    if (type !== "fetch" && type !== "xhr") return;
++
++    try {
++      const body = await res.text();
++      const name = `${String(++n).padStart(2, "0")}.json`;
++
++      await fs.mkdir(dir, { recursive: true });
++      await fs.writeFile(
++        `${dir}/${name}`,
++        JSON.stringify({ url: res.url(), status: res.status(), body })
++      );
++    } catch {
++      /* body not available (redirect, aborted, ...) */
++    }
++  };
++
++  page.on("response", handler);
++
++  return () => page.off("response", handler);
++}
++
++async function dumpFailure(page: Page, eventId: string) {
++  await fs.mkdir("playwright", { recursive: true });
++
++  await page
++    .screenshot({ path: `playwright/sessions-failed-${eventId}.png`, fullPage: true })
++    .catch(() => {});
++
++  await fs.writeFile(
++    `playwright/sessions-failed-${eventId}.html`,
++    await page.content()
++  );
++
++  console.log(`📸 Saved playwright/sessions-failed-${eventId}.html/.png`);
++}
++
++export interface CollectOptions {
++  eventId: string;
++  /** JSON-LD startDate; used only if the page has times but no date tabs */
++  fallbackDateIso?: string;
++  venueCode?: string;
++}
++
++/**
++ * Returns every (date, time) the listing is currently selling for the venue.
++ * Throws if no date/time view could be found at all.
++ */
++export async function collectSessions(
++  page: Page,
++  bookingUrl: string,
++  opts: CollectOptions
++): Promise<RawSession[]> {
++  const stopDump = DEBUG ? attachNetworkDump(page, opts.eventId) : () => {};
++
++  try {
++    await openDateTimeView(
++      page,
++      bookingUrl,
++      opts.venueCode ?? DEFAULT_VENUE_CODE
++    );
++
++    const out: RawSession[] = [];
++    const done = new Set<string>();
++
++    console.log(
++      `   🔎 date view: ${page.url()}  (${(await scanTabs(page)).length} date tab(s), ${(await scanSlots(page)).length} slot(s) visible)`
++    );
++
++    // Date strips can be long and horizontally scrolled; keep scanning until
++    // a pass turns up no date we haven't visited yet.
++    for (let pass = 0; pass < MAX_SCAN_PASSES; pass++) {
++      const tabs = await scanTabs(page);
++      const todo = tabs.filter((t) => !done.has(t.label));
++
++      if (!todo.length) break;
++
++      for (const tab of todo) {
++        done.add(tab.label);
++
++        if (tab.disabled) {
++          console.log(`   ⏭  ${tab.label} (no shows)`);
++          continue;
++        }
++
++        // If clicking a date triggers a request, wait for it so we don't read
++        // the previous date's slots while the new ones are still loading.
++        const responded = page
++          .waitForResponse(
++            (r) => ["fetch", "xhr"].includes(r.request().resourceType()),
++            { timeout: 1500 }
++          )
++          .catch(() => null);
++
++        await clickDate(page, tab.label);
++        await responded;
++
++        const slots = await readStableSlots(page);
++
++        console.log(
++          `   📅 ${tab.label}: ${slots.map((s) => s.time).join(", ") || "—"}`
++        );
++
++        for (const s of slots) {
++          out.push({
++            dateLabel: tab.label,
++            time: s.time,
++            price: s.price,
++            soldOut: s.soldOut,
++          });
++        }
++      }
++    }
++
++    // No tab strip at all: a single-date listing. Times belong to the one
++    // date we already know from JSON-LD.
++    if (!done.size && opts.fallbackDateIso) {
++      const slots = await scanSlots(page);
++      const dateLabel = labelFromIso(opts.fallbackDateIso);
++
++      for (const s of slots) {
++        out.push({ dateLabel, time: s.time, price: s.price, soldOut: s.soldOut });
++      }
++    }
++
++    if (!out.length) await dumpFailure(page, opts.eventId);
++
++    return out;
++  } catch (error) {
++    await dumpFailure(page, opts.eventId).catch(() => {});
++    throw error;
++  } finally {
++    stopDump();
++  }
++}
+diff -ruN a/scripts/lib/domScanners.ts b/scripts/lib/domScanners.ts
+--- a/scripts/lib/domScanners.ts	1970-01-01 00:00:00.000000000 +0000
++++ b/scripts/lib/domScanners.ts	2026-10-07 14:06:21.235768403 +0000
+@@ -0,0 +1,181 @@
++/**
++ * Scripts that run INSIDE the BookMyShow page (via page.evaluate).
++ *
++ * They are plain-JS strings on purpose:
++ *   - tsx/esbuild rewrites named functions with a `__name()` helper that does
++ *     not exist in the browser, which breaks page.evaluate(fn) with
++ *     "ReferenceError: __name is not defined". Strings sidestep that.
++ *   - the very same strings can be run under jsdom, so selector logic can be
++ *     tested against saved HTML without a browser (scripts/test-dom-scanners.ts).
++ *
++ * Nothing here relies on BookMyShow class names (they are hashed and change).
++ * Everything is matched on visible text, which is far more stable.
++ *
++ * Both scanners tag the elements they find with data-moc-* attributes so the
++ * Node side can click exactly that element afterwards.
++ */
++
++/**
++ * Finds the date tabs ("TUE 28 JUL", "Fri, 9 Oct", ...).
++ * Returns [{ index, label, disabled }] in DOM order.
++ *
++ * Pass 1 requires a weekday in the text (very low false-positive rate).
++ * Pass 2 (only if pass 1 found nothing) accepts bare "28 Jul", but only on
++ * elements that look clickable.
++ */
++export const SCAN_DATE_TABS = String.raw`(function () {
++  var skipVis = !!window.__MOC_SKIP_VISIBILITY;
++
++  var WITH_WEEKDAY = /^(?:mon|tue|wed|thu|fri|sat|sun)[a-z]*\.?,?\s*\d{1,2}(?:st|nd|rd|th)?\s*,?\s*(?:jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*\.?(?:\s*,?\s*\d{4})?$/i;
++  var NO_WEEKDAY = /^\d{1,2}(?:st|nd|rd|th)?\s*,?\s*(?:jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*\.?(?:\s*,?\s*\d{4})?$/i;
++  var CLICKABLE = 'button,[role="button"],[role="tab"],[role="option"],a,li';
++
++  function text(el) {
++    var t = typeof el.innerText === 'string' && el.innerText ? el.innerText : (el.textContent || '');
++    return t.replace(/\s+/g, ' ').trim();
++  }
++
++  function visible(el) {
++    if (skipVis) return true;
++    return !!(el.offsetWidth || el.offsetHeight || el.getClientRects().length);
++  }
++
++  // climb to the outermost wrapper that still contains only this one label
++  function outermost(el) {
++    var label = text(el);
++    var cur = el;
++    while (cur.parentElement && cur.parentElement !== document.body && text(cur.parentElement) === label) {
++      cur = cur.parentElement;
++    }
++    return cur;
++  }
++
++  function isDisabled(el) {
++    if (el.disabled) return true;
++    if (el.closest('[aria-disabled="true"],[disabled]')) return true;
++    return /(^|[\s_-])disabled([\s_-]|$)/i.test(el.getAttribute('class') || '');
++  }
++
++  function collect(regex, mustBeClickable) {
++    var nodes = document.querySelectorAll('button,[role="button"],[role="tab"],[role="option"],a,li,div,span,p');
++    var seenEls = [];
++    var out = [];
++    for (var i = 0; i < nodes.length; i++) {
++      var el = nodes[i];
++      if (!visible(el)) continue;
++      var t = text(el);
++      if (!t || t.length > 24 || !regex.test(t)) continue;
++      var target = outermost(el);
++      if (mustBeClickable && !target.matches(CLICKABLE) && !target.closest(CLICKABLE)) continue;
++      if (seenEls.indexOf(target) !== -1) continue;
++      seenEls.push(target);
++      out.push({ el: target, label: text(target) });
++    }
++    return out;
++  }
++
++  var old = document.querySelectorAll('[data-moc-date]');
++  for (var o = 0; o < old.length; o++) old[o].removeAttribute('data-moc-date');
++
++  var found = collect(WITH_WEEKDAY, false);
++  if (!found.length) found = collect(NO_WEEKDAY, true);
++
++  // same label twice (e.g. a desktop + mobile strip both rendered): first wins
++  var labels = {};
++  var result = [];
++  for (var k = 0; k < found.length; k++) {
++    var item = found[k];
++    if (labels[item.label]) continue;
++    labels[item.label] = true;
++    var idx = result.length;
++    item.el.setAttribute('data-moc-date', String(idx));
++    result.push({ index: idx, label: item.label, disabled: isDisabled(item.el) });
++  }
++  return result;
++})()`;
++
++/**
++ * Finds the time slots ("9:00 PM", "7:30 PM Fast Filling", "6:00 PM ₹499").
++ * Returns [{ time, price, soldOut }] de-duplicated by time, in DOM order.
++ */
++export const SCAN_TIME_SLOTS = String.raw`(function () {
++  var skipVis = !!window.__MOC_SKIP_VISIBILITY;
++
++  var STARTS_WITH_TIME = /^(\d{1,2}:\d{2}\s*[ap]\.?\s*m\.?)(?![a-z])/i;
++  var ANY_TIME = /\d{1,2}:\d{2}\s*[ap]\.?\s*m\.?/gi;
++
++  function text(el) {
++    var t = typeof el.innerText === 'string' && el.innerText ? el.innerText : (el.textContent || '');
++    return t.replace(/\s+/g, ' ').trim();
++  }
++
++  function visible(el) {
++    if (skipVis) return true;
++    return !!(el.offsetWidth || el.offsetHeight || el.getClientRects().length);
++  }
++
++  function isDisabled(el) {
++    if (el.disabled) return true;
++    if (el.closest('[aria-disabled="true"],[disabled]')) return true;
++    return /(^|[\s_-])disabled([\s_-]|$)/i.test(el.getAttribute('class') || '');
++  }
++
++  // BookMyShow shows availability as colour only (green = available,
++  // orange = fast filling, grey = sold out), with no "sold out" text.
++  // Returns 'grey', 'colour', or null when the colour can't be read.
++  function tone(el) {
++    var cs = window.getComputedStyle(el);
++    var raw = cs.borderTopWidth && parseFloat(cs.borderTopWidth) > 0 ? cs.borderTopColor : '';
++    var m = /rgba?\((\d+)[ ,]+(\d+)[ ,]+(\d+)(?:[ ,/]+([\d.]+))?/.exec(raw || '');
++    if (!m) return null;
++    if (m[4] !== undefined && parseFloat(m[4]) === 0) return null;
++    var r = +m[1], g = +m[2], b = +m[3];
++    return Math.max(r, g, b) - Math.min(r, g, b) < 24 ? 'grey' : 'colour';
++  }
++
++  var nodes = document.querySelectorAll('button,[role="button"],a,li,div,span,p');
++  var bySlot = {};
++  var order = [];
++
++  for (var i = 0; i < nodes.length; i++) {
++    var el = nodes[i];
++    if (!visible(el)) continue;
++
++    var t = text(el);
++    if (!t || t.length > 80) continue;
++
++    var m = t.match(STARTS_WITH_TIME);
++    if (!m) continue;
++
++    // a container holding several times is not a slot
++    if ((t.match(ANY_TIME) || []).length !== 1) continue;
++
++    var time = m[1].replace(/\s+/g, ' ').replace(/\./g, '').toUpperCase();
++    var priceMatch = t.match(/(?:₹\s*|\b(?:rs\.?|inr)\s*)([\d,]+)/i);
++    var soldOut = /sold\s*out|house\s*full|unavailable/i.test(t) || isDisabled(el);
++
++    if (!bySlot[time]) {
++      bySlot[time] = { time: time, price: undefined, soldOut: soldOut, tones: [] };
++      order.push(time);
++    }
++    var tn = tone(el);
++    if (tn) bySlot[time].tones.push(tn);
++
++    var slot = bySlot[time];
++    if (slot.price === undefined && priceMatch) slot.price = Number(priceMatch[1].replace(/,/g, ''));
++    // the tightest element (just the time) can't see the "sold out" badge,
++    // the wrapper can: if any element for this time says sold out, it is.
++    if (soldOut) slot.soldOut = true;
++  }
++
++  // Grey only means "sold out" when other slots on the page are coloured:
++  // that tells us this page really does encode availability by colour.
++  var anyColour = order.some(function (k) { return bySlot[k].tones.indexOf('colour') !== -1; });
++
++  return order.map(function (k) {
++    var slot = bySlot[k];
++    var onlyGrey = slot.tones.length > 0 && slot.tones.indexOf('colour') === -1;
++    if (anyColour && onlyGrey) slot.soldOut = true;
++    return { time: slot.time, price: slot.price, soldOut: slot.soldOut };
++  });
++})()`;
+diff -ruN a/scripts/lib/sessions.ts b/scripts/lib/sessions.ts
+--- a/scripts/lib/sessions.ts	1970-01-01 00:00:00.000000000 +0000
++++ b/scripts/lib/sessions.ts	2026-10-07 14:06:21.235781078 +0000
+@@ -0,0 +1,344 @@
++/**
++ * Pure helpers for turning BookMyShow date/time labels into sessions.
++ *
++ * Nothing in here touches Playwright or the network, so it can be unit
++ * tested offline (see scripts/test-sessions.ts).
++ *
++ * A "listing" is one BookMyShow event (eventId, e.g. ET00312493).
++ * A "session" is one date + time of that listing. A listing can have many.
++ */
++
++const IST_OFFSET_MIN = 330; // Asia/Kolkata, no DST
++const DAY_MS = 24 * 60 * 60 * 1000;
++const DEFAULT_DURATION_MIN = 90;
++
++const MONTHS: Record<string, number> = {
++  jan: 1, feb: 2, mar: 3, apr: 4, may: 5, jun: 6,
++  jul: 7, aug: 8, sep: 9, oct: 10, nov: 11, dec: 12,
++};
++
++const WEEKDAYS: Record<string, number> = {
++  sun: 0, mon: 1, tue: 2, wed: 3, thu: 4, fri: 5, sat: 6,
++};
++
++const WEEKDAY_NAMES = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
++const MONTH_NAMES = [
++  "Jan", "Feb", "Mar", "Apr", "May", "Jun",
++  "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
++];
++
++const pad = (n: number) => String(n).padStart(2, "0");
++
++// ---------------------------------------------------------------------------
++// Types
++// ---------------------------------------------------------------------------
++
++/** What the browser collector hands back: raw, human-formatted labels. */
++export interface RawSession {
++  /** e.g. "TUE 28 JUL" or "Tue, 28 Jul 2026" */
++  dateLabel: string;
++  /** e.g. "9:00 PM" */
++  time: string;
++  price?: number;
++  soldOut?: boolean;
++}
++
++export interface Session {
++  sessionId: string;
++  startDate: string; // ISO with +05:30
++  endDate: string; // ISO with +05:30
++  date: string; // display label, e.g. "Fri 9 Oct"
++  time: string; // display label, e.g. "8:00 PM"
++  price?: number;
++  availability: "available" | "sold_out";
++}
++
++export interface ParsedDateLabel {
++  weekday?: number; // 0 = Sunday
++  day: number;
++  month: number; // 1-12
++  year?: number;
++}
++
++// ---------------------------------------------------------------------------
++// Time zone helpers (IST only, which is all Bengaluru needs)
++// ---------------------------------------------------------------------------
++
++/** Y/M/D/h/m of `date` as seen on an IST wall clock. */
++export function istParts(date: Date) {
++  const s = new Date(date.getTime() + IST_OFFSET_MIN * 60_000);
++  return {
++    y: s.getUTCFullYear(),
++    m: s.getUTCMonth() + 1,
++    d: s.getUTCDate(),
++    h: s.getUTCHours(),
++    mi: s.getUTCMinutes(),
++    weekday: s.getUTCDay(),
++  };
++}
++
++export function toIstIso(
++  y: number, m: number, d: number, h: number, mi: number
++): string {
++  return `${y}-${pad(m)}-${pad(d)}T${pad(h)}:${pad(mi)}:00+05:30`;
++}
++
++export function formatIstIso(date: Date): string {
++  const p = istParts(date);
++  return toIstIso(p.y, p.m, p.d, p.h, p.mi);
++}
++
++/** "Tue 28 Jul 2026" from any ISO timestamp (used for the fallback date). */
++export function labelFromIso(iso: string): string {
++  const p = istParts(new Date(iso));
++  return `${WEEKDAY_NAMES[p.weekday]} ${p.d} ${MONTH_NAMES[p.m - 1]} ${p.y}`;
++}
++
++// ---------------------------------------------------------------------------
++// Label parsing
++// ---------------------------------------------------------------------------
++
++const WD = "(sun|mon|tue|wed|thu|fri|sat)";
++const MO = "(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)";
++
++// "Tue 28 Jul", "TUE28JUL", "Tue, 28 Jul 2026", "28th Jul"
++const DAY_FIRST = new RegExp(
++  `^(?:${WD}[a-z]*\\.?,?\\s*)?(\\d{1,2})(?:st|nd|rd|th)?\\s*,?\\s*${MO}[a-z]*\\.?(?:\\s*,?\\s*(\\d{4}))?$`,
++  "i"
++);
++// "Tue, Jul 28", "Jul 28 2026"
++const MONTH_FIRST = new RegExp(
++  `^(?:${WD}[a-z]*\\.?,?\\s*)?${MO}[a-z]*\\.?\\s*(\\d{1,2})(?:st|nd|rd|th)?(?:\\s*,?\\s*(\\d{4}))?$`,
++  "i"
++);
++
++export function parseDateLabel(label: string): ParsedDateLabel | null {
++  const t = label.replace(/\s+/g, " ").trim();
++
++  let m = t.match(DAY_FIRST);
++  if (m) {
++    return {
++      weekday: m[1] ? WEEKDAYS[m[1].toLowerCase()] : undefined,
++      day: Number(m[2]),
++      month: MONTHS[m[3].toLowerCase()],
++      year: m[4] ? Number(m[4]) : undefined,
++    };
++  }
++
++  m = t.match(MONTH_FIRST);
++  if (m) {
++    return {
++      weekday: m[1] ? WEEKDAYS[m[1].toLowerCase()] : undefined,
++      day: Number(m[3]),
++      month: MONTHS[m[2].toLowerCase()],
++      year: m[4] ? Number(m[4]) : undefined,
++    };
++  }
++
++  return null;
++}
++
++/**
++ * BookMyShow date tabs usually have no year ("TUE 28 JUL"). Work it out:
++ * try last/this/next year, keep only those where the weekday matches (when
++ * the label has one), and take the earliest that isn't in the past.
++ */
++export function resolveDate(
++  p: ParsedDateLabel,
++  now: Date = new Date()
++): { y: number; m: number; d: number } | null {
++  if (p.year) return { y: p.year, m: p.month, d: p.day };
++
++  const today = istParts(now);
++  const todayUtc = Date.UTC(today.y, today.m - 1, today.d);
++
++  const candidates = [today.y - 1, today.y, today.y + 1]
++    .map((y) => ({ y, t: Date.UTC(y, p.month - 1, p.day) }))
++    // reject impossible dates (30 Feb, 29 Feb in a non-leap year...)
++    .filter((c) => new Date(c.t).getUTCMonth() === p.month - 1)
++    .filter(
++      (c) => p.weekday === undefined || new Date(c.t).getUTCDay() === p.weekday
++    );
++
++  if (!candidates.length) return null;
++
++  // 1 day of slack so "today" isn't thrown out by clock skew
++  const upcoming = candidates.filter((c) => c.t >= todayUtc - DAY_MS);
++  const pick = upcoming.length ? upcoming[0] : candidates[candidates.length - 1];
++
++  return { y: pick.y, m: p.month, d: p.day };
++}
++
++export function parseTime(label: string): { h: number; mi: number } | null {
++  const m = label.match(/(\d{1,2})(?::(\d{2}))?\s*([ap])\.?\s*m\b/i);
++  if (!m) return null;
++
++  const h12 = Number(m[1]);
++  const mi = m[2] ? Number(m[2]) : 0;
++
++  if (h12 < 1 || h12 > 12 || mi > 59) return null;
++
++  const pm = m[3].toLowerCase() === "p";
++
++  return { h: (h12 % 12) + (pm ? 12 : 0), mi };
++}
++
++/** "PT1H10M" -> 70. Returns undefined when it can't be read. */
++export function parseIsoDurationMinutes(value?: string): number | undefined {
++  if (!value) return undefined;
++
++  const m = value.match(/^P(?:(\d+)D)?(?:T(?:(\d+)H)?(?:(\d+)M)?)?$/i);
++  if (!m) return undefined;
++
++  const total =
++    Number(m[1] ?? 0) * 1440 + Number(m[2] ?? 0) * 60 + Number(m[3] ?? 0);
++
++  return total > 0 ? total : undefined;
++}
++
++/** Best guess at how long a show runs, from JSON-LD fields. */
++export function durationMinutesFrom(details: {
++  duration?: string;
++  startDate?: string;
++  endDate?: string;
++}): number {
++  const fromDuration = parseIsoDurationMinutes(details.duration);
++  if (fromDuration) return fromDuration;
++
++  if (details.startDate && details.endDate) {
++    const diff =
++      (Date.parse(details.endDate) - Date.parse(details.startDate)) / 60_000;
++
++    // JSON-LD sometimes spans the whole run (days); ignore anything silly
++    if (diff > 0 && diff <= 6 * 60) return Math.round(diff);
++  }
++
++  return DEFAULT_DURATION_MIN;
++}
++
++// ---------------------------------------------------------------------------
++// Session building
++// ---------------------------------------------------------------------------
++
++export function buildSessions(
++  raw: RawSession[],
++  opts: { eventId: string; durationMinutes: number; now?: Date }
++): Session[] {
++  const now = opts.now ?? new Date();
++  const byId = new Map<string, Session>();
++
++  for (const r of raw) {
++    const dateParts = parseDateLabel(r.dateLabel);
++    const timeParts = parseTime(r.time);
++
++    if (!dateParts || !timeParts) continue;
++
++    const resolved = resolveDate(dateParts, now);
++    if (!resolved) continue;
++
++    const startDate = toIstIso(
++      resolved.y, resolved.m, resolved.d, timeParts.h, timeParts.mi
++    );
++
++    const start = new Date(startDate);
++
++    // The site only lists upcoming shows; anything already started is noise.
++    if (start.getTime() <= now.getTime()) continue;
++
++    const sessionId = `${opts.eventId}@${resolved.y}${pad(resolved.m)}${pad(
++      resolved.d
++    )}T${pad(timeParts.h)}${pad(timeParts.mi)}`;
++
++    const existing = byId.get(sessionId);
++    const soldOut = Boolean(r.soldOut);
++
++    if (existing) {
++      // same slot seen twice: keep price if we only just found it, and only
++      // call it sold out if every sighting said so
++      existing.price ??= r.price;
++      if (!soldOut) existing.availability = "available";
++      continue;
++    }
++
++    const weekday = WEEKDAY_NAMES[istParts(start).weekday];
++
++    byId.set(sessionId, {
++      sessionId,
++      startDate,
++      endDate: formatIstIso(
++        new Date(start.getTime() + opts.durationMinutes * 60_000)
++      ),
++      date: `${weekday} ${resolved.d} ${MONTH_NAMES[resolved.m - 1]}`,
++      time: `${timeParts.h % 12 === 0 ? 12 : timeParts.h % 12}:${pad(
++        timeParts.mi
++      )} ${timeParts.h >= 12 ? "PM" : "AM"}`,
++      price: r.price,
++      availability: soldOut ? "sold_out" : "available",
++    });
++  }
++
++  return [...byId.values()].sort(
++    (a, b) => Date.parse(a.startDate) - Date.parse(b.startDate)
++  );
++}
++
++// ---------------------------------------------------------------------------
++// Cache handling
++// ---------------------------------------------------------------------------
++
++interface CachedRecord {
++  eventId: string;
++  startDate: string;
++  scrapedAt?: string;
++}
++
++/**
++ * Splits the cached records into:
++ *   fresh  - listings scraped within the TTL: reuse as-is, skip re-scraping
++ *   stale  - listings that need another look (kept as a fallback in case the
++ *            re-scrape fails, so a flaky run doesn't wipe good data)
++ *
++ * Past sessions are dropped either way.
++ *
++ * Why a TTL at all: the old code skipped any eventId it had ever seen, so a
++ * date added to a listing later (or a session that sold out) was never
++ * noticed until the single cached date had passed.
++ */
++export function partitionCache<T extends CachedRecord>(
++  records: T[],
++  now: Date,
++  ttlHours: number
++): { fresh: T[]; stale: Map<string, T[]> } {
++  const upcoming = records.filter(
++    (r) => r.startDate && Date.parse(r.startDate) > now.getTime()
++  );
++
++  const byEvent = new Map<string, T[]>();
++
++  for (const r of upcoming) {
++    const list = byEvent.get(r.eventId) ?? [];
++    list.push(r);
++    byEvent.set(r.eventId, list);
++  }
++
++  const fresh: T[] = [];
++  const stale = new Map<string, T[]>();
++
++  for (const [eventId, list] of byEvent) {
++    // records from before this change have no scrapedAt -> 0 -> stale, which
++    // forces one full re-scrape and migrates them to per-session records.
++    const newest = Math.max(
++      ...list.map((r) => Date.parse(r.scrapedAt ?? "") || 0)
++    );
++
++    const age = now.getTime() - newest;
++
++    if (ttlHours > 0 && age < ttlHours * 3_600_000) {
++      fresh.push(...list);
++    } else {
++      stale.set(eventId, list);
++    }
++  }
++
++  return { fresh, stale };
++}
+diff -ruN a/scripts/scrape.ts b/scripts/scrape.ts
+--- a/scripts/scrape.ts	2026-10-07 14:06:21.104045436 +0000
++++ b/scripts/scrape.ts	2026-10-07 14:06:21.235598265 +0000
+@@ -2,13 +2,27 @@
+ import { chromium, Page, BrowserContext } from "playwright";
+ import fs from "fs/promises";
+ import path from "path";
+-import { parseISO, isAfter } from "date-fns";
+ 
+ import { parseVenuePage } from "../src/lib/parseVenuePage";
+ import { parseEventPage } from "../src/lib/parseEventPage";
+ 
+-import { reachTicketPage } from "./bookingFlow";
+-import { parseTicketPage } from "./parseTicketPage";
++import { collectSessions } from "./collectSessions";
++import {
++  Session,
++  buildSessions,
++  durationMinutesFrom,
++  partitionCache,
++} from "./lib/sessions";
++
++// Re-scrape a listing if it was last scraped more than this many hours ago.
++// New dates get added to listings over time, so cached listings must expire.
++// Override: SCRAPE_TTL_HOURS=6 npm run scrape      Ignore cache: --force
++const TTL_HOURS = Number(process.env.SCRAPE_TTL_HOURS ?? 12);
++const FORCE = process.argv.includes("--force");
++// Scrape just one listing while debugging:  npm run scrape -- --only=ET00312493
++const ONLY = process.argv
++  .find((a) => a.startsWith("--only="))
++  ?.split("=")[1];
+ 
+ const VENUE_URL =
+   "https://in.bookmyshow.com/explore/c/venues/ministry-of-comedy-koramangala/mcbk";
+@@ -67,7 +81,10 @@
+ async function fetchEventDetails(
+   page: Page,
+   url: string
+-) {
++): Promise<{
++  details: ReturnType<typeof parseEventPage>;
++  sessions: Session[];
++}> {
+ 
+   //
+   // ---------------------------------------
+@@ -101,11 +118,11 @@
+   ).length
+ );
+ 
+-  let eventDetails;
++  let details: ReturnType<typeof parseEventPage>;
+ 
+   try {
+ 
+-    eventDetails = parseEventPage(eventHtml);
++    details = parseEventPage(eventHtml);
+ 
+   } catch (error) {
+ 
+@@ -142,27 +159,49 @@
+ 
+ console.log("====================================");
+ 
+-  await reachTicketPage(page);
+-
+   //
+   // ---------------------------------------
+-  // Parse ticket page
++  // Every date + time this listing sells
+   // ---------------------------------------
+   //
+ 
+-  const ticketDetails =
+-    await parseTicketPage(page);
++  const rawSessions = await collectSessions(
++    page,
++    url,
++    {
++      eventId: details.eventId || eventIdFromUrl(url),
++      fallbackDateIso: details.startDate || undefined,
++    }
++  );
++
++  const sessions = buildSessions(rawSessions, {
++    eventId: details.eventId || eventIdFromUrl(url),
++    durationMinutes: durationMinutesFrom(details),
++  });
+ 
+   //
+-  // ---------------------------------------
+-  // Merge
+-  // ---------------------------------------
++  // JSON-LD only ever describes ONE session, so it is just a sanity check.
+   //
+ 
+-  return {
+-    ...eventDetails,
+-    ...ticketDetails,
+-  };
++  if (
++    sessions.length &&
++    details.startDate &&
++    !sessions.some(
++      (s) => Date.parse(s.startDate) === Date.parse(details.startDate)
++    )
++  ) {
++    console.warn(
++      `⚠️ JSON-LD start ${details.startDate} not among collected sessions`
++    );
++  }
++
++  return { details, sessions };
++}
++
++function eventIdFromUrl(url: string) {
++  return (
++    new URL(url).pathname.split("/").filter(Boolean).at(-1) ?? ""
++  );
+ }
+ 
+ async function run() {
+@@ -232,22 +271,22 @@
+ 
+ const now = new Date();
+ 
+-// Keep only future shows
+-existingShows = existingShows.filter((show) =>
+-  isAfter(parseISO(show.startDate), now)
++// Past sessions are dropped. Listings scraped within the TTL are reused as-is;
++// older ones are re-scraped (their old records are kept only as a fallback in
++// case the re-scrape fails).
++const { fresh, stale } = partitionCache(
++  existingShows,
++  now,
++  FORCE || ONLY ? 0 : TTL_HOURS
+ );
+ 
+-console.log(
+-  `📦 Retained ${existingShows.length} upcoming cached shows`
+-);
++const freshIds = new Set(fresh.map((s) => s.eventId));
+ 
+-const existingIds = new Set(
+-  existingShows.map((s) => s.eventId)
++console.log(
++  `📦 Reusing ${fresh.length} session(s) from ${freshIds.size} recently scraped listing(s)`
+ );
+ 
+-const finalShows = [...existingShows];
+-
+-
++const finalShows: any[] = [...fresh];
+ 
+ const ignoredShows = allShows.filter((show) =>
+   scraperConfig.ignoredEvents.includes(show.eventId)
+@@ -260,11 +299,8 @@
+ const shows = allShows.filter(
+   (show) =>
+     !scraperConfig.ignoredEvents.includes(show.eventId) &&
+-    !existingIds.has(show.eventId)
+-);
+-
+-console.log(
+-  `⚡ Skipping ${existingIds.size} cached event(s)`
++    !freshIds.has(show.eventId) &&
++    (!ONLY || show.eventId === ONLY)
+ );
+ 
+ console.log(
+@@ -286,23 +322,55 @@
+       `\n[${i + 1}/${shows.length}] ${summary.title}`
+     );
+ 
++    const scrapedAt = new Date().toISOString();
++
+     try {
+ 
+-      const details =
++      const { details, sessions } =
+         await fetchEventDetails(
+           page,
+           summary.bookingUrl
+         );
+ 
+-      finalShows.push({
+-
++      const base = {
+         ...summary,
+-
+         ...details,
++        // the venue page is the source of truth for identity
++        eventId: summary.eventId || details.eventId,
++        bookingUrl: summary.bookingUrl || details.bookingUrl,
++      };
++
++      if (sessions.length) {
++
++        for (const session of sessions) {
++          finalShows.push({
++            ...base,
++            ...session,
++            // keep the listing price when a session has none of its own
++            price: session.price ?? details.price,
++            scrapedAt,
++          });
++        }
++
++        console.log(
++          `✅ ${sessions.length} session(s): ` +
++          sessions.map((s) => `${s.date} ${s.time}`).join(" | ")
++        );
++
++      } else if (stale.has(summary.eventId)) {
+ 
+-      });
++        // collector found nothing but we have older data: keep it
++        finalShows.push(...stale.get(summary.eventId)!);
+ 
+-      console.log("✅ Parsed");
++        console.warn("⚠️ No sessions found, keeping previous data");
++
++      } else {
++
++        // last resort = the old behaviour: the single JSON-LD session
++        finalShows.push({ ...base, scrapedAt });
++
++        console.warn("⚠️ No sessions found, saved JSON-LD date only");
++      }
+ 
+     } catch (error) {
+ 
+@@ -313,6 +381,11 @@
+ 
+       console.error(error);
+ 
++      // don't lose a listing we already knew about
++      if (stale.has(summary.eventId)) {
++        finalShows.push(...stale.get(summary.eventId)!);
++      }
++
+     }
+ 
+     //
+@@ -328,6 +401,18 @@
+   // ---------------------------------------
+   //
+ 
++  // Listings we didn't visit (no longer on the venue page): keep their
++  // upcoming sessions, as before, rather than silently dropping them.
++  const visited = new Set(shows.map((s) => s.eventId));
++
++  for (const [eventId, records] of stale) {
++    if (!visited.has(eventId)) finalShows.push(...records);
++  }
++
++  finalShows.sort(
++    (a, b) => Date.parse(a.startDate) - Date.parse(b.startDate)
++  );
++
+   await fs.mkdir("data", {
+     recursive: true,
+   });
+@@ -345,7 +430,7 @@
+   );
+ 
+   console.log(
+-    `\n✅ Saved ${finalShows.length} shows`
++    `\n✅ Saved ${finalShows.length} sessions`
+   );
+ 
+   await browser.close();
+diff -ruN a/scripts/test-collector.ts b/scripts/test-collector.ts
+--- a/scripts/test-collector.ts	1970-01-01 00:00:00.000000000 +0000
++++ b/scripts/test-collector.ts	2026-10-07 14:06:21.235792966 +0000
+@@ -0,0 +1,79 @@
++/**
++ * Runs collectSessions() against a fake Playwright Page backed by jsdom, so the
++ * click loop can be tested without a browser.   npx tsx scripts/test-collector.ts
++ * (needs: npm i -D jsdom @types/jsdom)
++ */
++import assert from "node:assert/strict";
++import { JSDOM } from "jsdom";
++
++import { collectSessions } from "./collectSessions";
++import { buildSessions } from "./lib/sessions";
++
++const NOW = new Date("2026-10-07T11:00:00+05:30");
++
++function fakePage(html: string) {
++  const dom = new JSDOM(html, { runScripts: "dangerously", url: "https://in.bookmyshow.com/" });
++  const win: any = dom.window;
++  win.__MOC_SKIP_VISIBILITY = true;
++  const gotos: string[] = [];
++
++  const page: any = {
++    goto: async (u: string) => { gotos.push(u); },
++    url: () => gotos.at(-1) ?? "",
++    waitForTimeout: (ms: number) => new Promise((r) => setTimeout(r, Math.min(ms, 50))),
++    waitForResponse: () => new Promise((r) => setTimeout(() => r(null), 30)),
++    evaluate: async (s: any) => JSON.parse(JSON.stringify(win.eval(s))),
++    content: async () => dom.serialize(),
++    screenshot: async () => {},
++    on() {}, off() {},
++    locator: (sel: string) => ({
++      first: () => ({
++        scrollIntoViewIfNeeded: async () => {},
++        click: async () => win.document.querySelector(sel).click(),
++        evaluate: async (f: any) => f(win.document.querySelector(sel)),
++      }),
++    }),
++  };
++  return { page, gotos };
++}
++
++async function run(name: string, html: string, expected: string[]) {
++  const { page, gotos } = fakePage(html);
++  const raw = await collectSessions(page, "https://in.bookmyshow.com/events/x/ET1?webview=true", {
++    eventId: "ET1",
++    fallbackDateIso: "2026-10-09T22:00:00+05:30",
++  });
++  const sessions = buildSessions(raw, { eventId: "ET1", durationMinutes: 90, now: NOW });
++
++  assert.equal(gotos[0], "https://in.bookmyshow.com/events/x/ET1/date-time/MCBK");
++  assert.deepEqual(sessions.map((s) => `${s.date} ${s.time}`), expected);
++  console.log(`  ✓ ${name}`);
++}
++
++const DATA = `{"Fri 09 Oct":["10:00 PM","11:59 PM"],"Sat 10 Oct":["10:00 PM"],"Sun 11 Oct":["11:59 PM"]}`;
++
++const SCRIPT = (delay: number) => `<script>
++  var data=${DATA};
++  function show(k){document.getElementById('slots').innerHTML=(data[k]||[]).map(function(t){return '<div>'+t+'</div>'}).join('');}
++  show("Fri 09 Oct");
++  setTimeout(function(){
++    var s=document.getElementById('strip');
++    Object.keys(data).forEach(function(k){var d=document.createElement('div');d.textContent=k;
++      d.addEventListener('click',function(){show(k)});s.appendChild(d);});
++  }, ${delay});
++</script>`;
++
++const EXPECTED = [
++  "Fri 9 Oct 10:00 PM", "Fri 9 Oct 11:59 PM", "Sat 10 Oct 10:00 PM", "Sun 11 Oct 11:59 PM",
++];
++
++(async () => {
++  console.log("collectSessions");
++  const shell = (delay: number) =>
++    `<body><div id="strip"></div><div id="slots"></div>${SCRIPT(delay)}</body>`;
++
++  await run("date strip already rendered", shell(0), EXPECTED);
++  // regression: pills render first, date strip a moment later -> used to return Friday only
++  await run("date strip renders AFTER the time pills", shell(1500), EXPECTED);
++  console.log("\ncollector tests passed");
++})();
+diff -ruN a/scripts/test-dom-scanners.ts b/scripts/test-dom-scanners.ts
+--- a/scripts/test-dom-scanners.ts	1970-01-01 00:00:00.000000000 +0000
++++ b/scripts/test-dom-scanners.ts	2026-10-07 14:06:21.235726226 +0000
+@@ -0,0 +1,190 @@
++/**
++ * Tests the in-page scanners (scripts/lib/domScanners.ts) without a browser.
++ *
++ *   npm i -D jsdom @types/jsdom        (one-off)
++ *   npx tsx scripts/test-dom-scanners.ts                      # built-in fixtures
++ *   npx tsx scripts/test-dom-scanners.ts playwright/sessions-failed-ET0001.html
++ *
++ * With a file argument it just prints what the scanners find in that page,
++ * which is the fastest way to debug a "0 sessions found" run: open the HTML
++ * the scraper dumped, see what the scanners see, tweak domScanners.ts, repeat.
++ */
++import assert from "node:assert/strict";
++import fs from "node:fs";
++import { JSDOM } from "jsdom";
++
++import { SCAN_DATE_TABS, SCAN_TIME_SLOTS } from "./lib/domScanners";
++
++function scan(html: string) {
++  const dom = new JSDOM(html, { runScripts: "outside-only" });
++  const win = dom.window as any;
++
++  // jsdom has no layout, so every element looks invisible without this.
++  win.__MOC_SKIP_VISIBILITY = true;
++
++  return {
++    document: win.document as Document,
++    // JSON round-trip: jsdom arrays come from another realm and would fail
++    // assert.deepEqual's prototype check.
++    tabs: JSON.parse(JSON.stringify(win.eval(SCAN_DATE_TABS))) as {
++      index: number; label: string; disabled: boolean;
++    }[],
++    slots: JSON.parse(JSON.stringify(win.eval(SCAN_TIME_SLOTS))) as {
++      time: string; price?: number; soldOut: boolean;
++    }[],
++  };
++}
++
++// ---------------------------------------------------------------------------
++// CLI mode: inspect a saved page
++// ---------------------------------------------------------------------------
++
++if (process.argv[2]) {
++  const { tabs, slots } = scan(fs.readFileSync(process.argv[2], "utf8"));
++  console.log("date tabs :", tabs);
++  console.log("time slots:", slots);
++  process.exit(0);
++}
++
++// ---------------------------------------------------------------------------
++// Fixtures
++// ---------------------------------------------------------------------------
++
++let passed = 0;
++function test(name: string, fn: () => void) {
++  fn();
++  passed++;
++  console.log(`  ✓ ${name}`);
++}
++
++console.log("date tabs");
++
++test("stacked <span>s inside buttons, disabled day flagged", () => {
++  const { tabs, document } = scan(`
++    <div>
++      <button><span>TUE</span><span>28</span><span>JUL</span></button>
++      <button><span>WED</span><span>29</span><span>JUL</span></button>
++      <button disabled><span>THU</span><span>30</span><span>JUL</span></button>
++    </div>`);
++
++  assert.equal(tabs.length, 3);
++  assert.deepEqual(tabs.map((t) => t.disabled), [false, false, true]);
++  // the scanner tagged the <button>, not an inner span
++  assert.equal(
++    document.querySelector('[data-moc-date="0"]')?.tagName,
++    "BUTTON"
++  );
++});
++
++test("<li role=tab> with 'Fri, 9 Oct'; hidden duplicate strip collapses", () => {
++  const { tabs } = scan(`
++    <ul role="tablist">
++      <li role="tab">Fri, 9 Oct</li><li role="tab">Sat, 10 Oct</li>
++    </ul>
++    <ul class="mobile-copy">
++      <li role="tab">Fri, 9 Oct</li><li role="tab">Sat, 10 Oct</li>
++    </ul>`);
++
++  assert.deepEqual(tabs.map((t) => t.label), ["Fri, 9 Oct", "Sat, 10 Oct"]);
++});
++
++test("climbs to the outer wrapper that only holds that one date", () => {
++  const { document, tabs } = scan(
++    `<ul><li id="x"><div><span>Fri 9 Oct</span></div></li><li><div><span>Sat 10 Oct</span></div></li></ul>`
++  );
++  assert.equal(tabs.length, 2);
++  assert.equal(document.querySelector('[data-moc-date="0"]')?.id, "x");
++});
++
++test("ignores prose and date ranges", () => {
++  const { tabs } = scan(`
++    <p>Tue 28 Jul 2026 - Wed 29 Jul 2026</p>
++    <p>Doors open on Fri 9 Oct at 7pm, show begins later in the evening</p>`);
++  assert.equal(tabs.length, 0);
++});
++
++test("falls back to 'day month' only on clickable elements", () => {
++  const { tabs } = scan(`
++    <p>28 Jul</p>
++    <button>29 Jul</button>
++    <button>30 Jul</button>`);
++  assert.deepEqual(tabs.map((t) => t.label), ["29 Jul", "30 Jul"]);
++});
++
++console.log("time slots");
++
++test("pills with sub-labels, price, and sold-out states", () => {
++  const { slots } = scan(`
++    <div>Ministry Of Comedy: Koramangala</div>
++    <ul>
++      <li><button><span>9:00 PM</span><span>Fast Filling</span></button></li>
++      <li><button>6:00 PM</button></li>
++      <li><div>8:00 PM ₹499</div></li>
++      <li><button disabled>7:00 PM</button></li>
++      <li><button>5:00 PM Sold Out</button></li>
++    </ul>`);
++
++  assert.deepEqual(
++    slots.map((s) => [s.time, s.soldOut, s.price]),
++    [
++      ["9:00 PM", false, undefined],
++      ["6:00 PM", false, undefined],
++      ["8:00 PM", false, 499],
++      ["7:00 PM", true, undefined],
++      ["5:00 PM", true, undefined],
++    ]
++  );
++});
++
++test("containers holding several times, and prose, are not slots", () => {
++  const { slots } = scan(`
++    <div>9:00 PM 6:00 PM</div>
++    <footer>Gates open at 8:00 PM, show starts 9:00 PM</footer>
++    <p>Show runs 9:00 PM to 10:10 PM</p>`);
++  assert.equal(slots.length, 0);
++});
++
++test("same time reported by wrapper + inner span is merged (sold-out wins)", () => {
++  const { slots } = scan(
++    `<button><span>7:30 PM</span> <em>Sold Out</em></button>`
++  );
++  assert.equal(slots.length, 1);
++  assert.equal(slots[0].soldOut, true);
++});
++
++test("'Doors 8' is not mistaken for a price", () => {
++  const { slots } = scan(`<div>9:00 PM Doors 8</div>`);
++  assert.equal(slots[0].price, undefined);
++});
++
++console.log("as seen on the real page (screenshot of the date-time view)");
++
++test("zero-padded dates ('Fri 09 Oct') and late-night times", () => {
++  const { tabs, slots } = scan(`
++    <h3>Select Date</h3>
++    <div><div class="d on">Fri 09 Oct</div><div class="d">Sat 10 Oct</div><div class="d">Sun 11 Oct</div></div>
++    <h3>Select Time</h3>
++    <div><div class="t">10:00 PM</div><div class="t">11:59 PM</div></div>`);
++
++  assert.deepEqual(tabs.map((t) => t.label), ["Fri 09 Oct", "Sat 10 Oct", "Sun 11 Oct"]);
++  assert.deepEqual(slots.map((s) => s.time), ["10:00 PM", "11:59 PM"]);
++});
++
++test("availability by border colour only: grey = sold out, green/orange = open", () => {
++  const { slots } = scan(`
++    <div style="border:2px solid rgb(110,208,111)">9:00 PM</div>
++    <div style="border:2px solid rgb(224,148,120)">10:00 PM</div>
++    <div style="border:2px solid rgb(204,204,204)">11:59 PM</div>`);
++
++  assert.deepEqual(slots.map((s) => s.soldOut), [false, false, true]);
++});
++
++test("all-grey page is NOT read as everything sold out", () => {
++  const { slots } = scan(`
++    <div style="border:1px solid rgb(200,200,200)">9:00 PM</div>
++    <div style="border:1px solid rgb(200,200,200)">10:00 PM</div>`);
++
++  assert.deepEqual(slots.map((s) => s.soldOut), [false, false]);
++});
++
++console.log(`\n${passed} DOM scanner tests passed`);
+diff -ruN a/scripts/test-sessions.ts b/scripts/test-sessions.ts
+--- a/scripts/test-sessions.ts	1970-01-01 00:00:00.000000000 +0000
++++ b/scripts/test-sessions.ts	2026-10-07 14:06:21.235714438 +0000
+@@ -0,0 +1,218 @@
++/**
++ * Offline tests for scripts/lib/sessions.ts.   Run:  npx tsx scripts/test-sessions.ts
++ * No browser, no network, no extra dependencies.
++ */
++import assert from "node:assert/strict";
++
++import {
++  buildSessions,
++  durationMinutesFrom,
++  labelFromIso,
++  parseDateLabel,
++  parseIsoDurationMinutes,
++  parseTime,
++  partitionCache,
++  resolveDate,
++} from "./lib/sessions";
++
++let passed = 0;
++
++function test(name: string, fn: () => void) {
++  try {
++    fn();
++    passed++;
++    console.log(`  ✓ ${name}`);
++  } catch (err) {
++    console.error(`  ✗ ${name}`);
++    throw err;
++  }
++}
++
++// "Now" for every test: Wed 7 Oct 2026, 11:00 IST
++const NOW = new Date("2026-10-07T11:00:00+05:30");
++
++console.log("parseDateLabel");
++
++test("stacked tab text with no separators (textContent of spans)", () => {
++  assert.deepEqual(parseDateLabel("TUE28JUL"), {
++    weekday: 2, day: 28, month: 7, year: undefined,
++  });
++});
++
++test("spaced, comma, ordinal and year variants", () => {
++  assert.equal(parseDateLabel("Fri 9 Oct")?.day, 9);
++  assert.equal(parseDateLabel("Fri, 9 Oct")?.month, 10);
++  assert.equal(parseDateLabel("Sat 10th Oct")?.day, 10);
++  assert.equal(parseDateLabel("Tue 28 Jul 2026")?.year, 2026);
++  assert.equal(parseDateLabel("Sept 5")?.month, 9);
++  assert.equal(parseDateLabel("Today"), null);
++});
++
++console.log("resolveDate (year inference)");
++
++test("picks this year when the date is still ahead", () => {
++  const p = parseDateLabel("Fri 9 Oct")!;
++  assert.deepEqual(resolveDate(p, NOW), { y: 2026, m: 10, d: 9 });
++});
++
++test("rolls over to next year across new year, validated by weekday", () => {
++  // 1 Jan 2027 is a Friday
++  const late = new Date("2026-12-28T10:00:00+05:30");
++  assert.deepEqual(resolveDate(parseDateLabel("Fri 1 Jan")!, late), {
++    y: 2027, m: 1, d: 1,
++  });
++});
++
++test("weekday disambiguates the year", () => {
++  // 9 Oct 2026 is a Friday; 9 Oct 2027 is a Saturday.
++  assert.equal(resolveDate(parseDateLabel("Fri 9 Oct")!, NOW)?.y, 2026);
++  // "Sat 9 Oct" can't be 2026, so it must resolve to 2027
++  assert.equal(resolveDate(parseDateLabel("Sat 9 Oct")!, NOW)?.y, 2027);
++});
++
++test("rejects impossible dates", () => {
++  assert.equal(resolveDate(parseDateLabel("30 Feb")!, NOW), null);
++});
++
++console.log("parseTime / durations");
++
++test("12-hour clock edge cases", () => {
++  assert.deepEqual(parseTime("12:00 AM"), { h: 0, mi: 0 });
++  assert.deepEqual(parseTime("12:30 PM"), { h: 12, mi: 30 });
++  assert.deepEqual(parseTime("8:00 PM"), { h: 20, mi: 0 });
++  assert.deepEqual(parseTime("7pm"), { h: 19, mi: 0 });
++  assert.equal(parseTime("13:00 PM"), null);
++});
++
++test("ISO durations", () => {
++  assert.equal(parseIsoDurationMinutes("PT1H10M"), 70);
++  assert.equal(parseIsoDurationMinutes("PT90M"), 90);
++  assert.equal(parseIsoDurationMinutes("garbage"), undefined);
++});
++
++test("duration falls back to start/end, then to a default", () => {
++  assert.equal(
++    durationMinutesFrom({
++      startDate: "2026-10-10T18:00:00+05:30",
++      endDate: "2026-10-10T19:15:00+05:30",
++    }),
++    75
++  );
++  // an end date days later means "end of the run", not show length
++  assert.equal(
++    durationMinutesFrom({
++      startDate: "2026-07-28T21:00:00+05:30",
++      endDate: "2026-07-29T21:00:00+05:30",
++    }),
++    90
++  );
++});
++
++console.log("buildSessions");
++
++test("one listing, three days: Fri 8pm, Sat 6pm, Sun 5pm -> three sessions", () => {
++  const sessions = buildSessions(
++    [
++      { dateLabel: "FRI 9 OCT", time: "8:00 PM", price: 499 },
++      { dateLabel: "SAT 10 OCT", time: "6:00 PM", price: 499 },
++      { dateLabel: "SUN 11 OCT", time: "5:00 PM", price: 399, soldOut: true },
++    ],
++    { eventId: "ET00000001", durationMinutes: 70, now: NOW }
++  );
++
++  assert.equal(sessions.length, 3);
++  assert.deepEqual(
++    sessions.map((s) => s.startDate),
++    [
++      "2026-10-09T20:00:00+05:30",
++      "2026-10-10T18:00:00+05:30",
++      "2026-10-11T17:00:00+05:30",
++    ]
++  );
++  assert.equal(sessions[0].endDate, "2026-10-09T21:10:00+05:30");
++  assert.equal(sessions[0].sessionId, "ET00000001@20261009T2000");
++  assert.equal(sessions[2].availability, "sold_out");
++  assert.equal(sessions[0].date, "Fri 9 Oct");
++});
++
++test("two shows on the same day stay separate", () => {
++  const sessions = buildSessions(
++    [
++      { dateLabel: "SAT 10 OCT", time: "6:00 PM" },
++      { dateLabel: "SAT 10 OCT", time: "8:30 PM" },
++    ],
++    { eventId: "ET00000002", durationMinutes: 60, now: NOW }
++  );
++  assert.equal(sessions.length, 2);
++});
++
++test("exact duplicates collapse; sold-out only if every sighting says so", () => {
++  const sessions = buildSessions(
++    [
++      { dateLabel: "SAT 10 OCT", time: "6:00 PM", soldOut: true },
++      { dateLabel: "Sat, 10 Oct 2026", time: "6:00 pm", price: 299 },
++    ],
++    { eventId: "ET00000003", durationMinutes: 60, now: NOW }
++  );
++  assert.equal(sessions.length, 1);
++  assert.equal(sessions[0].availability, "available");
++  assert.equal(sessions[0].price, 299);
++});
++
++test("sessions that already started are dropped; junk labels ignored", () => {
++  const sessions = buildSessions(
++    [
++      { dateLabel: "WED 7 OCT", time: "9:00 AM" }, // earlier today
++      { dateLabel: "WED 7 OCT", time: "9:00 PM" }, // tonight
++      { dateLabel: "Tomorrow", time: "7:00 PM" }, // unparseable
++    ],
++    { eventId: "ET00000004", durationMinutes: 60, now: NOW }
++  );
++  assert.deepEqual(
++    sessions.map((s) => s.startDate),
++    ["2026-10-07T21:00:00+05:30"]
++  );
++});
++
++test("labelFromIso round-trips through the parser", () => {
++  const label = labelFromIso("2026-07-28T21:00:00+05:30");
++  assert.equal(label, "Tue 28 Jul 2026");
++  assert.equal(parseDateLabel(label)?.weekday, 2);
++});
++
++console.log("partitionCache");
++
++test("fresh listings are reused, stale ones re-scraped, past sessions dropped", () => {
++  const hours = (h: number) =>
++    new Date(NOW.getTime() - h * 3_600_000).toISOString();
++
++  const records = [
++    // scraped 2h ago -> fresh
++    { eventId: "A", startDate: "2026-10-09T20:00:00+05:30", scrapedAt: hours(2) },
++    { eventId: "A", startDate: "2026-10-10T18:00:00+05:30", scrapedAt: hours(2) },
++    // scraped 30h ago -> stale
++    { eventId: "B", startDate: "2026-10-12T20:00:00+05:30", scrapedAt: hours(30) },
++    // legacy record, no scrapedAt -> stale (forces migration)
++    { eventId: "C", startDate: "2026-10-15T20:00:00+05:30" },
++    // already happened -> gone
++    { eventId: "D", startDate: "2026-10-01T20:00:00+05:30", scrapedAt: hours(1) },
++  ];
++
++  const { fresh, stale } = partitionCache(records, NOW, 12);
++
++  assert.deepEqual(fresh.map((r) => r.eventId), ["A", "A"]);
++  assert.deepEqual([...stale.keys()].sort(), ["B", "C"]);
++  assert.equal(stale.has("D"), false);
++});
++
++test("ttl of 0 (--force) makes everything stale", () => {
++  const { fresh, stale } = partitionCache(
++    [{ eventId: "A", startDate: "2026-10-09T20:00:00+05:30", scrapedAt: NOW.toISOString() }],
++    NOW,
++    0
++  );
++  assert.equal(fresh.length, 0);
++  assert.equal(stale.size, 1);
++});
++
++console.log(`\n${passed} tests passed`);
+diff -ruN a/src/components/ShowBoard.tsx b/src/components/ShowBoard.tsx
+--- a/src/components/ShowBoard.tsx	2026-10-07 14:06:21.233625442 +0000
++++ b/src/components/ShowBoard.tsx	2026-10-07 14:06:21.238138040 +0000
+@@ -51,7 +51,7 @@
+ 
+ <div className="border-y border-zinc-800 py-3 text-center overflow-hidden">
+       <div
+-        key={show.startDate}
++        key={show.sessionId ?? `${show.eventId}-${show.startDate}`}
+         className="animate-fade"
+       >
+ <a
+diff -ruN a/src/components/ShowSection.tsx b/src/components/ShowSection.tsx
+--- a/src/components/ShowSection.tsx	2026-10-07 14:06:21.233723528 +0000
++++ b/src/components/ShowSection.tsx	2026-10-07 14:06:21.238155211 +0000
+@@ -23,7 +23,7 @@
+ 
+       <div className="grid gap-8 sm:grid-cols-2 xl:grid-cols-3">
+         {shows.map((show) => (
+-          <ShowCard key={show.eventId} show={show} />
++          <ShowCard key={show.sessionId ?? `${show.eventId}-${show.startDate}`} show={show} />
+         ))}
+       </div>
+     </section>
+diff -ruN a/src/components/WeekStrip.tsx b/src/components/WeekStrip.tsx
+--- a/src/components/WeekStrip.tsx	2026-10-07 14:06:21.233683085 +0000
++++ b/src/components/WeekStrip.tsx	2026-10-07 14:06:21.238146367 +0000
+@@ -52,7 +52,7 @@
+ 
+           return (
+             <Link
+-              key={show.eventId}
++              key={show.sessionId ?? `${show.eventId}-${show.startDate}`}
+               href={show.bookingUrl}
+               target="_blank"
+               className="group min-w-[280px] snap-start overflow-hidden rounded-2xl border border-zinc-800 bg-zinc-900 transition hover:border-yellow-400 hover:shadow-xl hover:shadow-yellow-500/10"
+diff -ruN a/src/lib/groupShows.ts b/src/lib/groupShows.ts
+--- a/src/lib/groupShows.ts	2026-10-07 14:06:21.234041508 +0000
++++ b/src/lib/groupShows.ts	2026-10-07 14:06:21.238867186 +0000
+@@ -17,6 +17,8 @@
+   image: string;
+   bookingUrl: string;
+   eventId: string;
++  /** unique per date+time; eventId alone repeats for multi-date listings */
++  sessionId?: string;
+   description: string;
+   venue: string;
+   address: string;
+diff -ruN a/src/types/show.ts b/src/types/show.ts
+--- a/src/types/show.ts	2026-10-07 14:06:21.232303250 +0000
++++ b/src/types/show.ts	2026-10-07 14:06:21.235834461 +0000
+@@ -12,6 +12,8 @@
+ 
+ export interface EventDetails {
+   eventId: string;
++  /** unique per date+time; eventId alone repeats for multi-date listings */
++  sessionId?: string;
+ 
+   title: string;
+   description: string;

@@ -2,13 +2,27 @@ import scraperConfig from "../src/config/scraper.json";
 import { chromium, Page, BrowserContext } from "playwright";
 import fs from "fs/promises";
 import path from "path";
-import { parseISO, isAfter } from "date-fns";
 
 import { parseVenuePage } from "../src/lib/parseVenuePage";
 import { parseEventPage } from "../src/lib/parseEventPage";
 
-import { reachTicketPage } from "./bookingFlow";
-import { parseTicketPage } from "./parseTicketPage";
+import { collectSessions } from "./collectSessions";
+import {
+  Session,
+  buildSessions,
+  durationMinutesFrom,
+  partitionCache,
+} from "./lib/sessions";
+
+// Re-scrape a listing if it was last scraped more than this many hours ago.
+// New dates get added to listings over time, so cached listings must expire.
+// Override: SCRAPE_TTL_HOURS=6 npm run scrape      Ignore cache: --force
+const TTL_HOURS = Number(process.env.SCRAPE_TTL_HOURS ?? 12);
+const FORCE = process.argv.includes("--force");
+// Scrape just one listing while debugging:  npm run scrape -- --only=ET00312493
+const ONLY = process.argv
+  .find((a) => a.startsWith("--only="))
+  ?.split("=")[1];
 
 const VENUE_URL =
   "https://in.bookmyshow.com/explore/c/venues/ministry-of-comedy-koramangala/mcbk";
@@ -67,7 +81,10 @@ async function chooseBengaluru(
 async function fetchEventDetails(
   page: Page,
   url: string
-) {
+): Promise<{
+  details: ReturnType<typeof parseEventPage>;
+  sessions: Session[];
+}> {
 
   //
   // ---------------------------------------
@@ -101,11 +118,11 @@ console.log(
   ).length
 );
 
-  let eventDetails;
+  let details: ReturnType<typeof parseEventPage>;
 
   try {
 
-    eventDetails = parseEventPage(eventHtml);
+    details = parseEventPage(eventHtml);
 
   } catch (error) {
 
@@ -142,27 +159,49 @@ await fs.writeFile(
 
 console.log("====================================");
 
-  await reachTicketPage(page);
-
   //
   // ---------------------------------------
-  // Parse ticket page
+  // Every date + time this listing sells
   // ---------------------------------------
   //
 
-  const ticketDetails =
-    await parseTicketPage(page);
+  const rawSessions = await collectSessions(
+    page,
+    url,
+    {
+      eventId: details.eventId || eventIdFromUrl(url),
+      fallbackDateIso: details.startDate || undefined,
+    }
+  );
+
+  const sessions = buildSessions(rawSessions, {
+    eventId: details.eventId || eventIdFromUrl(url),
+    durationMinutes: durationMinutesFrom(details),
+  });
 
   //
-  // ---------------------------------------
-  // Merge
-  // ---------------------------------------
+  // JSON-LD only ever describes ONE session, so it is just a sanity check.
   //
 
-  return {
-    ...eventDetails,
-    ...ticketDetails,
-  };
+  if (
+    sessions.length &&
+    details.startDate &&
+    !sessions.some(
+      (s) => Date.parse(s.startDate) === Date.parse(details.startDate)
+    )
+  ) {
+    console.warn(
+      `⚠️ JSON-LD start ${details.startDate} not among collected sessions`
+    );
+  }
+
+  return { details, sessions };
+}
+
+function eventIdFromUrl(url: string) {
+  return (
+    new URL(url).pathname.split("/").filter(Boolean).at(-1) ?? ""
+  );
 }
 
 async function run() {
@@ -232,22 +271,22 @@ try {
 
 const now = new Date();
 
-// Keep only future shows
-existingShows = existingShows.filter((show) =>
-  isAfter(parseISO(show.startDate), now)
+// Past sessions are dropped. Listings scraped within the TTL are reused as-is;
+// older ones are re-scraped (their old records are kept only as a fallback in
+// case the re-scrape fails).
+const { fresh, stale } = partitionCache(
+  existingShows,
+  now,
+  FORCE || ONLY ? 0 : TTL_HOURS
 );
+
+const freshIds = new Set(fresh.map((s) => s.eventId));
 
 console.log(
-  `📦 Retained ${existingShows.length} upcoming cached shows`
+  `📦 Reusing ${fresh.length} session(s) from ${freshIds.size} recently scraped listing(s)`
 );
 
-const existingIds = new Set(
-  existingShows.map((s) => s.eventId)
-);
-
-const finalShows = [...existingShows];
-
-
+const finalShows: any[] = [...fresh];
 
 const ignoredShows = allShows.filter((show) =>
   scraperConfig.ignoredEvents.includes(show.eventId)
@@ -260,11 +299,8 @@ ignoredShows.forEach((show) =>
 const shows = allShows.filter(
   (show) =>
     !scraperConfig.ignoredEvents.includes(show.eventId) &&
-    !existingIds.has(show.eventId)
-);
-
-console.log(
-  `⚡ Skipping ${existingIds.size} cached event(s)`
+    !freshIds.has(show.eventId) &&
+    (!ONLY || show.eventId === ONLY)
 );
 
 console.log(
@@ -286,23 +322,55 @@ console.log(
       `\n[${i + 1}/${shows.length}] ${summary.title}`
     );
 
+    const scrapedAt = new Date().toISOString();
+
     try {
 
-      const details =
+      const { details, sessions } =
         await fetchEventDetails(
           page,
           summary.bookingUrl
         );
 
-      finalShows.push({
-
+      const base = {
         ...summary,
-
         ...details,
+        // the venue page is the source of truth for identity
+        eventId: summary.eventId || details.eventId,
+        bookingUrl: summary.bookingUrl || details.bookingUrl,
+      };
 
-      });
+      if (sessions.length) {
 
-      console.log("✅ Parsed");
+        for (const session of sessions) {
+          finalShows.push({
+            ...base,
+            ...session,
+            // keep the listing price when a session has none of its own
+            price: session.price ?? details.price,
+            scrapedAt,
+          });
+        }
+
+        console.log(
+          `✅ ${sessions.length} session(s): ` +
+          sessions.map((s) => `${s.date} ${s.time}`).join(" | ")
+        );
+
+      } else if (stale.has(summary.eventId)) {
+
+        // collector found nothing but we have older data: keep it
+        finalShows.push(...stale.get(summary.eventId)!);
+
+        console.warn("⚠️ No sessions found, keeping previous data");
+
+      } else {
+
+        // last resort = the old behaviour: the single JSON-LD session
+        finalShows.push({ ...base, scrapedAt });
+
+        console.warn("⚠️ No sessions found, saved JSON-LD date only");
+      }
 
     } catch (error) {
 
@@ -312,6 +380,11 @@ console.log(
       );
 
       console.error(error);
+
+      // don't lose a listing we already knew about
+      if (stale.has(summary.eventId)) {
+        finalShows.push(...stale.get(summary.eventId)!);
+      }
 
     }
 
@@ -327,6 +400,18 @@ console.log(
   // Save JSON
   // ---------------------------------------
   //
+
+  // Listings we didn't visit (no longer on the venue page): keep their
+  // upcoming sessions, as before, rather than silently dropping them.
+  const visited = new Set(shows.map((s) => s.eventId));
+
+  for (const [eventId, records] of stale) {
+    if (!visited.has(eventId)) finalShows.push(...records);
+  }
+
+  finalShows.sort(
+    (a, b) => Date.parse(a.startDate) - Date.parse(b.startDate)
+  );
 
   await fs.mkdir("data", {
     recursive: true,
@@ -345,7 +430,7 @@ console.log(
   );
 
   console.log(
-    `\n✅ Saved ${finalShows.length} shows`
+    `\n✅ Saved ${finalShows.length} sessions`
   );
 
   await browser.close();

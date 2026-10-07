@@ -23,7 +23,7 @@ export default function ShowSection({ title, shows }: Props) {
 
       <div className="grid gap-8 sm:grid-cols-2 xl:grid-cols-3">
         {shows.map((show) => (
-          <ShowCard key={show.eventId} show={show} />
+          <ShowCard key={show.sessionId ?? `${show.eventId}-${show.startDate}`} show={show} />
         ))}
       </div>
     </section>

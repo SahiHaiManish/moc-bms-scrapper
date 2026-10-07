@@ -12,6 +12,8 @@ export interface ShowSummary {
 
 export interface EventDetails {
   eventId: string;
+  /** unique per date+time; eventId alone repeats for multi-date listings */
+  sessionId?: string;
 
   title: string;
   description: string;

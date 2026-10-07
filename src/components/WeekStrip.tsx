@@ -52,7 +52,7 @@ let badge = formatInTimeZone(
 
           return (
             <Link
-              key={show.eventId}
+              key={show.sessionId ?? `${show.eventId}-${show.startDate}`}
               href={show.bookingUrl}
               target="_blank"
               className="group min-w-[280px] snap-start overflow-hidden rounded-2xl border border-zinc-800 bg-zinc-900 transition hover:border-yellow-400 hover:shadow-xl hover:shadow-yellow-500/10"

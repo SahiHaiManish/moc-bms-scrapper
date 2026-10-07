@@ -17,6 +17,8 @@ export interface Show {
   image: string;
   bookingUrl: string;
   eventId: string;
+  /** unique per date+time; eventId alone repeats for multi-date listings */
+  sessionId?: string;
   description: string;
   venue: string;
   address: string;
