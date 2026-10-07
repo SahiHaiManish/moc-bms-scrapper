@@ -5,9 +5,11 @@ import { differenceInSeconds, parseISO } from "date-fns";
 
 interface Props {
   startDate: string;
+  /** small chip for sitting on top of a card's poster */
+  compact?: boolean;
 }
 
-export default function Countdown({ startDate }: Props) {
+export default function Countdown({ startDate, compact = false }: Props) {
   const [text, setText] = useState("");
 
   useEffect(() => {
@@ -40,6 +42,18 @@ export default function Countdown({ startDate }: Props) {
 
     return () => clearInterval(timer);
   }, [startDate]);
+
+  if (compact) {
+    // The text is filled in after hydration; render nothing until then
+    // rather than an empty pill.
+    if (!text) return null;
+
+    return (
+      <span className="rounded-full bg-black/70 px-3 py-1 text-xs font-semibold text-yellow-300 backdrop-blur">
+        {text}
+      </span>
+    );
+  }
 
   return (
     <div className="inline-flex rounded-full bg-yellow-500/10 px-4 py-2 text-sm font-semibold text-yellow-300">

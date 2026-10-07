@@ -1,12 +1,28 @@
-import ShowCard from "./ShowCard";
+import ShowCard, { CardTag } from "./ShowCard";
 import { Show } from "@/lib/groupShows";
+import { showKey } from "@/lib/showKey";
 
 interface Props {
   title: string;
   shows: Show[];
+  /** listings (eventId) to tag as featured */
+  featuredIds?: string[];
+  /** eventId -> YouTube id */
+  videos?: Record<string, string>;
+  /** the one card that gets the "Next up" tag */
+  nextKey?: string;
+  /** the card that gets the "Live now" tag */
+  liveKey?: string;
 }
 
-export default function ShowSection({ title, shows }: Props) {
+export default function ShowSection({
+  title,
+  shows,
+  featuredIds = [],
+  videos,
+  nextKey,
+  liveKey,
+}: Props) {
   if (!shows.length) return null;
 
   return (
@@ -22,9 +38,23 @@ export default function ShowSection({ title, shows }: Props) {
       </div>
 
       <div className="grid gap-8 sm:grid-cols-2 xl:grid-cols-3">
-        {shows.map((show) => (
-          <ShowCard key={show.sessionId ?? `${show.eventId}-${show.startDate}`} show={show} />
-        ))}
+        {shows.map((show) => {
+          const key = showKey(show);
+          const tags: CardTag[] = [];
+
+          if (key === liveKey) tags.push("live");
+          if (key === nextKey) tags.push("next");
+          if (featuredIds.includes(show.eventId)) tags.push("featured");
+
+          return (
+            <ShowCard
+              key={key}
+              show={show}
+              tags={tags}
+              videoId={videos?.[show.eventId]}
+            />
+          );
+        })}
       </div>
     </section>
   );

@@ -1,3 +1,6 @@
+"use client";
+
+import { useState } from "react";
 import Image from "next/image";
 import { Calendar, Clock, Ticket } from "lucide-react";
 import { parseISO } from "date-fns";
@@ -5,30 +8,99 @@ import { Show } from "@/lib/groupShows";
 
 import { formatInTimeZone } from "date-fns-tz";
 
+import Countdown from "./Countdown";
+
+export type CardTag = "live" | "next" | "featured";
+
 interface Props {
   show: Show;
+  /** small labels shown on top of the poster */
+  tags?: CardTag[];
+  /** YouTube id; adds a play button that swaps the poster for the trailer */
+  videoId?: string;
 }
 
-export default function ShowCard({ show }: Props) {
+const chip =
+  "rounded-full px-3 py-1 text-xs font-bold uppercase tracking-wider";
+
+export default function ShowCard({ show, tags = [], videoId }: Props) {
 
 const start = parseISO(show.startDate);
+const [playVideo, setPlayVideo] = useState(false);
+const featured = tags.includes("featured");
 
   return (
-    <article className="group overflow-hidden rounded-2xl border border-zinc-800 bg-zinc-900 transition-all duration-300 hover:-translate-y-1 hover:border-yellow-400 hover:shadow-2xl hover:shadow-yellow-500/10">
+    <article className={`group overflow-hidden rounded-2xl border bg-zinc-900 transition-all ${
+      featured
+        ? "border-yellow-500/60 shadow-lg shadow-yellow-500/10"
+        : "border-zinc-800"
+    } duration-300 hover:-translate-y-1 hover:border-yellow-400 hover:shadow-2xl hover:shadow-yellow-500/10`}>
       <div className="relative aspect-[16/9] overflow-hidden">
-<Image
-  src={show.image}
-  alt={show.title}
-  fill
-  className="object-contain bg-zinc-950 p-2"
-  sizes="(max-width: 768px) 100vw, 400px"
-/>
+        {videoId && playVideo ? (
+          <iframe
+            className="absolute inset-0 h-full w-full"
+            src={`https://www.youtube.com/embed/${videoId}?autoplay=1`}
+            title={show.title}
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+          />
+        ) : (
+          <>
+            <Image
+              src={show.image}
+              alt={show.title}
+              fill
+              className="object-contain bg-zinc-950 p-2"
+              sizes="(max-width: 768px) 100vw, 400px"
+            />
 
-        <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-black via-black/40 to-transparent" />
+            <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-black via-black/40 to-transparent" />
 
-        <div className="absolute bottom-4 left-4 rounded-full bg-yellow-400 px-3 py-1 text-xs font-semibold text-black">
-          {show.category}
-        </div>
+            {videoId && (
+              <button
+                type="button"
+                aria-label={`Play trailer for ${show.title}`}
+                onClick={() => setPlayVideo(true)}
+                className="absolute inset-0 flex items-center justify-center bg-black/10 transition hover:bg-black/30"
+              >
+                <span className="flex h-14 w-14 items-center justify-center rounded-full bg-red-600 text-white shadow-xl">
+                  ▶
+                </span>
+              </button>
+            )}
+
+            {tags.length > 0 && (
+              <div className="absolute left-3 top-3 z-10 flex flex-wrap items-center gap-2">
+                {tags.includes("live") && (
+                  <span className={`${chip} bg-red-600 text-white`}>
+                    ● Live now
+                  </span>
+                )}
+
+                {tags.includes("next") && (
+                  <>
+                    <span className={`${chip} bg-yellow-400 text-black`}>
+                      Next up
+                    </span>
+                    <Countdown startDate={show.startDate} compact />
+                  </>
+                )}
+
+                {featured && (
+                  <span
+                    className={`${chip} bg-black/70 text-yellow-300 ring-1 ring-yellow-400/60 backdrop-blur`}
+                  >
+                    ★ Featured
+                  </span>
+                )}
+              </div>
+            )}
+
+            <div className="pointer-events-none absolute bottom-4 left-4 rounded-full bg-yellow-400 px-3 py-1 text-xs font-semibold text-black">
+              {show.category}
+            </div>
+          </>
+        )}
       </div>
 
       <div className="space-y-4 p-5">

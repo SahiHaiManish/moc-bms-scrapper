@@ -49,7 +49,7 @@ const boardTitle = show.title
   return (
 
 
-<div className="border-y border-zinc-800 py-3 text-center overflow-hidden">
+<div className="bg-zinc-900 py-4 text-center overflow-hidden">
       <div
         key={show.sessionId ?? `${show.eventId}-${show.startDate}`}
         className="animate-fade"
@@ -58,7 +58,7 @@ const boardTitle = show.title
   href={show.bookingUrl}
   target="_blank"
   rel="noopener noreferrer"
-className="block cursor-pointer transition-colors hover:bg-zinc-950"
+className="block cursor-pointer transition-colors hover:bg-zinc-800"
 >
 <p className="text-[11px] tracking-[0.35em] uppercase text-yellow-400">
   {format(parseISO(show.startDate), "EEE • d MMM • h:mm a")}

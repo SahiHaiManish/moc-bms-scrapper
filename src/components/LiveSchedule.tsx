@@ -3,11 +3,22 @@
 import { useEffect, useMemo, useState } from "react";
 import { addMinutes, isAfter, isBefore, parseISO } from "date-fns";
 
-import FeaturedShow from "./FeaturedShow";
-import NextShow from "./NextShow";
 import ShowSection from "./ShowSection";
 
 import { Show, groupShows } from "@/lib/groupShows";
+import { showKey } from "@/lib/showKey";
+
+/** A show counts as "live now" for this long after its start time. */
+const LIVE_WINDOW_MIN = 30;
+
+/**
+ * Featured listings float to the front of their section (Tonight, Friday,
+ * Coming Soon...) instead of sitting in time order. Set to false to keep
+ * strict chronological order and rely on the tag + gold border alone.
+ */
+const PIN_FEATURED_FIRST = false;
+
+const NONE: string[] = [];
 
 interface Props {
   shows: Show[];
@@ -15,103 +26,69 @@ interface Props {
   videos?: Record<string, string>;
 }
 
-
 export default function LiveSchedule({
   shows,
- featuredIds = [],
+  featuredIds = NONE,
   videos,
 }: Props) {
+  const [now, setNow] = useState(() => new Date());
 
-useEffect(() => {
-  const timer = setInterval(() => {
-    setNow(new Date());
-  }, 30000);
+  useEffect(() => {
+    const timer = setInterval(() => setNow(new Date()), 30000);
 
-  return () => clearInterval(timer);
-}, []);
+    return () => clearInterval(timer);
+  }, []);
 
-const [now, setNow] = useState(new Date());
-  const liveShow = useMemo(
+  // On the page: everything upcoming, plus the show that is on stage right now.
+  const listed = useMemo(
     () =>
-      shows.find((show) => {
-        const start = parseISO(show.startDate);
-
-        return (
-          isBefore(start, now) &&
-          isAfter(addMinutes(start, 30), now)
-        );
-      }),
-    [shows, now]
-  );
-
-  const upcomingShows = useMemo(
-    () =>
-      shows.filter(
-        (show) => parseISO(show.startDate) > now
+      shows.filter((show) =>
+        isAfter(addMinutes(parseISO(show.startDate), LIVE_WINDOW_MIN), now)
       ),
     [shows, now]
   );
 
-const featuredShow = useMemo(() => {
-  let show = upcomingShows.find((s) =>
-    featuredIds.includes(s.eventId)
+  const liveShow = useMemo(
+    () =>
+      listed.find((show) => isBefore(parseISO(show.startDate), now)),
+    [listed, now]
   );
 
-  if (!show) {
-    show = upcomingShows[0];
-  }
+  const nextShow = useMemo(
+    () => listed.find((show) => parseISO(show.startDate) > now),
+    [listed, now]
+  );
 
-  return show;
-}, [upcomingShows, featuredIds]);
-  const sections = groupShows(upcomingShows);
+  const sections = useMemo(() => {
+    const grouped = groupShows(listed);
+
+    if (!PIN_FEATURED_FIRST) return grouped;
+
+    const featured = new Set(featuredIds);
+
+    return grouped.map((section) => ({
+      ...section,
+      // stable: featured first, everything else keeps its time order
+      shows: [
+        ...section.shows.filter((s) => featured.has(s.eventId)),
+        ...section.shows.filter((s) => !featured.has(s.eventId)),
+      ],
+    }));
+  }, [listed, featuredIds]);
 
   return (
-  <>
-  <div className="mb-16">
-    <div className="flex flex-wrap justify-center gap-8">
-
-      {liveShow && (
-        <div className="w-full max-w-sm">
-          <FeaturedShow
-            show={liveShow}
-            title="NOW PLAYING"
-            live
-            videoId={videos?.[liveShow.eventId]}
-          />
-        </div>
-      )}
-
-      {upcomingShows.length > 0 && (
-        <div className="w-full max-w-sm">
-          <NextShow
-            shows={upcomingShows}
-            videos={videos}
-          />
-        </div>
-      )}
-
-      {featuredShow &&
-        featuredShow.eventId !== upcomingShows[0]?.eventId && (
-          <div className="w-full max-w-sm">
-            <FeaturedShow
-              show={featuredShow}
-              title="EDITOR'S PICK"
-              featured
-              videoId={videos?.[featuredShow.eventId]}
-            />
-          </div>
-      )}
-
-    </div>
-  </div>
-
-  {sections.map((section) => (
-    <ShowSection
-      key={section.title}
-      title={section.title}
-      shows={section.shows}
-    />
-  ))}
-</> 
+    <>
+      {sections.map((section) => (
+        <ShowSection
+          key={section.title}
+          title={section.title}
+          shows={section.shows}
+          featuredIds={featuredIds}
+          videos={videos}
+          nextKey={nextShow && showKey(nextShow)}
+          liveKey={liveShow && showKey(liveShow)}
+        />
+      ))}
+    </>
   );
 }
