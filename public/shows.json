@@ -1,69 +1,104 @@
 [
   {
-    "title": "Stand Up Comedy Live",
+    "title": "Bangalore Comedy Nights (Live Stand-Up Comedy)",
     "category": "Stand up Comedy",
-    "image": "https://assets-in.bmscdn.com/nmcms/events/banner/desktop/media-desktop-stand-up-comedy-live-0-2026-5-5-t-8-4-2.jpg",
-    "bookingUrl": "https://in.bookmyshow.com/events/stand-up-comedy-live/ET00312493",
-    "eventId": "ET00312493",
+    "image": "https://assets-in.bmscdn.com/nmcms/events/banner/desktop/media-desktop-bangalore-comedy-nights-live-stand-up-comedy-0-2026-7-3-t-4-49-45.jpg",
+    "bookingUrl": "https://in.bookmyshow.com/events/ignorance-is-key-stand-up-solo-by-anand-rathnam/ET00316055",
+    "eventId": "ET00316055",
+    "regionCode": "BANG",
     "language": [
       "english",
-      "hindi"
+      "hindi",
+      "hinglish"
     ],
-    "description": "Comedy Shots presents Wild Comedy Nights Come on down with friends, family, enemies, random strangers, or by yourself for an absurd, edgy, and funny evening as these Bangalore regulars try to crack you up with their jokes. Add some food and beverages to the mix and the evening promises to be the one to remember. Come down and Support artists.",
-    "venue": "Bloom Creative Zone, Indiranagar: Bengaluru",
-    "address": "KFC Signal, 483, 2nd Floor Right Wing, BEA Center 100 Ft Road, Chinmaya Mission Hospital Road, Indiranagar, Bengaluru, Karnataka 560038, India",
-    "startDate": "2026-10-08T21:00:00+05:30",
-    "endDate": "2026-10-08T22:10:00+05:30",
-    "duration": "PT1H10M",
+    "description": "Late Night Live Stand-Up Comedy at Starbucks Indiranagar (12th Main). Get ready for a laughter-filled late night with a curated lineup of some of the best stand-up comedians in the city. Enjoy sharp jokes, relatable humor, and a fun, intimate comedy experience—perfect to unwind your night.",
+    "venue": "Ministry Of Comedy: Koramangala",
+    "address": "1018, Opp. Wooden Street, 80 Feet Road, 4th Block, Koramangala, Bengaluru, Karnataka 560034, India",
+    "startDate": "2026-10-08T21:30:00+05:30",
+    "endDate": "2026-10-08T22:45:00+05:30",
+    "duration": "PT1H15M",
     "price": 199,
     "currency": "INR",
     "performers": [
-      "Anand Rathnam",
-      "Somnath Padhy",
-      "Joteen Patro"
+      "Abhinav Anand",
+      "Manish Jain (Comic)",
+      "Joteen Patro",
+      "Nisarg Avashia",
+      "Pronoy Roychowdhury"
     ],
     "languages": [
       "English",
-      "Hindi"
+      "Hindi",
+      "Hinglish"
     ],
+    "sessionId": "ET00316055@20261008T2130",
     "date": "Thu 8 Oct",
-    "time": "9:00 PM",
-    "availability": "available"
+    "time": "9:30 PM",
+    "availability": "available",
+    "scrapedAt": "2026-10-08T08:36:47.696Z"
   },
   {
-    "title": "Ministry of Comedy Presents! (Koramangala)",
+    "title": "Very Late Night StandUp Comedy Show!",
     "category": "Stand up Comedy",
-    "image": "https://assets-in.bmscdn.com/nmcms/events/banner/desktop/media-desktop-ministry-of-comedy-presents-koramangala-0-2026-7-26-t-22-45-46.jpg",
-    "bookingUrl": "https://in.bookmyshow.com/events/pilot-gomma-an-aircrash-event-by-gommaboy/ET00433099",
-    "eventId": "ET00433099",
+    "image": "https://assets-in.bmscdn.com/nmcms/events/banner/desktop/media-desktop-very-late-night-standup-comedy-show-0-2026-5-8-t-1-48-49.jpg",
+    "bookingUrl": "https://in.bookmyshow.com/events/rajat-chauhan-live-koramangala/ET00476821",
+    "eventId": "ET00476821",
+    "regionCode": "BANG",
     "language": [
-      "hinglish",
-      "hindi"
+      "hindi",
+      "hinglish"
     ],
-    "description": "Book online tickets for Ministry of Comedy Presents! (Koramangala) in Bengaluru on BookMyShow which is a comedy-shows event",
+    "description": "Book online tickets for Very Late Night StandUp Comedy Show! in Bengaluru on BookMyShow which is a comedy-shows event",
     "venue": "Ministry Of Comedy: Koramangala",
     "address": "1018, Opp. Wooden Street, 80 Feet Road, 4th Block, Koramangala, Bengaluru, Karnataka 560034, India",
     "startDate": "2026-10-08T23:00:00+05:30",
     "endDate": "2026-10-09T00:15:00+05:30",
     "duration": "PT1H15M",
-    "price": 199,
+    "price": 225,
     "currency": "INR",
     "performers": [
       "Manish Jain (Comic)",
-      "Pronoy Chowdhury",
-      "Nisarg Avashia",
-      "Abhinav Anand",
-      "Sachin Kumar Gommaboy"
+      "Pronoy Chowdhury"
     ],
     "languages": [
-      "Hinglish",
-      "Hindi"
+      "Hindi",
+      "Hinglish"
     ],
-    "sessionId": "ET00433099@20261008T2300",
+    "sessionId": "ET00476821@20261008T2300",
     "date": "Thu 8 Oct",
     "time": "11:00 PM",
     "availability": "available",
-    "scrapedAt": "2026-10-07T14:21:00.522Z"
+    "scrapedAt": "2026-10-08T08:34:37.813Z"
+  },
+  {
+    "title": "Insecurities - A Stand Up Comedy Show ",
+    "category": "Stand up Comedy",
+    "image": "https://assets-in.bmscdn.com/nmcms/events/banner/desktop/media-desktop-insecurities-a-stand-up-comedy-show-0-2026-9-14-t-14-39-7.jpg",
+    "bookingUrl": "https://in.bookmyshow.com/events/insecurities-a-stand-up-comedy-show/ET00517243",
+    "eventId": "ET00517243",
+    "regionCode": "BANG",
+    "language": [
+      "english"
+    ],
+    "description": "Book online tickets for Insecurities - A Stand Up Comedy Show in Bengaluru on BookMyShow which is a comedy-shows event",
+    "venue": "Ministry Of Comedy: Koramangala",
+    "address": "1018, Opp. Wooden Street, 80 Feet Road, 4th Block, Koramangala, Bengaluru, Karnataka 560034, India",
+    "startDate": "2026-10-09T19:00:00+05:30",
+    "endDate": "2026-10-09T21:00:00+05:30",
+    "duration": "PT2H",
+    "price": 799,
+    "currency": "INR",
+    "performers": [
+      "Nesan Christopher David"
+    ],
+    "languages": [
+      "English"
+    ],
+    "sessionId": "ET00517243@20261009T1900",
+    "date": "Fri 9 Oct",
+    "time": "7:00 PM",
+    "availability": "available",
+    "scrapedAt": "2026-10-08T08:35:39.931Z"
   },
   {
     "title": "Best In StandUp! (Koramangala)",
@@ -71,6 +106,7 @@
     "image": "https://assets-in.bmscdn.com/nmcms/events/banner/desktop/media-desktop-best-in-standup-koramangala-0-2026-5-8-t-1-49-22.jpg",
     "bookingUrl": "https://in.bookmyshow.com/events/pilot-gomma-feat-gommaboy/ET00453914",
     "eventId": "ET00453914",
+    "regionCode": "BANG",
     "language": [
       "hinglish",
       "hindi"
@@ -95,7 +131,7 @@
     "date": "Fri 9 Oct",
     "time": "10:00 PM",
     "availability": "available",
-    "scrapedAt": "2026-10-07T14:20:19.747Z"
+    "scrapedAt": "2026-10-08T08:34:24.560Z"
   },
   {
     "title": "Very Late Night StandUp Comedy Show!",
@@ -103,6 +139,7 @@
     "image": "https://assets-in.bmscdn.com/nmcms/events/banner/desktop/media-desktop-very-late-night-standup-comedy-show-0-2026-5-8-t-1-48-49.jpg",
     "bookingUrl": "https://in.bookmyshow.com/events/rajat-chauhan-live-koramangala/ET00476821",
     "eventId": "ET00476821",
+    "regionCode": "BANG",
     "language": [
       "hindi",
       "hinglish"
@@ -127,65 +164,7 @@
     "date": "Fri 9 Oct",
     "time": "11:59 PM",
     "availability": "available",
-    "scrapedAt": "2026-10-07T14:17:30.744Z"
-  },
-  {
-    "title": "Insecurities - A Stand Up Comedy Show ",
-    "category": "Stand up Comedy",
-    "image": "https://assets-in.bmscdn.com/nmcms/events/banner/desktop/media-desktop-insecurities-a-stand-up-comedy-show-0-2026-9-14-t-14-39-7.jpg",
-    "bookingUrl": "https://in.bookmyshow.com/events/insecurities-a-stand-up-comedy-show/ET00517243",
-    "eventId": "ET00517243",
-    "language": [
-      "english"
-    ],
-    "description": "Book online tickets for Insecurities - A Stand Up Comedy Show in Bengaluru on BookMyShow which is a comedy-shows event",
-    "venue": "Ministry Of Comedy: Koramangala",
-    "address": "1018, Opp. Wooden Street, 80 Feet Road, 4th Block, Koramangala, Bengaluru, Karnataka 560034, India",
-    "startDate": "2026-10-10T14:00:00+05:30",
-    "endDate": "2026-10-10T16:00:00+05:30",
-    "duration": "PT2H",
-    "price": 799,
-    "currency": "INR",
-    "performers": [
-      "Nesan Christopher David"
-    ],
-    "languages": [
-      "English"
-    ],
-    "sessionId": "ET00517243@20261010T1400",
-    "date": "Sat 10 Oct",
-    "time": "2:00 PM",
-    "availability": "available",
-    "scrapedAt": "2026-10-07T14:20:51.331Z"
-  },
-  {
-    "title": "Insecurities - A Stand Up Comedy Show ",
-    "category": "Stand up Comedy",
-    "image": "https://assets-in.bmscdn.com/nmcms/events/banner/desktop/media-desktop-insecurities-a-stand-up-comedy-show-0-2026-9-14-t-14-39-7.jpg",
-    "bookingUrl": "https://in.bookmyshow.com/events/insecurities-a-stand-up-comedy-show/ET00517243",
-    "eventId": "ET00517243",
-    "language": [
-      "english"
-    ],
-    "description": "Book online tickets for Insecurities - A Stand Up Comedy Show in Bengaluru on BookMyShow which is a comedy-shows event",
-    "venue": "Ministry Of Comedy: Koramangala",
-    "address": "1018, Opp. Wooden Street, 80 Feet Road, 4th Block, Koramangala, Bengaluru, Karnataka 560034, India",
-    "startDate": "2026-10-10T16:00:00+05:30",
-    "endDate": "2026-10-10T18:00:00+05:30",
-    "duration": "PT2H",
-    "price": 799,
-    "currency": "INR",
-    "performers": [
-      "Nesan Christopher David"
-    ],
-    "languages": [
-      "English"
-    ],
-    "sessionId": "ET00517243@20261010T1600",
-    "date": "Sat 10 Oct",
-    "time": "4:00 PM",
-    "availability": "sold_out",
-    "scrapedAt": "2026-10-07T14:20:51.331Z"
+    "scrapedAt": "2026-10-08T08:34:37.813Z"
   },
   {
     "title": "DUMP HIM dating comedy",
@@ -193,6 +172,7 @@
     "image": "https://assets-in.bmscdn.com/nmcms/events/banner/desktop/media-desktop-dump-him-then-swipe-right-0-2026-6-30-t-11-48-1.jpg",
     "bookingUrl": "https://in.bookmyshow.com/events/dump-him-breakup-comedy/ET00487524",
     "eventId": "ET00487524",
+    "regionCode": "BANG",
     "language": [
       "hindi"
     ],
@@ -214,7 +194,7 @@
     "date": "Sat 10 Oct",
     "time": "6:00 PM",
     "availability": "available",
-    "scrapedAt": "2026-10-07T14:21:21.328Z"
+    "scrapedAt": "2026-10-08T08:35:30.598Z"
   },
   {
     "title": "SWIPE RIGHT matchmaking",
@@ -222,6 +202,7 @@
     "image": "https://assets-in.bmscdn.com/nmcms/events/banner/desktop/media-desktop-swipe-right-matchmaking-0-2026-6-30-t-11-47-5.jpg",
     "bookingUrl": "https://in.bookmyshow.com/events/swipe-right-dating-comedy/ET00453622",
     "eventId": "ET00453622",
+    "regionCode": "BANG",
     "language": [
       "hindi",
       "english"
@@ -245,7 +226,7 @@
     "date": "Sat 10 Oct",
     "time": "8:00 PM",
     "availability": "available",
-    "scrapedAt": "2026-10-07T14:21:50.403Z"
+    "scrapedAt": "2026-10-08T08:36:10.502Z"
   },
   {
     "title": "Best In StandUp! (Koramangala)",
@@ -253,6 +234,7 @@
     "image": "https://assets-in.bmscdn.com/nmcms/events/banner/desktop/media-desktop-best-in-standup-koramangala-0-2026-5-8-t-1-49-22.jpg",
     "bookingUrl": "https://in.bookmyshow.com/events/pilot-gomma-feat-gommaboy/ET00453914",
     "eventId": "ET00453914",
+    "regionCode": "BANG",
     "language": [
       "hinglish",
       "hindi"
@@ -277,7 +259,7 @@
     "date": "Sat 10 Oct",
     "time": "10:00 PM",
     "availability": "available",
-    "scrapedAt": "2026-10-07T14:20:19.747Z"
+    "scrapedAt": "2026-10-08T08:34:24.560Z"
   },
   {
     "title": "Very Late Night StandUp Comedy Show!",
@@ -285,6 +267,7 @@
     "image": "https://assets-in.bmscdn.com/nmcms/events/banner/desktop/media-desktop-very-late-night-standup-comedy-show-0-2026-5-8-t-1-48-49.jpg",
     "bookingUrl": "https://in.bookmyshow.com/events/rajat-chauhan-live-koramangala/ET00476821",
     "eventId": "ET00476821",
+    "regionCode": "BANG",
     "language": [
       "hindi",
       "hinglish"
@@ -309,7 +292,7 @@
     "date": "Sat 10 Oct",
     "time": "11:59 PM",
     "availability": "available",
-    "scrapedAt": "2026-10-07T14:17:30.744Z"
+    "scrapedAt": "2026-10-08T08:34:37.813Z"
   },
   {
     "title": "Pseudo Gujarati by Nishant Tanwar",
@@ -317,6 +300,7 @@
     "image": "https://assets-in.bmscdn.com/nmcms/events/banner/desktop/media-desktop-pseudo-gujarati-by-nishant-tanwar-0-2026-9-19-t-15-13-45.jpg",
     "bookingUrl": "https://in.bookmyshow.com/events/pseudo-gujarati-by-nishant-tanwar/ET00518089",
     "eventId": "ET00518089",
+    "regionCode": "BANG",
     "language": [
       "gujarati"
     ],
@@ -338,7 +322,7 @@
     "date": "Sun 11 Oct",
     "time": "4:00 PM",
     "availability": "available",
-    "scrapedAt": "2026-10-07T14:19:20.598Z"
+    "scrapedAt": "2026-10-08T08:34:15.392Z"
   },
   {
     "title": "Ritabrata Live",
@@ -375,6 +359,7 @@
     "image": "https://assets-in.bmscdn.com/nmcms/events/banner/desktop/media-desktop-toxic-pyaar-relationship-comedy-0-2026-10-7-t-8-21-34.jpg",
     "bookingUrl": "https://in.bookmyshow.com/events/best-in-standup-koramangala/ET00419798",
     "eventId": "ET00419798",
+    "regionCode": "BANG",
     "language": [
       "hindi",
       "hinglish",
@@ -386,7 +371,7 @@
     "startDate": "2026-10-11T21:30:00+05:30",
     "endDate": "2026-10-11T22:45:00+05:30",
     "duration": "PT1H15M",
-    "price": 225,
+    "price": 199,
     "currency": "INR",
     "performers": [
       "Manish Jain (Comic)",
@@ -402,7 +387,7 @@
     "date": "Sun 11 Oct",
     "time": "9:30 PM",
     "availability": "available",
-    "scrapedAt": "2026-10-07T14:20:32.947Z"
+    "scrapedAt": "2026-10-08T08:34:53.536Z"
   },
   {
     "title": "Very Late Night StandUp Comedy Show!",
@@ -410,6 +395,7 @@
     "image": "https://assets-in.bmscdn.com/nmcms/events/banner/desktop/media-desktop-very-late-night-standup-comedy-show-0-2026-5-8-t-1-48-49.jpg",
     "bookingUrl": "https://in.bookmyshow.com/events/rajat-chauhan-live-koramangala/ET00476821",
     "eventId": "ET00476821",
+    "regionCode": "BANG",
     "language": [
       "hindi",
       "hinglish"
@@ -434,7 +420,7 @@
     "date": "Sun 11 Oct",
     "time": "11:00 PM",
     "availability": "available",
-    "scrapedAt": "2026-10-07T14:17:30.744Z"
+    "scrapedAt": "2026-10-08T08:34:37.813Z"
   },
   {
     "title": "GHUTNE 2.0 - Standup Comedy by Shashwat Maheshwari",
@@ -442,6 +428,7 @@
     "image": "https://assets-in.bmscdn.com/nmcms/events/banner/desktop/media-desktop-ghutne-2-0-standup-comedy-by-shashwat-maheshwari-0-2026-8-18-t-8-17-1.jpg",
     "bookingUrl": "https://in.bookmyshow.com/events/ghutne-2-0-standup-comedy-by-shashwat-maheshwari/ET00512942",
     "eventId": "ET00512942",
+    "regionCode": "BANG",
     "language": [
       "hindi"
     ],
@@ -463,7 +450,7 @@
     "date": "Sun 18 Oct",
     "time": "7:00 PM",
     "availability": "available",
-    "scrapedAt": "2026-10-07T14:21:12.152Z"
+    "scrapedAt": "2026-10-08T08:36:56.881Z"
   },
   {
     "title": "Rock Bottom - A Standup Solo By Shubham Pujari",
@@ -471,6 +458,7 @@
     "image": "https://assets-in.bmscdn.com/nmcms/events/banner/desktop/media-desktop-rock-bottom-a-standup-solo-by-shubham-pujari-0-2026-7-6-t-11-19-57.jpg",
     "bookingUrl": "https://in.bookmyshow.com/events/chhoti-soch-a-standup-solo-by-shubham-pujari/ET00479853",
     "eventId": "ET00479853",
+    "regionCode": "BANG",
     "language": [
       "hindi",
       "english"
@@ -494,7 +482,7 @@
     "date": "Sat 24 Oct",
     "time": "6:00 PM",
     "availability": "available",
-    "scrapedAt": "2026-10-07T14:19:57.323Z"
+    "scrapedAt": "2026-10-08T08:36:19.819Z"
   },
   {
     "title": "KAMZOR by Gaurav Madaan ",
@@ -502,6 +490,7 @@
     "image": "https://assets-in.bmscdn.com/nmcms/events/banner/desktop/media-desktop-kamzor-by-gaurav-madaan-0-2026-8-6-t-11-59-1.jpg",
     "bookingUrl": "https://in.bookmyshow.com/events/gaurav-madaan-live/ET00508392",
     "eventId": "ET00508392",
+    "regionCode": "BANG",
     "language": [
       "hindi"
     ],
@@ -523,7 +512,7 @@
     "date": "Sat 24 Oct",
     "time": "8:00 PM",
     "availability": "available",
-    "scrapedAt": "2026-10-07T14:20:42.172Z"
+    "scrapedAt": "2026-10-08T08:35:02.764Z"
   },
   {
     "title": "Konchem Konchem of Everything ",
@@ -531,6 +520,7 @@
     "image": "https://assets-in.bmscdn.com/nmcms/events/banner/desktop/media-desktop-konchem-konchem-of-everything-0-2026-8-1-t-14-6-38.jpg",
     "bookingUrl": "https://in.bookmyshow.com/events/konchem-konchem-of-everything/ET00496233",
     "eventId": "ET00496233",
+    "regionCode": "BANG",
     "language": [
       "telugu",
       "english"
@@ -554,7 +544,7 @@
     "date": "Sun 25 Oct",
     "time": "5:00 PM",
     "availability": "available",
-    "scrapedAt": "2026-10-07T14:19:38.981Z"
+    "scrapedAt": "2026-10-08T08:36:38.393Z"
   },
   {
     "title": "Trivial - A Trial Comedy Show by Akshat",
@@ -562,6 +552,7 @@
     "image": "https://assets-in.bmscdn.com/nmcms/events/banner/desktop/media-desktop-trivial-a-trial-comedy-show-by-akshat-0-2026-6-26-t-12-17-53.jpg",
     "bookingUrl": "https://in.bookmyshow.com/events/trivial-a-trial-comedy-show-by-akshat/ET00504937",
     "eventId": "ET00504937",
+    "regionCode": "BANG",
     "language": [
       "english",
       "hindi"
@@ -585,7 +576,7 @@
     "date": "Thu 29 Oct",
     "time": "10:00 PM",
     "availability": "available",
-    "scrapedAt": "2026-10-07T14:21:38.840Z"
+    "scrapedAt": "2026-10-08T08:35:49.354Z"
   },
   {
     "title": "Trivial - A Trial Comedy Show by Akshat",
@@ -593,6 +584,7 @@
     "image": "https://assets-in.bmscdn.com/nmcms/events/banner/desktop/media-desktop-trivial-a-trial-comedy-show-by-akshat-0-2026-6-26-t-12-17-53.jpg",
     "bookingUrl": "https://in.bookmyshow.com/events/trivial-a-trial-comedy-show-by-akshat/ET00504937",
     "eventId": "ET00504937",
+    "regionCode": "BANG",
     "language": [
       "english",
       "hindi"
@@ -616,7 +608,7 @@
     "date": "Fri 30 Oct",
     "time": "8:00 PM",
     "availability": "available",
-    "scrapedAt": "2026-10-07T14:21:38.840Z"
+    "scrapedAt": "2026-10-08T08:35:49.354Z"
   },
   {
     "title": "Mohd Suhel Live",
@@ -624,6 +616,7 @@
     "image": "https://assets-in.bmscdn.com/nmcms/events/banner/desktop/media-desktop-mohd-suhel-live-0-2026-7-25-t-16-49-9.jpg",
     "bookingUrl": "https://in.bookmyshow.com/events/mohd-suhel-live/ET00408882",
     "eventId": "ET00408882",
+    "regionCode": "BANG",
     "language": [
       "hindi",
       "hinglish"
@@ -647,7 +640,7 @@
     "date": "Fri 30 Oct",
     "time": "10:00 PM",
     "availability": "available",
-    "scrapedAt": "2026-10-07T14:20:06.525Z"
+    "scrapedAt": "2026-10-08T08:34:00.335Z"
   },
   {
     "title": "Mohd Suhel Live",
@@ -655,6 +648,7 @@
     "image": "https://assets-in.bmscdn.com/nmcms/events/banner/desktop/media-desktop-mohd-suhel-live-0-2026-7-25-t-16-49-9.jpg",
     "bookingUrl": "https://in.bookmyshow.com/events/mohd-suhel-live/ET00408882",
     "eventId": "ET00408882",
+    "regionCode": "BANG",
     "language": [
       "hindi",
       "hinglish"
@@ -678,7 +672,7 @@
     "date": "Sat 31 Oct",
     "time": "6:00 PM",
     "availability": "available",
-    "scrapedAt": "2026-10-07T14:20:06.525Z"
+    "scrapedAt": "2026-10-08T08:34:00.335Z"
   },
   {
     "title": "Ashwin Srinivas Live",
@@ -686,6 +680,7 @@
     "image": "https://assets-in.bmscdn.com/nmcms/events/banner/desktop/media-desktop-ashwin-srinivas-live-0-2026-7-10-t-14-26-54.jpg",
     "bookingUrl": "https://in.bookmyshow.com/events/ashwin-srinivas-live/ET00352527",
     "eventId": "ET00352527",
+    "regionCode": "BANG",
     "language": [
       "english"
     ],
@@ -707,7 +702,7 @@
     "date": "Sat 31 Oct",
     "time": "8:00 PM",
     "availability": "available",
-    "scrapedAt": "2026-10-07T14:19:29.841Z"
+    "scrapedAt": "2026-10-08T08:36:29.168Z"
   },
   {
     "title": "Mohd Suhel Live",
@@ -715,6 +710,7 @@
     "image": "https://assets-in.bmscdn.com/nmcms/events/banner/desktop/media-desktop-mohd-suhel-live-0-2026-7-25-t-16-49-9.jpg",
     "bookingUrl": "https://in.bookmyshow.com/events/mohd-suhel-live/ET00408882",
     "eventId": "ET00408882",
+    "regionCode": "BANG",
     "language": [
       "hindi",
       "hinglish"
@@ -738,33 +734,32 @@
     "date": "Sun 1 Nov",
     "time": "7:00 PM",
     "availability": "available",
-    "scrapedAt": "2026-10-07T14:20:06.525Z"
+    "scrapedAt": "2026-10-08T08:34:00.335Z"
   },
   {
-    "title": "Mai Ab Bhi Wahin Hun",
+    "title": "Mai Ab Bhi Wahin Hun Hindi storytelling Play in Bengaluru Tickets - BookMyShow",
     "category": "Storytelling",
-    "image": "https://assets-in.bmscdn.com/nmcms/events/banner/desktop/media-desktop-mai-ab-bhi-wahin-hun-0-2026-10-1-t-17-54-38.jpg",
+    "image": "",
     "bookingUrl": "https://in.bookmyshow.com/plays/mai-ab-bhi-wahin-hun/ET00520257",
     "eventId": "ET00520257",
+    "regionCode": "BANG",
     "language": [
       "hindi"
     ],
-    "description": "Book tickets online for Mai Ab Bhi Wahin Hun in Bengaluru on BookMyShow which is a Hindi classic play",
+    "description": "Book tickets online for Mai Ab Bhi Wahin Hun in Bengaluru on BookMyShow which is a Hindi classic play happening at Ministry Of Comedy: Koramangala",
     "venue": "Ministry Of Comedy: Koramangala",
-    "address": "1018, Opp. Wooden Street, 80 Feet Road, 4th Block, Koramangala, Bengaluru, Karnataka 560034, India",
+    "address": "",
     "startDate": "2026-12-05T20:00:00+05:30",
     "endDate": "2026-12-05T21:30:00+05:30",
-    "duration": "PT1H30M",
-    "price": 299,
-    "currency": "INR",
+    "duration": "",
+    "price": 0,
+    "currency": "",
     "performers": [],
-    "languages": [
-      "Hindi"
-    ],
+    "languages": [],
     "sessionId": "ET00520257@20261205T2000",
     "date": "Sat 5 Dec",
     "time": "8:00 PM",
     "availability": "available",
-    "scrapedAt": "2026-10-07T14:19:48.165Z"
+    "scrapedAt": "2026-10-08T08:36:01.130Z"
   }
 ]

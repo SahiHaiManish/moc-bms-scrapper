@@ -5,6 +5,8 @@ export interface ShowSummary {
   bookingUrl: string;
   eventId: string;
   language: string[];
+  /** analytics.region_code of the card, e.g. "BANG" (empty if absent) */
+  regionCode: string;
 }
 
 export function parseVenuePage(html: string): ShowSummary[] {
@@ -50,6 +52,7 @@ const query = Object.values(state.exploreApi.queries).find(
     image: card.image?.url ?? "",
     bookingUrl: card.cta?.url ?? "",
     eventId: card.cta?.analytics?.event_code ?? "",
+    regionCode: card.analytics?.region_code ?? card.cta?.analytics?.region_code ?? "",
     language: (card.analytics?.language ?? "")
       .split("|")
       .filter(Boolean),

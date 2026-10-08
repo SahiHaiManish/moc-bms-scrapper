@@ -14,6 +14,16 @@ import {
   partitionCache,
 } from "./lib/sessions";
 
+import {
+  VenueConfig,
+  filterVenueCards,
+  isAtVenue,
+  regionCookies,
+} from "./lib/venueFilter";
+
+const VENUE = scraperConfig.venue as VenueConfig;
+const ALLOWED_EVENTS = scraperConfig.allowedEvents as string[];
+
 // Re-scrape a listing if it was last scraped more than this many hours ago.
 // New dates get added to listings over time, so cached listings must expire.
 // Override: SCRAPE_TTL_HOURS=6 npm run scrape      Ignore cache: --force
@@ -29,13 +39,24 @@ const VENUE_URL =
 
 const STORAGE_FILE = "playwright/chromium-state.json";
 
+// BookMyShow localises by IP + cookies. Pin India explicitly so a VPN, a
+// travelling laptop or a stale state file can't change what we scrape.
+const CONTEXT_OPTIONS = {
+  locale: "en-IN",
+  timezoneId: "Asia/Kolkata",
+  extraHTTPHeaders: { "Accept-Language": "en-IN,en;q=0.9" },
+};
+
 async function getContext(browser: any): Promise<BrowserContext> {
+  let context: BrowserContext;
+
   try {
     await fs.access(STORAGE_FILE);
 
     console.log("✅ Using saved browser state");
 
-    return browser.newContext({
+    context = await browser.newContext({
+      ...CONTEXT_OPTIONS,
       storageState: STORAGE_FILE,
     });
 
@@ -43,8 +64,17 @@ async function getContext(browser: any): Promise<BrowserContext> {
 
     console.log("🆕 Starting fresh browser");
 
-    return browser.newContext();
+    context = await browser.newContext(CONTEXT_OPTIONS);
   }
+
+  // Always (re)assert the city, whatever the saved state says.
+  await context.addCookies(regionCookies(VENUE));
+
+  console.log(
+    `🇮🇳 Region pinned: ${VENUE.region.regionName} (${VENUE.region.regionCode}, ${VENUE.region.countryCode})`
+  );
+
+  return context;
 }
 
 async function chooseBengaluru(
@@ -165,19 +195,27 @@ console.log("====================================");
   // ---------------------------------------
   //
 
-  const rawSessions = await collectSessions(
-    page,
-    url,
-    {
-      eventId: details.eventId || eventIdFromUrl(url),
-      fallbackDateIso: details.startDate || undefined,
-    }
-  );
+  let sessions: Session[] = [];
 
-  const sessions = buildSessions(rawSessions, {
-    eventId: details.eventId || eventIdFromUrl(url),
-    durationMinutes: durationMinutesFrom(details),
-  });
+  try {
+    const rawSessions = await collectSessions(
+      page,
+      url,
+      {
+        eventId: details.eventId || eventIdFromUrl(url),
+        fallbackDateIso: details.startDate || undefined,
+        venueCode: VENUE.code,
+      }
+    );
+
+    sessions = buildSessions(rawSessions, {
+      eventId: details.eventId || eventIdFromUrl(url),
+      durationMinutes: durationMinutesFrom(details),
+    });
+
+  } catch (error) {
+    console.warn(`⚠️ Could not read sessions: ${(error as Error).message}`);
+  }
 
   //
   // JSON-LD only ever describes ONE session, so it is just a sanity check.
@@ -248,7 +286,24 @@ async function run() {
   const venueHtml =
     await page.content();
 
-const allShows = parseVenuePage(venueHtml);
+const venueCards = parseVenuePage(venueHtml);
+
+const { kept: allShows, dropped: offRegion } = filterVenueCards(
+  venueCards,
+  VENUE
+);
+
+offRegion.forEach(({ card, reason }) =>
+  console.log(`🌍 Dropped ${card.title} (${card.eventId}): ${reason}`)
+);
+
+if (!allShows.length) {
+  throw new Error(
+    `The venue page gave no ${VENUE.region.regionName} / ${VENUE.host} events ` +
+    `(${venueCards.length} card(s) seen). Not touching data/raw-shows.json. ` +
+    `Check your network/VPN and re-run.`
+  );
+}
 
 console.log(
   allShows.map((show) => ({
@@ -269,6 +324,22 @@ try {
   existingShows = [];
 }
 
+// Clean out records from earlier runs that are not Ministry of Comedy shows.
+const notOurs = existingShows.filter(
+  (s) => !isAtVenue(s, VENUE, ALLOWED_EVENTS).ok
+);
+
+if (notOurs.length) {
+  const names = [...new Set(notOurs.map((s) => `${s.title} (${s.eventId})`))];
+
+  console.log(`🧹 Removing ${notOurs.length} cached record(s) that are not Ministry of Comedy shows:`);
+  names.forEach((n) => console.log(`     - ${n}`));
+
+  existingShows = existingShows.filter(
+    (s) => isAtVenue(s, VENUE, ALLOWED_EVENTS).ok
+  );
+}
+
 const now = new Date();
 
 // Past sessions are dropped. Listings scraped within the TTL are reused as-is;
@@ -287,6 +358,7 @@ console.log(
 );
 
 const finalShows: any[] = [...fresh];
+const skipped: { id: string; title: string; reason: string }[] = [];
 
 const ignoredShows = allShows.filter((show) =>
   scraperConfig.ignoredEvents.includes(show.eventId)
@@ -340,11 +412,30 @@ console.log(
         bookingUrl: summary.bookingUrl || details.bookingUrl,
       };
 
-      if (sessions.length) {
+      const venueCheck = isAtVenue(
+        { ...details, eventId: summary.eventId },
+        VENUE,
+        ALLOWED_EVENTS
+      );
+
+      if (!venueCheck.ok && !sessions.length) {
+
+        // Not at our venue and sells nothing there: not ours, don't save it.
+        skipped.push({
+          id: summary.eventId,
+          title: summary.title,
+          reason: venueCheck.reason,
+        });
+
+        console.log(`🚫 Not a Ministry of Comedy show (${venueCheck.reason}): skipped`);
+
+      } else if (sessions.length) {
 
         for (const session of sessions) {
           finalShows.push({
             ...base,
+            // an event page without venue data still sold seats at our venue
+            venue: details.venue || VENUE.name,
             ...session,
             // keep the listing price when a session has none of its own
             price: session.price ?? details.price,
@@ -395,6 +486,12 @@ console.log(
     await page.waitForTimeout(1500);
   }
 
+  if (skipped.length) {
+    console.log(`\n🚫 Skipped ${skipped.length} event(s) that are not at ${VENUE.name}:`);
+    skipped.forEach((s) => console.log(`   ${s.id}  ${s.title}  — ${s.reason}`));
+    console.log(`   (wrongly skipped? add the id to "allowedEvents" in src/config/scraper.json)`);
+  }
+
   //
   // ---------------------------------------
   // Save JSON
@@ -436,4 +533,7 @@ console.log(
   await browser.close();
 }
 
-run().catch(console.error);
+run().catch((error) => {
+  console.error(error);
+  process.exit(1);
+});

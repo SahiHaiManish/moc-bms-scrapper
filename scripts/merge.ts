@@ -1,7 +1,9 @@
 import fs from "fs";
 import path from "path";
 
+import scraperConfig from "../src/config/scraper.json";
 import { findClashes, sessionIdOf } from "./lib/clashes";
+import { VenueConfig, isAtVenue } from "./lib/venueFilter";
 
 interface Show {
   eventId: string;
@@ -31,9 +33,29 @@ const rawPath = path.join(process.cwd(), "data", "raw-shows.json");
 const adminPath = path.join(process.cwd(), "src", "config", "admin.json");
 const outputPath = path.join(process.cwd(), "public", "shows.json");
 
-const rawShows: Show[] = fs.existsSync(rawPath)
+const VENUE = scraperConfig.venue as VenueConfig;
+
+const scraped: Show[] = fs.existsSync(rawPath)
   ? JSON.parse(fs.readFileSync(rawPath, "utf8"))
   : [];
+
+// Last line of defence: nothing that isn't a Ministry of Comedy show reaches
+// the site, whatever ended up in raw-shows.json.
+const rawShows = scraped.filter(
+  (s) => isAtVenue(s, VENUE, scraperConfig.allowedEvents).ok
+);
+
+if (rawShows.length !== scraped.length) {
+  const gone = scraped.filter((s) => !rawShows.includes(s));
+
+  console.warn(
+    `🧹 Left out ${gone.length} record(s) that are not Ministry of Comedy shows:`
+  );
+
+  for (const name of new Set(gone.map((s) => `${s.title} (${s.eventId})`))) {
+    console.warn(`     - ${name}`);
+  }
+}
 
 const admin: AdminConfig = fs.existsSync(adminPath)
   ? JSON.parse(fs.readFileSync(adminPath, "utf8"))

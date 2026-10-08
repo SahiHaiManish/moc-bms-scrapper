@@ -6,47 +6,49 @@ export default function Hero() {
     <section className="relative border-b border-zinc-900">
 
 
-<div className="relative mx-auto max-w-6xl px-6 py-10">
+<div className="relative mx-auto max-w-6xl px-4 py-6 sm:px-6 sm:py-10">
 
   {/* Top Row */}
 
-  <div className="mb-12 flex items-center justify-between">
+  <div className="mb-6 flex items-center justify-between sm:mb-12">
 
     <a
       href="https://maps.google.com/?q=Ministry+Of+Comedy+Koramangala+Bengaluru"
       target="_blank"
       rel="noopener noreferrer"
-      className="inline-flex items-center gap-2 text-sm font-medium text-yellow-400 transition hover:text-yellow-300"
+      className="inline-flex items-center gap-2 py-2.5 text-sm font-medium text-yellow-400 transition hover:text-yellow-300"
     >
       <MapPin size={17} />
-      Koramangala, Bengaluru
+      <span>
+        Koramangala<span className="hidden min-[380px]:inline">, Bengaluru</span>
+      </span>
     </a>
 
-    <div className="flex items-center gap-6 text-zinc-500">
+    <div className="-mr-2.5 flex items-center text-zinc-500 sm:gap-2">
 
       <a
         href="https://instagram.com/theministryofcomedy"
         target="_blank"
         rel="noopener noreferrer"
-        className="transition hover:text-yellow-400"
+        className="p-2.5 transition hover:text-yellow-400"
       >
-        <FaInstagram size={22} />
+        <FaInstagram size={22} aria-label="Instagram" />
       </a>
 
       <a
         href="https://wa.me/918317492499"
         target="_blank"
         rel="noopener noreferrer"
-        className="transition hover:text-yellow-400"
+        className="p-2.5 transition hover:text-yellow-400"
       >
-        <FaWhatsapp size={22} />
+        <FaWhatsapp size={22} aria-label="WhatsApp" />
       </a>
 
       <a
         href="mailto:ministryofcomedymail@gmail.com"
-        className="transition hover:text-yellow-400"
+        className="p-2.5 transition hover:text-yellow-400"
       >
-        <Mail size={21} />
+        <Mail size={21} aria-label="Email" />
       </a>
 
     </div>
@@ -57,7 +59,7 @@ export default function Hero() {
 
   <div className="mx-auto max-w-4xl text-center">
 
-    <h1 className="text-5xl font-black leading-[0.9] tracking-tight text-white md:text-6xl lg:text-7xl">
+    <h1 className="text-balance text-4xl font-black leading-[0.95] tracking-tight text-white sm:text-5xl md:text-6xl lg:text-7xl">
       Ministry of Comedy
     </h1>
 
@@ -74,8 +76,8 @@ export default function Hero() {
 
 </div>
 
-<div className="mb-4 text-center">
- <div className="text-3xl tracking-wide text-yellow-400">
+<div className="mb-6 px-4 text-center sm:mb-4">
+ <div className="text-2xl tracking-wide text-yellow-400 sm:text-3xl">
     ★★★★★
   </div>
 
@@ -83,14 +85,14 @@ export default function Hero() {
   href="https://share.google/DsCYkBi48Sc6vIX0a"
   target="_blank"
   rel="noopener noreferrer"
-  className="inline-block transition-opacity hover:opacity-80"
+  className="inline-block py-2 transition-opacity hover:opacity-80"
 >
-  <p className="mt-1 text-base text-zinc-300">
+  <p className="text-base text-zinc-300">
     Rated <span className="font-semibold text-white">4.5</span> on Google
   </p>
 </a>
 
-  <blockquote className="mt-5 italic text-zinc-300 text-lg">
+  <blockquote className="mt-1 text-base italic text-zinc-300 sm:mt-5 sm:text-lg">
     "Great little room."
   </blockquote>
 

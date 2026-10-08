@@ -21,7 +21,7 @@ interface Props {
 }
 
 const chip =
-  "rounded-full px-3 py-1 text-xs font-bold uppercase tracking-wider";
+  "rounded-full px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider sm:px-3 sm:py-1 sm:text-xs";
 
 export default function ShowCard({ show, tags = [], videoId }: Props) {
 
@@ -70,7 +70,7 @@ const featured = tags.includes("featured");
             )}
 
             {tags.length > 0 && (
-              <div className="absolute left-3 top-3 z-10 flex flex-wrap items-center gap-2">
+              <div className="absolute left-2 top-2 z-10 flex flex-wrap items-center gap-1.5 sm:left-3 sm:top-3 sm:gap-2">
                 {tags.includes("live") && (
                   <span className={`${chip} bg-red-600 text-white`}>
                     ● Live now
@@ -96,21 +96,21 @@ const featured = tags.includes("featured");
               </div>
             )}
 
-            <div className="pointer-events-none absolute bottom-4 left-4 rounded-full bg-yellow-400 px-3 py-1 text-xs font-semibold text-black">
+            <div className="pointer-events-none absolute bottom-2 left-2 rounded-full bg-yellow-400 px-2.5 py-0.5 text-[11px] font-semibold text-black sm:bottom-4 sm:left-4 sm:px-3 sm:py-1 sm:text-xs">
               {show.category}
             </div>
           </>
         )}
       </div>
 
-      <div className="space-y-4 p-5">
+      <div className="space-y-3 p-4 sm:space-y-4 sm:p-5">
         <div>
-          <h3 className="line-clamp-2 text-xl font-bold leading-snug text-white">
+          <h3 className="line-clamp-2 text-lg font-bold leading-snug text-white sm:text-xl">
             {show.title}
           </h3>
 
           {show.performers.length > 0 && (
-            <p className="mt-2 text-sm text-zinc-400">
+            <p className="mt-1.5 line-clamp-1 text-sm text-zinc-400 sm:mt-2 sm:line-clamp-none">
               Featuring{" "}
               <span className="text-zinc-200">
                 {show.performers.join(", ")}
@@ -120,39 +120,34 @@ const featured = tags.includes("featured");
         </div>
 
 
-<div className="space-y-2 text-sm text-zinc-300">
+<div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-zinc-300 sm:block sm:space-y-2">
 
   <div className="flex items-center gap-2">
     <Calendar size={16} className="text-yellow-400" />
-    <span>
-      {formatInTimeZone(
-        start,
-        "Asia/Kolkata",
-        "EEEE, d MMM yyyy"
-      )}
+    <span className="sm:hidden">
+      {formatInTimeZone(start, "Asia/Kolkata", "EEE, d MMM")}
+    </span>
+    <span className="hidden sm:inline">
+      {formatInTimeZone(start, "Asia/Kolkata", "EEEE, d MMM yyyy")}
     </span>
   </div>
 
   <div className="flex items-center gap-2">
     <Clock size={16} className="text-yellow-400" />
     <span>
-      {formatInTimeZone(
-        start,
-        "Asia/Kolkata",
-        "h:mm a"
-      )}
+      {formatInTimeZone(start, "Asia/Kolkata", "h:mm a")}
     </span>
   </div>
 
 </div>
 
-<div className="flex items-center justify-between border-t border-zinc-800 pt-4">
+<div className="flex items-center justify-between border-t border-zinc-800 pt-3 sm:pt-4">
           <div>
             <p className="text-xs uppercase tracking-wider text-zinc-500">
               Tickets from
             </p>
 
-            <p className="text-2xl font-bold text-white">
+            <p className="text-xl font-bold text-white sm:text-2xl">
               ₹{show.price}
             </p>
           </div>

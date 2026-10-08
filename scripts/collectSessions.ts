@@ -4,6 +4,7 @@ import fs from "fs/promises";
 import { SCAN_DATE_TABS, SCAN_TIME_SLOTS } from "./lib/domScanners";
 import { RawSession, labelFromIso } from "./lib/sessions";
 import { findBookButton } from "./bookingFlow";
+import { venueCodeFromUrl } from "./lib/venueFilter";
 
 const DEFAULT_VENUE_CODE = "MCBK"; // Ministry Of Comedy: Koramangala
 const VIEW_TIMEOUT_MS = 12_000;
@@ -83,6 +84,22 @@ async function waitForDateView(page: Page): Promise<boolean> {
   return false;
 }
 
+/**
+ * Sessions must come from OUR venue's date-time page. If BookMyShow sent us to
+ * another venue's page (some events sell at several venues), refuse it rather
+ * than record someone else's showtimes.
+ *   strict = the url must positively say it is this venue (click-through path)
+ */
+function assertVenue(page: Page, venueCode: string, strict: boolean) {
+  const found = venueCodeFromUrl(page.url());
+
+  if ((found && found !== venueCode.toUpperCase()) || (strict && !found)) {
+    throw new Error(
+      `Date/time page is for venue ${found ?? "unknown"}, not ${venueCode}: ignoring it.`
+    );
+  }
+}
+
 async function openDateTimeView(
   page: Page,
   bookingUrl: string,
@@ -94,7 +111,10 @@ async function openDateTimeView(
     timeout: 60_000,
   });
 
-  if (await waitForDateView(page)) return;
+  if (await waitForDateView(page)) {
+    assertVenue(page, venueCode, false);
+    return;
+  }
 
   // 2) fall back to clicking Book Now on the event page, once
   await page.goto(bookingUrl, {
@@ -110,7 +130,10 @@ async function openDateTimeView(
     await book.scrollIntoViewIfNeeded().catch(() => {});
     await book.click({ force: true }).catch(() => {});
 
-    if (await waitForDateView(page)) return;
+    if (await waitForDateView(page)) {
+      assertVenue(page, venueCode, true);
+      return;
+    }
   }
 
   throw new Error("Could not find a date/time view for this listing.");
