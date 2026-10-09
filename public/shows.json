@@ -54,7 +54,7 @@
     "startDate": "2026-10-08T23:00:00+05:30",
     "endDate": "2026-10-09T00:15:00+05:30",
     "duration": "PT1H15M",
-    "price": 225,
+    "price": 199,
     "currency": "INR",
     "performers": [
       "Manish Jain (Comic)",
@@ -215,7 +215,7 @@
     "startDate": "2026-10-10T22:00:00+05:30",
     "endDate": "2026-10-10T23:25:00+05:30",
     "duration": "PT1H25M",
-    "price": 225,
+    "price": 250,
     "currency": "INR",
     "performers": [
       "Manish Jain (Comic)",
@@ -248,7 +248,7 @@
     "startDate": "2026-10-10T23:59:00+05:30",
     "endDate": "2026-10-11T01:14:00+05:30",
     "duration": "PT1H15M",
-    "price": 225,
+    "price": 250,
     "currency": "INR",
     "performers": [
       "Manish Jain (Comic)",
