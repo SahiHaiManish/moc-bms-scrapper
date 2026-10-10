@@ -37,7 +37,7 @@ export default function Hero() {
             >
               <MapPin size={17} />
               <span>
-                Koramangala<span className="hidden min-[380px]:inline">, Bengaluru</span>
+                Koramangala<span className="hidden sm:inline">, Bengaluru</span>
               </span>
             </a>
 
@@ -74,7 +74,7 @@ export default function Hero() {
 
           {/* Centre: the brand */}
 
-          <h1 className="order-2 text-3xl font-black leading-none tracking-tight text-white sm:text-4xl lg:col-start-2 lg:row-start-1 lg:text-5xl">
+          <h1 className="order-2 w-full max-w-[20rem] text-3xl font-black leading-none tracking-tight text-white sm:text-4xl lg:col-start-2 lg:row-start-1 lg:w-auto lg:max-w-none lg:text-5xl">
             {LOGO ? (
               <Image
                 src={LOGO.src}
@@ -82,8 +82,11 @@ export default function Hero() {
                 width={LOGO.width}
                 height={LOGO.height}
                 priority
-                sizes="(min-width: 1024px) 320px, (min-width: 640px) 214px, 187px"
-                className="block h-14 w-auto sm:h-16 lg:h-24"
+                sizes="320px"
+                // Stacked layout: as wide as fits (max 320px). The file has empty
+                // margins above/below the artwork, so pull them in (-my-3); the
+                // logo isn't a link, so let taps pass through to the buttons next to it.
+                className="pointer-events-none -my-3 block h-auto w-full lg:my-0 lg:h-24 lg:w-auto"
               />
             ) : (
               "Ministry of Comedy"
