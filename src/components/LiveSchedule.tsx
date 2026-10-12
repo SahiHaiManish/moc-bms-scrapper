@@ -1,11 +1,13 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { addMinutes, isAfter, isBefore, parseISO } from "date-fns";
 
+import DateStrip from "./DateStrip";
 import ShowSection from "./ShowSection";
 
-import { Show, groupShows } from "@/lib/groupShows";
+import { bucketByDate, dateKey, dayTitle, pickDate } from "@/lib/calendar";
+import { Show, groupShows, isDisplayed } from "@/lib/groupShows";
 import { showKey } from "@/lib/showKey";
 
 /** A show counts as "live now" for this long after its start time. */
@@ -39,7 +41,8 @@ export default function LiveSchedule({
     return () => clearInterval(timer);
   }, []);
 
-  // On the page: everything upcoming, plus the show that is on stage right now.
+  // Everything upcoming, plus the show that is on stage right now. The date
+  // strip and a picked day use all of it, so Mon-Thu can be looked up.
   const listed = useMemo(
     () =>
       shows.filter((show) =>
@@ -48,19 +51,67 @@ export default function LiveSchedule({
     [shows, now]
   );
 
+  // The default "All" view leaves out mid-week days (isDisplayed): they would
+  // repeat the same mics down the page. They appear under "Tonight" on the day.
+  const advertised = useMemo(
+    () => listed.filter((show) => isDisplayed(show, now)),
+    [listed, now]
+  );
+
   const liveShow = useMemo(
     () =>
       listed.find((show) => isBefore(parseISO(show.startDate), now)),
     [listed, now]
   );
 
+  // ---- Calendar ------------------------------------------------------------
+
+  const days = useMemo(() => bucketByDate(listed, now), [listed, now]);
+
+  const [picked, setPicked] = useState<string | null>(null);
+
+  // A shared link like /?date=2026-10-10 opens straight on that day.
+  useEffect(() => {
+    setPicked(new URLSearchParams(window.location.search).get("date"));
+  }, []);
+
+  // Only honour a date that still has shows (an old link, or midnight passing,
+  // quietly falls back to "All").
+  const activeDate = pickDate(picked, days);
+
+  // "Next up" must be a card that is on screen: from the full list when a day
+  // is picked, otherwise from what "All" displays.
   const nextShow = useMemo(
-    () => listed.find((show) => parseISO(show.startDate) > now),
-    [listed, now]
+    () => (activeDate ? listed : advertised).find((show) => parseISO(show.startDate) > now),
+    [activeDate, listed, advertised, now]
   );
 
+  const selectDate = useCallback((key: string | null) => {
+    setPicked(key);
+
+    try {
+      const url = new URL(window.location.href);
+
+      if (key) url.searchParams.set("date", key);
+      else url.searchParams.delete("date");
+
+      window.history.replaceState(null, "", url.toString());
+    } catch {
+      /* URL can't be updated here (e.g. sandboxed preview): the filter still works */
+    }
+  }, []);
+
   const sections = useMemo(() => {
-    const grouped = groupShows(listed);
+    const day = days.find((d) => d.key === activeDate);
+
+    const grouped = day
+      ? [
+          {
+            title: dayTitle(day),
+            shows: listed.filter((s) => dateKey(s.startDate) === day.key),
+          },
+        ]
+      : groupShows(advertised, now);
 
     if (!PIN_FEATURED_FIRST) return grouped;
 
@@ -74,10 +125,19 @@ export default function LiveSchedule({
         ...section.shows.filter((s) => !featured.has(s.eventId)),
       ],
     }));
-  }, [listed, featuredIds]);
+  }, [listed, advertised, featuredIds, days, activeDate, now]);
 
   return (
     <>
+      {days.length > 1 && (
+        <DateStrip
+          buckets={days}
+          total={advertised.length}
+          selected={activeDate}
+          onSelect={selectDate}
+        />
+      )}
+
       {sections.map((section) => (
         <ShowSection
           key={section.title}

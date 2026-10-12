@@ -1,15 +1,4 @@
-import {
-  parseISO,
-  isSameDay,
-  isAfter,
-  startOfDay,
-  endOfDay,
-  nextFriday,
-  nextSaturday,
-  nextSunday,
-} from "date-fns";
-
-import { toZonedTime } from "date-fns-tz";
+import { addDays, dateKey, weekdayOfKey } from "@/lib/calendar";
 
 export interface Show {
   title: string;
@@ -36,115 +25,75 @@ export interface ShowSection {
   shows: Show[];
 }
 
-export function groupShows(shows: Show[]): ShowSection[] {
-  const sorted = [...shows].sort(
-    (a, b) =>
-      parseISO(a.startDate).getTime() -
-      parseISO(b.startDate).getTime()
-  );
+/**
+ * Mon-Thu run the same mics every day, so listing them days in advance just
+ * repeats the same card down the page. They stay in the data; they simply
+ * aren't advertised until their own day, when they show up under "Tonight".
+ *
+ * Shown: today (and anything still on stage past midnight), the coming
+ * weekend, and everything after it. Hidden: the days in between.
+ *
+ * Days are India dates, so this is the same on any server or phone time zone.
+ */
+export function isDisplayed(show: { startDate: string }, now: Date = new Date()): boolean {
+  const today = dateKey(now);
+  const key = dateKey(show.startDate);
 
+  return key <= today || key >= firstWeekendKeyFrom(today);
+}
 
-const today = toZonedTime(new Date(), "Asia/Kolkata");
+/** First weekend day still ahead (Fri; Sat on a Friday; Sun on a Saturday; next Fri on a Sunday). */
+function firstWeekendKeyFrom(today: string): string {
+  const dow = weekdayOfKey(today); // 0 = Sunday ... 6 = Saturday
 
-  const friday = startOfDay(nextFriday(today));
-  const saturday = startOfDay(nextSaturday(today));
-  const sunday = startOfDay(nextSunday(today));
-  const sundayEnd = endOfDay(nextSunday(today));
+  if (dow === 5) return addDays(today, 1);
+  if (dow === 6) return addDays(today, 1);
 
-  const todayShows = sorted.filter((show) =>
-    isSameDay(parseISO(show.startDate), today)
-  );
+  return addDays(today, (5 - dow + 7) % 7);
+}
 
-  const fridayShows = sorted.filter((show) =>
-    isSameDay(parseISO(show.startDate), friday)
-  );
+/**
+ * Sorts the upcoming shows into the sections the page displays:
+ *
+ *   Tonight      today
+ *   Friday / Saturday / Sunday    the coming weekend (what's left of it)
+ *   Coming Soon  everything after that Sunday
+ *
+ * Mid-week days between today and the weekend get no section (see
+ * isDisplayed); a show on such a day is "Tonight" once its day arrives.
+ */
+export function groupShows(shows: Show[], now: Date = new Date()): ShowSection[] {
+  const sorted = shows
+    .filter((show) => isDisplayed(show, now))
+    .sort((a, b) => Date.parse(a.startDate) - Date.parse(b.startDate));
 
-  const saturdayShows = sorted.filter((show) =>
-    isSameDay(parseISO(show.startDate), saturday)
-  );
+  const today = dateKey(now);
+  const dow = weekdayOfKey(today);
 
-  const sundayShows = sorted.filter((show) =>
-    isSameDay(parseISO(show.startDate), sunday)
-  );
+  const weekend: { title: string; key: string }[] = [];
 
-  const comingSoon = sorted.filter((show) => {
-    const date = parseISO(show.startDate);
-    return isAfter(date, sundayEnd);
-  });
-
-  const weekday = today.getDay(); // 0 = Sun ... 6 = Sat
-
-  const sections: ShowSection[] = [];
-
-  if (todayShows.length) {
-    sections.push({
-      title: "Tonight",
-      shows: todayShows,
-    });
+  if (dow !== 5 && dow !== 6) {
+    weekend.push({ title: "Friday", key: addDays(today, (5 - dow + 7) % 7) });
   }
 
-  switch (weekday) {
-    case 1: // Monday
-    case 2: // Tuesday
-    case 3: // Wednesday
-    case 4: // Thursday
-      if (fridayShows.length) {
-        sections.push({
-          title: "Friday",
-          shows: fridayShows,
-        });
-      }
-
-      if (saturdayShows.length) {
-        sections.push({
-          title: "Saturday",
-          shows: saturdayShows,
-        });
-      }
-
-      if (sundayShows.length) {
-        sections.push({
-          title: "Sunday",
-          shows: sundayShows,
-        });
-      }
-      break;
-
-    case 5: // Friday
-      if (saturdayShows.length) {
-        sections.push({
-          title: "Saturday",
-          shows: saturdayShows,
-        });
-      }
-
-      if (sundayShows.length) {
-        sections.push({
-          title: "Sunday",
-          shows: sundayShows,
-        });
-      }
-      break;
-
-    case 6: // Saturday
-      if (sundayShows.length) {
-        sections.push({
-          title: "Sunday",
-          shows: sundayShows,
-        });
-      }
-      break;
-
-    case 0: // Sunday
-      break;
+  if (dow !== 6) {
+    weekend.push({ title: "Saturday", key: addDays(today, (6 - dow + 7) % 7) });
   }
 
-  if (comingSoon.length) {
-    sections.push({
-      title: "Coming Soon",
-      shows: comingSoon,
-    });
-  }
+  weekend.push({ title: "Sunday", key: addDays(today, dow === 0 ? 7 : 7 - dow) });
 
-  return sections;
+  const lastWeekendKey = weekend[weekend.length - 1].key;
+  const keyOf = (show: Show) => dateKey(show.startDate);
+
+  const sections: ShowSection[] = [
+    // `<=` so a late show still on stage just after midnight stays under Tonight
+    { title: "Tonight", shows: sorted.filter((s) => keyOf(s) <= today) },
+    ...weekend.map(({ title, key }) => ({
+      title,
+      shows: sorted.filter((s) => keyOf(s) === key),
+    })),
+    { title: "Coming Soon", shows: sorted.filter((s) => keyOf(s) > lastWeekendKey) },
+  ];
+
+  return sections.filter((section) => section.shows.length > 0);
 }

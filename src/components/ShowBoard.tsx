@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { isAfter, format, parseISO } from "date-fns";
 import { mono } from "@/lib/fonts";
-import { Show } from "@/lib/groupShows";
+import { Show, isDisplayed } from "@/lib/groupShows";
 import { showKey } from "@/lib/showKey";
 
 export default function ShowBoard({ shows }: { shows: Show[] }) {
@@ -12,7 +12,7 @@ export default function ShowBoard({ shows }: { shows: Show[] }) {
   const now = new Date();
 
   const upcomingShows = shows.filter((show) =>
-    isAfter(parseISO(show.startDate), now)
+    isAfter(parseISO(show.startDate), now) && isDisplayed(show, now)
   );
 
   // Hooks must run on every render, so they sit above the early return below.
