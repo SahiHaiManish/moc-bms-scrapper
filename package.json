@@ -11,7 +11,8 @@
     "merge": "tsx scripts/merge.ts",
     "sync": "npm run scrape && npm run merge",
     "pick": "tsx scripts/pick.ts",
-    "add": "tsx scripts/add.ts"
+    "add": "tsx scripts/add.ts",
+    "lineup": "tsx scripts/lineup.ts"
   },
   "dependencies": {
     "@vercel/analytics": "^2.0.1",

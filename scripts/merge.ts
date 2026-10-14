@@ -4,6 +4,7 @@ import path from "path";
 import scraperConfig from "../src/config/scraper.json";
 import { findClashes, sessionIdOf } from "./lib/clashes";
 import { VenueConfig, isAtVenue } from "./lib/venueFilter";
+import { applyLineups, loadLineups, reportLineups } from "./lib/lineups";
 
 interface Show {
   eventId: string;
@@ -105,12 +106,32 @@ if (clashes.length) {
   );
 }
 
-fs.writeFileSync(
-  outputPath,
-  JSON.stringify(visibleShows, null, 2)
-);
+// ---------------------------------------------------------------------------
+// Lineups published from /mics/lineup replace that show's performers.
+// ---------------------------------------------------------------------------
 
-console.log(
-  `\n✅ Merged ${visibleShows.length} visible shows (from ${rawShows.length} total)` +
-    (clashes.length ? ` — ${clashes.length} time slot(s) have duplicate listings` : "")
-);
+async function main() {
+  const { lineups, source } = await loadLineups();
+  const { shows, updated, unmatched } = applyLineups(visibleShows, lineups);
+
+  if (lineups.length) {
+    console.log(`\n🎤 ${lineups.length} published lineup(s) from ${source}:`);
+    reportLineups(updated, unmatched);
+  }
+
+  fs.writeFileSync(
+    outputPath,
+    JSON.stringify(shows, null, 2)
+  );
+
+  console.log(
+    `\n✅ Merged ${shows.length} visible shows (from ${rawShows.length} total)` +
+      (clashes.length ? ` — ${clashes.length} time slot(s) have duplicate listings` : "") +
+      (updated.length ? ` — ${updated.length} lineup(s) from /mics` : "")
+  );
+}
+
+main().catch((err) => {
+  console.error(err);
+  process.exit(1);
+});
