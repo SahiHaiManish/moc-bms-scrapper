@@ -421,7 +421,7 @@
     "performers": [
       "Manish Jain (host)",
       "Somnath Padhy",
-      "Shanon Harris",
+      "Shanon Harris (New York)",
       "Siddharth Khare",
       "Aaqib Merchant",
       "Samarpan Bose",
@@ -455,13 +455,21 @@
     "duration": "",
     "price": 250,
     "currency": "",
-    "performers": [],
+    "performers": [
+      "Chaitanya Khare",
+      "Manoj Prabakar",
+      "Manish Jain",
+      "Sribatsa Pathy",
+      "Abhinav Pandey",
+      "Umesh Kanojia"
+    ],
     "languages": [],
     "sessionId": "ET00476821@20261017T2359",
     "date": "Sat 17 Oct",
     "time": "11:59 PM",
     "availability": "available",
-    "scrapedAt": "2026-10-11T21:39:58.360Z"
+    "scrapedAt": "2026-10-11T21:39:58.360Z",
+    "lineupPublishedAt": "2026-10-17T07:55:42.980Z"
   },
   {
     "title": "GHUTNE 2.0 - Standup Comedy by Shashwat Maheshwari",
