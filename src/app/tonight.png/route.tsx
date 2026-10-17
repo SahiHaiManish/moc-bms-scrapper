@@ -100,16 +100,71 @@ function Ticked({ text, px }: { text: string; px: number }) {
   );
 }
 
-/** Type sizes for the notes: bigger when there are fewer of them. */
+/** Type and photo sizes for the notes: bigger when there are fewer of them. */
 function noteSizes(count: number, height: number) {
-  if (count === 1) return { time: 84, title: 66, names: 46, pad: 50, maxNames: 5 };
-  if (count === 2) return { time: 66, title: 52, names: 38, pad: 44, maxNames: 5 };
-  if (height >= 330) return { time: 54, title: 44, names: 34, pad: 40, maxNames: 4 };
-  if (height >= 260) return { time: 46, title: 38, names: 30, pad: 30, maxNames: 3 };
-  return { time: 38, title: 32, names: 26, pad: 26, maxNames: 3 };
+  if (count === 1) return { time: 84, title: 66, names: 46, pad: 50, maxNames: 5, photo: 250 };
+  if (count === 2) return { time: 66, title: 52, names: 38, pad: 44, maxNames: 5, photo: 170 };
+  if (height >= 330) return { time: 54, title: 44, names: 34, pad: 40, maxNames: 4, photo: 140 };
+  if (height >= 260) return { time: 46, title: 38, names: 30, pad: 30, maxNames: 3, photo: 112 };
+  return { time: 38, title: 32, names: 26, pad: 26, maxNames: 3, photo: 96 };
 }
 
-function Note({ show, index, count, width, height }: { show: TonightShow; index: number; count: number; width: number; height: number }) {
+/** A Polaroid with a first name scribbled underneath. */
+function Polaroid({ src, name, size, tilt }: { src: string; name: string; size: number; tilt: number }) {
+  const frame = Math.round(size * 0.07);
+  return (
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        background: "#FFFFFF",
+        paddingTop: frame,
+        paddingLeft: frame,
+        paddingRight: frame,
+        paddingBottom: Math.round(frame * 0.6),
+        transform: `rotate(${tilt}deg)`,
+        boxShadow: "4px 6px 0 rgba(27,31,59,0.2)",
+      }}
+    >
+      {/* eslint-disable-next-line @next/next/no-img-element -- rendered into a PNG */}
+      <img src={src} width={size} height={size} alt="" style={{ objectFit: "cover" }} />
+      <div style={{ display: "flex", fontFamily: "Hand", fontSize: Math.max(20, Math.round(size * 0.17)), color: INK, lineHeight: 1.15, marginTop: Math.round(frame * 0.6) }}>
+        {name.split(" ")[0]}
+      </div>
+    </div>
+  );
+}
+
+/** Fetches a photo as a data URI; null when it can't be loaded in time. */
+async function photoData(url: string): Promise<string | null> {
+  try {
+    const res = await fetch(url, { signal: AbortSignal.timeout(4000) });
+    const type = res.headers.get("content-type") ?? "";
+    if (!res.ok || !type.startsWith("image/")) return null;
+    const buf = Buffer.from(await res.arrayBuffer());
+    if (buf.length > 1_000_000) return null;
+    return `data:${type.split(";")[0]};base64,${buf.toString("base64")}`;
+  } catch {
+    return null;
+  }
+}
+
+function Note({
+  show,
+  index,
+  count,
+  width,
+  height,
+  photos,
+}: {
+  show: TonightShow;
+  index: number;
+  count: number;
+  width: number;
+  height: number;
+  photos: { name: string; src: string }[];
+}) {
   const z = noteSizes(count, height);
   const roomy = z.pad >= 40;
   const title = posterTitle(show.title);
@@ -153,6 +208,26 @@ function Note({ show, index, count, width, height }: { show: TonightShow; index:
         style={{ position: "absolute", top: -24, left: Math.round(width / 2 - 75), transform: `rotate(${index % 2 ? 4 : -5}deg)` }}
       />
 
+      {photos.length > 0 && (
+        // Polaroids stuck on the right edge of the note, poking out a little.
+        <div
+          style={{
+            position: "absolute",
+            top: z.pad + Math.round(z.time * 1.05), // below the time, so they never cover it
+            right: -Math.round(z.photo * 0.12),
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "flex-end",
+          }}
+        >
+          {photos.map((p, i) => (
+            <div key={p.src.slice(-24) + i} style={{ display: "flex", marginTop: i ? -Math.round(z.photo * 0.08) : 0, marginRight: i ? Math.round(z.photo * 0.18) : 0 }}>
+              <Polaroid src={p.src} name={p.name} size={z.photo} tilt={i % 2 ? -6 : 5} />
+            </div>
+          ))}
+        </div>
+      )}
+
       <div style={{ display: "flex", fontFamily: "Marker", fontSize: timePx, color: RED, lineHeight: 1 }}>
         {show.time.toLowerCase()}
       </div>
@@ -165,6 +240,8 @@ function Note({ show, index, count, width, height }: { show: TonightShow; index:
           color: INK,
           lineHeight: 1.08,
           marginTop: roomy ? 14 : 8,
+          // keep text clear of the Polaroids
+          paddingRight: photos.length ? Math.round(z.photo * 0.95) : 0,
         }}
       >
         {title}
@@ -178,6 +255,7 @@ function Note({ show, index, count, width, height }: { show: TonightShow; index:
           color: INK,
           lineHeight: 1.12,
           marginTop: roomy ? 14 : 8,
+          paddingRight: photos.length ? Math.round(z.photo * 0.95) : 0,
         }}
       >
         <div style={{ display: "flex", fontSize: Math.round(namePx * 0.8), opacity: 0.7 }}>with</div>
@@ -199,6 +277,15 @@ export async function GET(request: Request) {
 
   const shown = tonight.shows.slice(0, MAX_SHOWS);
   const extra = tonight.shows.length - shown.length;
+
+  // Photos come from the mics app. One that can't be loaded is left out.
+  const urls = [...new Set(shown.flatMap((s) => s.photos.map((p) => p.url)))];
+  const loaded = new Map(await Promise.all(urls.map(async (u) => [u, await photoData(u)] as const)));
+  const photosFor = (s: TonightShow) =>
+    s.photos.flatMap((p) => {
+      const src = loaded.get(p.url);
+      return src ? [{ name: p.name, src }] : [];
+    });
   const n = shown.length;
   const compact = n >= 3;
   const [choreA, choreB] = choresFor(tonight.date);
@@ -326,7 +413,7 @@ export async function GET(request: Request) {
           }}
         >
           {shown.map((show, i) => (
-            <Note key={show.id} show={show} index={i} count={n} width={noteW} height={noteH} />
+            <Note key={show.id} show={show} index={i} count={n} width={noteW} height={noteH} photos={photosFor(show)} />
           ))}
           {n === 0 && (
             <div

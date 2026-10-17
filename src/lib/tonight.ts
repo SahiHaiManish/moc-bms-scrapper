@@ -30,6 +30,8 @@ interface ShowRecord {
   price?: number | string;
   performers?: string[];
   languages?: string[];
+  /** Faces for the poster, added by `npm run lineup` / merge from /mics. */
+  posterPhotos?: { name: string; url: string }[];
 }
 
 export interface TonightShow {
@@ -41,6 +43,7 @@ export interface TonightShow {
   price: string | null; // "₹249"
   languages: string[];
   bookingUrl: string; // absolute
+  photos: { name: string; url: string }[]; // 2 at most
 }
 
 export interface Tonight {
@@ -154,6 +157,10 @@ export function getTonight(date?: string | null, now: Date = new Date()): Tonigh
       price: priceLabel(s),
       languages: s.languages ?? [],
       bookingUrl: absolute(s.bookingUrl),
+      photos: (s.posterPhotos ?? [])
+        .filter((p) => p && typeof p.url === "string" && /^https?:\/\//.test(p.url))
+        .slice(0, 2)
+        .map((p) => ({ name: cleanName(p.name), url: p.url })),
     }));
 
   const [, month, dom] = day.split("-").map(Number);

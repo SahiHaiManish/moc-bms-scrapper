@@ -17,6 +17,8 @@ export interface PublishedLineup {
   day?: string;
   time?: string;
   performers: string[];
+  /** Up to 2 faces ticked on /mics/lineup; url may be relative to the mics app. */
+  photos?: { name: string; url: string }[];
   publishedAt?: string;
 }
 
@@ -54,7 +56,10 @@ function clean(raw: unknown): PublishedLineup[] {
       .map((n) => String(n).replace(/\s+/g, " ").trim())
       .filter(Boolean);
     if (!performers.length) return [];
-    return [{ ...x, slot: x.slot, performers }];
+    const photos = (Array.isArray(x.photos) ? x.photos : []).filter(
+      (p) => p && typeof p.name === "string" && typeof p.url === "string"
+    );
+    return [{ ...x, slot: x.slot, performers, photos }];
   });
 }
 

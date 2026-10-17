@@ -5,6 +5,7 @@ import scraperConfig from "../src/config/scraper.json";
 import { findClashes, sessionIdOf } from "./lib/clashes";
 import { VenueConfig, isAtVenue } from "./lib/venueFilter";
 import { applyLineups, loadLineups, reportLineups } from "./lib/lineups";
+import { addPosterPhotos, loadComics, reportPhotos } from "./lib/photos";
 
 interface Show {
   eventId: string;
@@ -111,13 +112,15 @@ if (clashes.length) {
 // ---------------------------------------------------------------------------
 
 async function main() {
-  const { lineups, source } = await loadLineups();
-  const { shows, updated, unmatched } = applyLineups(visibleShows, lineups);
+  const [{ lineups, source }, { comics }] = await Promise.all([loadLineups(), loadComics()]);
+  const { shows: withLineups, updated, unmatched } = applyLineups(visibleShows, lineups);
+  const { shows, missing } = addPosterPhotos(withLineups, lineups, comics);
 
   if (lineups.length) {
     console.log(`\n🎤 ${lineups.length} published lineup(s) from ${source}:`);
     reportLineups(updated, unmatched);
   }
+  reportPhotos(shows, missing);
 
   fs.writeFileSync(
     outputPath,
