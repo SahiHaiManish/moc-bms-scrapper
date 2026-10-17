@@ -118,7 +118,7 @@ function lineCount(text: string, px: number, width: number, ratio: number): numb
   const space = px * ratio * 0.6;
   let lines = 1;
   let used = 0;
-  for (const word of text.split(/\s+/).filter(Boolean)) {
+  for (const word of text.split(/[ \t\n]+/).filter(Boolean)) {
     const w = word.length * px * ratio;
     if (used === 0) used = w;
     else if (used + space + w <= width) used += space + w;
@@ -200,26 +200,6 @@ const polaroidH = (size: number) => size * 1.14 + Math.max(18, size * 0.15) * 1.
 /** Width of `count` Polaroids side by side, overlapping a little. */
 const polaroidsW = (size: number, count: number) => size * 1.14 * (count === 2 ? 1.92 : 1) + size * 0.06;
 
-/** Fits a names list into `lines` lines of a `width`-wide column. */
-function fitNames(names: string[], px: number, width: number, lines: number): string[] {
-  const out: string[] = [];
-  let used = 0;
-  for (let i = 0; i < names.length; i++) {
-    const need = lineCount(names[i], px, width, HAND_W);
-    const left = names.length - i - 1;
-    // keep one line for "+ N more" if anyone would be left out
-    const reserve = left > 0 ? 1 : 0;
-    // Always show at least one name when there are 2+ lines to work with.
-    if (used + need + reserve > lines && !(out.length === 0 && lines >= 2)) {
-      out.push(`+ ${names.length - i} more`);
-      return out;
-    }
-    out.push(names[i]);
-    used += need;
-  }
-  return out;
-}
-
 const sameName = (a: string, b: string) =>
   a.toLowerCase().replace(/[^a-z0-9]+/g, " ").trim() === b.toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
 
@@ -250,46 +230,80 @@ function Note({
   const gap1 = Math.round(timePx * 0.18);
   const gap2 = 14;
 
-  // Title: full width, 2 lines when there are photos, 3 otherwise.
   const title = posterTitle(show.title);
-  const titleFit = fit(title, Math.round(z.title * shrink), Math.round(z.title * 0.55), innerW, wanted.length ? 2 : 3, MARKER_W);
-  const titleH = titleFit.lines * titleFit.px * 1.08;
-  const rest = innerH - timeH - gap1 - titleH - gap2;
+  const performers = show.performers;
 
-  // Photos: as big as the space left allows, but never squeezing the names out.
-  let photos = wanted;
-  let size = 0;
-  if (photos.length) {
-    // Largest photo that fits the height left and keeps 36% of the width for names.
-    size = Math.floor(Math.min(z.photo, (innerW * 0.64) / polaroidsW(1, photos.length)));
-    while (size >= 70 && polaroidH(size) > rest) size -= 2;
-    if (size < 70) photos = []; // no room for a recognisable face: leave them off
+  // Names, as one line of text that wraps:
+  //   solo / double bill: every name in full ("Gaurav Madaan & Shubham Pujari")
+  //   lineup: two names, pictured comics first, then "+ k more"
+  let namesText: string;
+  if (performers.length === 0) namesText = "surprise acts (no spoilers)";
+  else if (performers.length <= 2) namesText = performers.join(" & ");
+  else {
+    const pictured = performers.filter((n) => wanted.some((p) => sameName(p.name, n)));
+    const two = [...pictured, ...performers.filter((n) => !pictured.includes(n))].slice(0, 2);
+    // non-breaking spaces keep "+ 6 more" on one line
+    namesText = `${two.join(", ")} +\u00a0${performers.length - 2}\u00a0more`;
   }
 
-  const others = show.performers.filter((n) => !photos.some((p) => sameName(p.name, n)));
-  const namesW = photos.length ? innerW - polaroidsW(size, photos.length) - 16 : innerW;
-  const namesPx = photos.length ? Math.round(z.names * 0.9) : z.names;
-  const nameLines = Math.max(1, Math.floor((photos.length ? polaroidH(size) : rest) / (namesPx * 1.14)) - 1);
+  const namesMax = Math.round(z.names * (wanted.length ? 0.9 : 1));
+  const namesMin = Math.round(z.names * 0.8); // never smaller than this
+  const namesH = (px: number, w: number) => px * 0.8 * 1.14 + lineCount(namesText, px, w, HAND_W) * px * 1.14;
 
-  const namesList =
-    show.performers.length === 0
-      ? ["surprise acts", "(no spoilers)"]
-      : others.length
-        ? fitNames(others, namesPx, namesW, nameLines)
-        : [];
-  const label = show.performers.length === 0 ? "with" : photos.length ? "also with" : "with";
+  type Plan = {
+    titlePx: number;
+    photos: { name: string; src: string }[];
+    size: number;
+    namesPx: number;
+    below: boolean; // names under the photos instead of beside them
+    ok: boolean;
+  };
 
-  const names =
-    namesList.length > 0 ? (
-      <div style={{ display: "flex", flexDirection: "column", width: namesW, flexShrink: 0, fontFamily: "Hand", fontSize: namesPx, color: INK, lineHeight: 1.12 }}>
-        <div style={{ display: "flex", fontSize: Math.round(namesPx * 0.8), opacity: 0.7 }}>{label}</div>
-        {namesList.map((n) => (
-          <div key={n} style={{ display: "flex" }}>
-            {n}
-          </div>
-        ))}
-      </div>
-    ) : null;
+  const plan = (titleLines: number): Plan => {
+    const tf = fit(title, Math.round(z.title * shrink), Math.round(z.title * 0.55), innerW, titleLines, MARKER_W);
+    const rest = innerH - timeH - gap1 - tf.lines * tf.px * 1.08 - gap2;
+    const n = wanted.length;
+
+    if (n) {
+      // 1. Photos with the names beside them.
+      let size = Math.floor(Math.min(z.photo, (innerW * 0.64) / polaroidsW(1, n)));
+      while (size >= 70 && polaroidH(size) > rest) size -= 2;
+      if (size >= 70) {
+        const w = innerW - polaroidsW(size, n) - 16;
+        for (let px = namesMax; px >= namesMin; px -= 2) {
+          if (namesH(px, w) <= rest) return { titlePx: tf.px, photos: wanted, size, namesPx: px, below: false, ok: true };
+        }
+      }
+      // 2. Photos a little smaller, names underneath across the full width.
+      for (let px = namesMax; px >= namesMin; px -= 2) {
+        const nh = namesH(px, innerW) + 8;
+        let s2 = Math.floor(Math.min(z.photo, (innerW * 0.8) / polaroidsW(1, n)));
+        while (s2 >= 70 && polaroidH(s2) + nh > rest) s2 -= 2;
+        if (s2 >= 70) return { titlePx: tf.px, photos: wanted, size: s2, namesPx: px, below: true, ok: true };
+      }
+      // 3. No room for a recognisable face: leave the photos off.
+    }
+    for (let px = z.names; px >= namesMin; px -= 2) {
+      if (namesH(px, innerW) <= rest) return { titlePx: tf.px, photos: [], size: 0, namesPx: px, below: false, ok: true };
+    }
+    return { titlePx: tf.px, photos: [], size: 0, namesPx: namesMin, below: false, ok: false };
+  };
+
+  // Long titles get 3 lines unless that crowds the names or photos out.
+  let p = plan(wanted.length ? 2 : 3);
+  if (!p.ok || (wanted.length && !p.photos.length)) {
+    const tighter = plan(wanted.length ? 1 : 2);
+    if (tighter.ok && (tighter.photos.length || !p.ok)) p = tighter;
+  }
+  const { photos, size, namesPx, below } = p;
+  const titleFit = { px: p.titlePx };
+
+  const names = (w: number) => (
+    <div style={{ display: "flex", flexDirection: "column", width: w, flexShrink: 0, fontFamily: "Hand", fontSize: namesPx, color: INK, lineHeight: 1.12 }}>
+      <div style={{ display: "flex", fontSize: Math.round(namesPx * 0.8), opacity: 0.7 }}>with</div>
+      <div style={{ display: "flex", width: w }}>{namesText}</div>
+    </div>
+  );
 
   return (
     <div
@@ -339,7 +353,16 @@ function Note({
         </div>
 
         {photos.length ? (
-          <div style={{ display: "flex", flexShrink: 0, alignItems: "flex-start", marginTop: gap2 + Math.round(size * 0.04), gap: 16 }}>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: below ? "column" : "row",
+              flexShrink: 0,
+              alignItems: "flex-start",
+              marginTop: gap2 + Math.round(size * 0.04),
+              gap: below ? 8 : 16,
+            }}
+          >
             <div style={{ display: "flex", flexShrink: 0, width: Math.round(polaroidsW(size, photos.length)), paddingLeft: Math.round(size * 0.04) }}>
               {photos.map((p, i) => (
                 <div key={p.src.slice(-24) + i} style={{ display: "flex", flexShrink: 0, marginLeft: i ? -Math.round(size * 0.1) : 0 }}>
@@ -347,10 +370,10 @@ function Note({
                 </div>
               ))}
             </div>
-            {names}
+            {names(below ? innerW : Math.floor(innerW - polaroidsW(size, photos.length) - 16))}
           </div>
         ) : (
-          <div style={{ display: "flex", flexShrink: 0, marginTop: gap2 }}>{names}</div>
+          <div style={{ display: "flex", flexShrink: 0, marginTop: gap2 }}>{names(innerW)}</div>
         )}
       </div>
     </div>
