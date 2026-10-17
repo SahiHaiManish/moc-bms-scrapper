@@ -25,9 +25,12 @@ export default async function TonightPage({
 
   // Changes whenever the shows do, so phones never show yesterday's poster.
   const version = encodeURIComponent(
-    tonight.shows.map((s) => `${s.id}:${s.performers.join("|")}`).join(",") || "none"
-  ).slice(0, 300);
+    tonight.shows.map((s) => `${s.id}:${s.performers.join("|")}:${s.photos.map((p) => p.url).join("|")}`).join(",") || "none"
+  )
+    .replace(/%/g, "")
+    .slice(-200);
   const posterUrl = `/tonight.png?date=${tonight.date}&v=${version}`;
+  const storyUrl = `/tonight.png?date=${tonight.date}&format=story&v=${version}`;
 
   return (
     <main className="body min-h-screen bg-black px-4 py-8 text-white sm:py-12">
@@ -62,6 +65,8 @@ export default async function TonightPage({
           <ShareTonight
             posterUrl={posterUrl}
             fileName={`moc-tonight-${tonight.date}.png`}
+            storyUrl={storyUrl}
+            storyFileName={`moc-tonight-story-${tonight.date}.png`}
             caption={caption}
           />
 

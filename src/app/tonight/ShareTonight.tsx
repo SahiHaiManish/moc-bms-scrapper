@@ -5,6 +5,8 @@ import { useState } from "react";
 interface Props {
   posterUrl: string;
   fileName: string;
+  storyUrl: string;
+  storyFileName: string;
   caption: string;
 }
 
@@ -16,22 +18,41 @@ const btn =
  * you pick the groups. Laptops (no file sharing): download the poster, copy
  * the message, or open WhatsApp with the message.
  */
-export default function ShareTonight({ posterUrl, fileName, caption }: Props) {
+export default function ShareTonight({ posterUrl, fileName, storyUrl, storyFileName, caption }: Props) {
   const [status, setStatus] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
 
-  async function posterFile(): Promise<File> {
-    const res = await fetch(posterUrl);
+  async function imageFile(url: string, name: string): Promise<File> {
+    const res = await fetch(url);
     if (!res.ok) throw new Error("Couldn't load the poster");
     const blob = await res.blob();
-    return new File([blob], fileName, { type: "image/png" });
+    return new File([blob], name, { type: "image/png" });
+  }
+
+  // Stories take just the image: Instagram ignores text sent with it.
+  async function shareStory() {
+    setBusy(true);
+    setStatus(null);
+    try {
+      const data = { files: [await imageFile(storyUrl, storyFileName)] };
+      if (navigator.canShare?.(data)) {
+        await navigator.share(data);
+        setStatus("Pick Instagram (or WhatsApp) and post it to your story.");
+      } else {
+        setStatus("This browser can't share files. Download the story image instead.");
+      }
+    } catch (err) {
+      if ((err as Error).name !== "AbortError") setStatus((err as Error).message);
+    } finally {
+      setBusy(false);
+    }
   }
 
   async function share() {
     setBusy(true);
     setStatus(null);
     try {
-      const file = await posterFile();
+      const file = await imageFile(posterUrl, fileName);
       const data = { files: [file], text: caption };
       if (navigator.canShare?.(data)) {
         // WhatsApp keeps the text as the image's caption on Android; on iPhone it
@@ -77,6 +98,14 @@ export default function ShareTonight({ posterUrl, fileName, caption }: Props) {
           className={`${btn} border border-zinc-700 text-white hover:border-yellow-400`}
         >
           WhatsApp (text only)
+        </a>
+      </div>
+      <div className="flex flex-wrap gap-3">
+        <button type="button" onClick={shareStory} disabled={busy} className={`${btn} border border-yellow-400 text-yellow-300 hover:bg-yellow-400/10`}>
+          Share story (1080×1920)
+        </button>
+        <a href={storyUrl} download={storyFileName} className={`${btn} border border-zinc-700 text-white hover:border-yellow-400`}>
+          Download story
         </a>
       </div>
       {status && <p className="text-sm text-zinc-400">{status}</p>}

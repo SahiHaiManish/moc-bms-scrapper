@@ -1,8 +1,9 @@
 /**
- * GET /tonight.png                   tonight's poster (India date)
+ * GET /tonight.png                   tonight's poster, 1080x1350 (WhatsApp, Instagram feed)
+ * GET /tonight.png?format=story      1080x1920 (Instagram / WhatsApp story)
  * GET /tonight.png?date=2026-10-17   another night, for previewing
  *
- * 1080x1350 (4:5). The idea: a page torn from a comic's notebook. A to-do
+ * The idea: a page torn from a comic's notebook. A to-do
  * list where the boring chores are crossed out and "go see comedy" gets the
  * tick, and every show is a sticky note taped onto the page.
  * Built from public/shows.json, so it always matches the site.
@@ -17,8 +18,15 @@ import { getTonight, type TonightShow } from "@/lib/tonight";
 
 import * as doodle from "./doodles";
 
-const W = 1080;
-const H = 1350;
+/**
+ * Story: Instagram covers roughly the top 250px (profile, progress bar) and the
+ * bottom 250px (reply box), so everything that matters stays between them.
+ */
+const FORMATS = {
+  post: { W: 1080, H: 1350, safeTop: 0, safeBottom: 0 },
+  story: { W: 1080, H: 1920, safeTop: 230, safeBottom: 260 },
+} as const;
+type Format = (typeof FORMATS)[keyof typeof FORMATS];
 
 const PAPER = "#FFFEF8";
 const INK = "#1B1F3B"; // ballpoint navy, not pure black
@@ -100,37 +108,74 @@ function Ticked({ text, px }: { text: string; px: number }) {
   );
 }
 
-/** Type and photo sizes for the notes: bigger when there are fewer of them. */
-function noteSizes(count: number, height: number) {
-  if (count === 1) return { time: 84, title: 66, names: 46, pad: 50, maxNames: 5, photo: 250 };
-  if (count === 2) return { time: 66, title: 52, names: 38, pad: 44, maxNames: 5, photo: 170 };
-  if (height >= 330) return { time: 54, title: 44, names: 34, pad: 40, maxNames: 4, photo: 140 };
-  if (height >= 260) return { time: 46, title: 38, names: 30, pad: 30, maxNames: 3, photo: 112 };
-  return { time: 38, title: 32, names: 26, pad: 26, maxNames: 3, photo: 96 };
+// Average letter widths (fraction of font size), measured from the font files
+// with a little headroom, so text can be fitted before Satori draws it.
+const MARKER_W = 0.6;
+const HAND_W = 0.42;
+
+/** How many lines `text` wraps to at `px` in a box `width` wide. */
+function lineCount(text: string, px: number, width: number, ratio: number): number {
+  const space = px * ratio * 0.6;
+  let lines = 1;
+  let used = 0;
+  for (const word of text.split(/\s+/).filter(Boolean)) {
+    const w = word.length * px * ratio;
+    if (used === 0) used = w;
+    else if (used + space + w <= width) used += space + w;
+    else {
+      lines++;
+      used = w;
+    }
+  }
+  return lines;
 }
 
-/** A Polaroid with a first name scribbled underneath. */
-function Polaroid({ src, name, size, tilt }: { src: string; name: string; size: number; tilt: number }) {
+/** Largest size from `max` down to `min` at which `text` fits in `maxLines`. */
+function fit(text: string, max: number, min: number, width: number, maxLines: number, ratio: number) {
+  for (let px = max; px > min; px -= 2) {
+    const lines = lineCount(text, px, width, ratio);
+    if (lines <= maxLines) return { px, lines };
+  }
+  return { px: min, lines: lineCount(text, min, width, ratio) };
+}
+
+/** Starting sizes for a note, by how tall it is. */
+function noteBase(height: number) {
+  if (height >= 480) return { time: 76, title: 62, names: 40, pad: 46, photo: 240 };
+  if (height >= 380) return { time: 60, title: 50, names: 34, pad: 40, photo: 170 };
+  if (height >= 320) return { time: 52, title: 44, names: 30, pad: 34, photo: 140 };
+  if (height >= 260) return { time: 44, title: 38, names: 27, pad: 28, photo: 112 };
+  return { time: 38, title: 32, names: 24, pad: 24, photo: 92 };
+}
+
+/** A Polaroid with the name scribbled underneath. */
+function Polaroid({ src, name, size, tilt, firstOnly }: { src: string; name: string; size: number; tilt: number; firstOnly: boolean }) {
   const frame = Math.round(size * 0.07);
+  // Full name when it fits under the photo, else the first name, shrunk to fit.
+  const full = !firstOnly && name.length * Math.round(size * 0.15) * HAND_W <= size;
+  const caption = full ? name : name.split(" ")[0];
+  const capPx = Math.max(14, Math.min(Math.round(size * 0.15), Math.floor(size / (caption.length * HAND_W))));
   return (
     <div
       style={{
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
+        flexShrink: 0,
+        width: size + frame * 2,
         background: "#FFFFFF",
         paddingTop: frame,
         paddingLeft: frame,
         paddingRight: frame,
-        paddingBottom: Math.round(frame * 0.6),
+        paddingBottom: Math.round(frame * 0.5),
         transform: `rotate(${tilt}deg)`,
         boxShadow: "4px 6px 0 rgba(27,31,59,0.2)",
       }}
     >
       {/* eslint-disable-next-line @next/next/no-img-element -- rendered into a PNG */}
       <img src={src} width={size} height={size} alt="" style={{ objectFit: "cover" }} />
-      <div style={{ display: "flex", fontFamily: "Hand", fontSize: Math.max(20, Math.round(size * 0.17)), color: INK, lineHeight: 1.15, marginTop: Math.round(frame * 0.6) }}>
-        {name.split(" ")[0]}
+      <div style={{ display: "flex", fontFamily: "Hand", fontSize: capPx, color: INK, lineHeight: 1.15, marginTop: Math.round(frame * 0.5) }}>
+        {caption}
       </div>
     </div>
   );
@@ -150,37 +195,101 @@ async function photoData(url: string): Promise<string | null> {
   }
 }
 
+/** Polaroid height for a photo of `size`: frame, caption, and room for the tilt. */
+const polaroidH = (size: number) => size * 1.14 + Math.max(18, size * 0.15) * 1.2 + size * 0.08;
+/** Width of `count` Polaroids side by side, overlapping a little. */
+const polaroidsW = (size: number, count: number) => size * 1.14 * (count === 2 ? 1.92 : 1) + size * 0.06;
+
+/** Fits a names list into `lines` lines of a `width`-wide column. */
+function fitNames(names: string[], px: number, width: number, lines: number): string[] {
+  const out: string[] = [];
+  let used = 0;
+  for (let i = 0; i < names.length; i++) {
+    const need = lineCount(names[i], px, width, HAND_W);
+    const left = names.length - i - 1;
+    // keep one line for "+ N more" if anyone would be left out
+    const reserve = left > 0 ? 1 : 0;
+    // Always show at least one name when there are 2+ lines to work with.
+    if (used + need + reserve > lines && !(out.length === 0 && lines >= 2)) {
+      out.push(`+ ${names.length - i} more`);
+      return out;
+    }
+    out.push(names[i]);
+    used += need;
+  }
+  return out;
+}
+
+const sameName = (a: string, b: string) =>
+  a.toLowerCase().replace(/[^a-z0-9]+/g, " ").trim() === b.toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
+
 function Note({
   show,
   index,
-  count,
   width,
   height,
-  photos,
+  photos: wanted,
 }: {
   show: TonightShow;
   index: number;
-  count: number;
   width: number;
   height: number;
   photos: { name: string; src: string }[];
 }) {
-  const z = noteSizes(count, height);
-  const roomy = z.pad >= 40;
+  const z = noteBase(height);
+  const padL = width >= 600 ? 44 : 32;
+  const padR = 26;
+  const padB = 22;
+  const innerW = width - padL - padR;
+  const innerH = height - z.pad - padB;
+
+  // Notes with photos give the photos a little more of the room.
+  const shrink = wanted.length ? 0.86 : 1;
+  const timePx = Math.round(z.time * shrink);
+  const timeH = timePx;
+  const gap1 = Math.round(timePx * 0.18);
+  const gap2 = 14;
+
+  // Title: full width, 2 lines when there are photos, 3 otherwise.
   const title = posterTitle(show.title);
+  const titleFit = fit(title, Math.round(z.title * shrink), Math.round(z.title * 0.55), innerW, wanted.length ? 2 : 3, MARKER_W);
+  const titleH = titleFit.lines * titleFit.px * 1.08;
+  const rest = innerH - timeH - gap1 - titleH - gap2;
 
-  const timePx = z.time;
-  const titlePx = Math.round(z.title * (title.length > 40 ? 0.68 : title.length > 22 ? 0.82 : 1));
-  const namePx = z.names;
+  // Photos: as big as the space left allows, but never squeezing the names out.
+  let photos = wanted;
+  let size = 0;
+  if (photos.length) {
+    // Largest photo that fits the height left and keeps 36% of the width for names.
+    size = Math.floor(Math.min(z.photo, (innerW * 0.64) / polaroidsW(1, photos.length)));
+    while (size >= 70 && polaroidH(size) > rest) size -= 2;
+    if (size < 70) photos = []; // no room for a recognisable face: leave them off
+  }
 
-  const maxNames = z.maxNames;
-  const names = show.performers;
-  const shownNames =
-    names.length === 0
+  const others = show.performers.filter((n) => !photos.some((p) => sameName(p.name, n)));
+  const namesW = photos.length ? innerW - polaroidsW(size, photos.length) - 16 : innerW;
+  const namesPx = photos.length ? Math.round(z.names * 0.9) : z.names;
+  const nameLines = Math.max(1, Math.floor((photos.length ? polaroidH(size) : rest) / (namesPx * 1.14)) - 1);
+
+  const namesList =
+    show.performers.length === 0
       ? ["surprise acts", "(no spoilers)"]
-      : names.length > maxNames
-        ? [...names.slice(0, maxNames - 1), `+ ${names.length - maxNames + 1} more`]
-        : names;
+      : others.length
+        ? fitNames(others, namesPx, namesW, nameLines)
+        : [];
+  const label = show.performers.length === 0 ? "with" : photos.length ? "also with" : "with";
+
+  const names =
+    namesList.length > 0 ? (
+      <div style={{ display: "flex", flexDirection: "column", width: namesW, flexShrink: 0, fontFamily: "Hand", fontSize: namesPx, color: INK, lineHeight: 1.12 }}>
+        <div style={{ display: "flex", fontSize: Math.round(namesPx * 0.8), opacity: 0.7 }}>{label}</div>
+        {namesList.map((n) => (
+          <div key={n} style={{ display: "flex" }}>
+            {n}
+          </div>
+        ))}
+      </div>
+    ) : null;
 
   return (
     <div
@@ -190,11 +299,12 @@ function Note({
         position: "relative",
         width,
         height,
+        flexShrink: 0,
         background: NOTES[index % NOTES.length],
         paddingTop: z.pad,
-        paddingLeft: roomy ? 36 : 30,
-        paddingRight: 26,
-        paddingBottom: 18,
+        paddingLeft: padL,
+        paddingRight: padR,
+        paddingBottom: padB,
         transform: `rotate(${TILT[index % TILT.length]}deg)`,
         boxShadow: "8px 10px 0 rgba(27,31,59,0.13)",
       }}
@@ -208,70 +318,51 @@ function Note({
         style={{ position: "absolute", top: -24, left: Math.round(width / 2 - 75), transform: `rotate(${index % 2 ? 4 : -5}deg)` }}
       />
 
-      {photos.length > 0 && (
-        // Polaroids stuck on the right edge of the note, poking out a little.
+      <div style={{ display: "flex", flexDirection: "column", width: innerW, height: innerH, overflow: "hidden" }}>
+        <div style={{ display: "flex", flexShrink: 0, height: timeH, fontFamily: "Marker", fontSize: timePx, color: RED, lineHeight: 1 }}>
+          {show.time.toLowerCase()}
+        </div>
         <div
           style={{
-            position: "absolute",
-            top: z.pad + Math.round(z.time * 1.05), // below the time, so they never cover it
-            right: -Math.round(z.photo * 0.12),
             display: "flex",
-            flexDirection: "column",
-            alignItems: "flex-end",
+            flexWrap: "wrap",
+            flexShrink: 0,
+            width: innerW,
+            marginTop: gap1,
+            fontFamily: "Marker",
+            fontSize: titleFit.px,
+            color: INK,
+            lineHeight: 1.08,
           }}
         >
-          {photos.map((p, i) => (
-            <div key={p.src.slice(-24) + i} style={{ display: "flex", marginTop: i ? -Math.round(z.photo * 0.08) : 0, marginRight: i ? Math.round(z.photo * 0.18) : 0 }}>
-              <Polaroid src={p.src} name={p.name} size={z.photo} tilt={i % 2 ? -6 : 5} />
-            </div>
-          ))}
+          {title}
         </div>
-      )}
 
-      <div style={{ display: "flex", fontFamily: "Marker", fontSize: timePx, color: RED, lineHeight: 1 }}>
-        {show.time.toLowerCase()}
-      </div>
-      <div
-        style={{
-          display: "flex",
-          flexWrap: "wrap",
-          fontFamily: "Marker",
-          fontSize: titlePx,
-          color: INK,
-          lineHeight: 1.08,
-          marginTop: roomy ? 14 : 8,
-          // keep text clear of the Polaroids
-          paddingRight: photos.length ? Math.round(z.photo * 0.95) : 0,
-        }}
-      >
-        {title}
-      </div>
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          fontFamily: "Hand",
-          fontSize: namePx,
-          color: INK,
-          lineHeight: 1.12,
-          marginTop: roomy ? 14 : 8,
-          paddingRight: photos.length ? Math.round(z.photo * 0.95) : 0,
-        }}
-      >
-        <div style={{ display: "flex", fontSize: Math.round(namePx * 0.8), opacity: 0.7 }}>with</div>
-        {shownNames.map((n) => (
-          <div key={n} style={{ display: "flex" }}>
-            {n}
+        {photos.length ? (
+          <div style={{ display: "flex", flexShrink: 0, alignItems: "flex-start", marginTop: gap2 + Math.round(size * 0.04), gap: 16 }}>
+            <div style={{ display: "flex", flexShrink: 0, width: Math.round(polaroidsW(size, photos.length)), paddingLeft: Math.round(size * 0.04) }}>
+              {photos.map((p, i) => (
+                <div key={p.src.slice(-24) + i} style={{ display: "flex", flexShrink: 0, marginLeft: i ? -Math.round(size * 0.1) : 0 }}>
+                  <Polaroid src={p.src} name={p.name} size={size} tilt={i % 2 ? 5 : -4} firstOnly={photos.length > 1} />
+                </div>
+              ))}
+            </div>
+            {names}
           </div>
-        ))}
+        ) : (
+          <div style={{ display: "flex", flexShrink: 0, marginTop: gap2 }}>{names}</div>
+        )}
       </div>
     </div>
   );
 }
 
 export async function GET(request: Request) {
-  const date = new URL(request.url).searchParams.get("date");
-  const tonight = getTonight(date);
+  const params = new URL(request.url).searchParams;
+  const tonight = getTonight(params.get("date"));
+  const fmt: Format = params.get("format") === "story" ? FORMATS.story : FORMATS.post;
+  const { W, H, safeTop, safeBottom } = fmt;
+  const story = fmt === FORMATS.story;
 
   const [marker, hand] = await Promise.all([asset("PermanentMarker-400.woff"), asset("PatrickHand-400.woff")]);
 
@@ -287,20 +378,22 @@ export async function GET(request: Request) {
       return src ? [{ name: p.name, src }] : [];
     });
   const n = shown.length;
-  const compact = n >= 3;
+  // The story has room for the full to-do list until the night gets busy.
+  const compact = story ? n >= 4 : n >= 3;
   const [choreA, choreB] = choresFor(tonight.date);
 
   // Room for the sticky notes.
   const topH = 120;
   const heroH = compact ? 210 : 360;
   const footerH = 170;
+  const footerGap = 44; // clear space between the notes and the footer
   const gap = 38;
-  const cols = n === 1 ? 1 : 2;
+  const cols = story ? (n <= 3 ? 1 : 2) : n === 1 ? 1 : 2;
   const rows = Math.ceil(n / cols);
   const areaW = W - LEFT - RIGHT;
-  const noteW = n === 1 ? 700 : Math.floor((areaW - gap) / 2);
-  const areaH = H - topH - heroH - footerH - (extra > 0 ? 44 : 0) - 30;
-  const noteH = n ? Math.min(n <= 2 ? 560 : 390, Math.floor((areaH - gap * (rows - 1)) / rows)) : 0;
+  const noteW = cols === 1 ? (story ? 800 : 700) : Math.floor((areaW - gap) / 2);
+  const areaH = H - safeTop - safeBottom - topH - heroH - footerH - footerGap - (extra > 0 ? 44 : 0) - 30;
+  const noteH = n ? Math.min(cols === 1 ? 560 : 420, Math.floor((areaH - gap * (rows - 1)) / rows)) : 0;
 
   const [dayNum, monthName] = tonight.dayMonth.split(" ");
   const heroPx = compact ? 46 : 58;
@@ -315,7 +408,7 @@ export async function GET(request: Request) {
         <div
           style={{
             position: "absolute",
-            top: 34,
+            top: safeTop + 34,
             right: 46,
             width: 190,
             height: 190,
@@ -337,6 +430,7 @@ export async function GET(request: Request) {
         </div>
 
         {/* Masthead */}
+        {safeTop > 0 && <div style={{ display: "flex", height: safeTop, flexShrink: 0 }} />}
         <div style={{ display: "flex", alignItems: "center", height: topH, paddingLeft: LEFT, paddingTop: 30 }}>
           <div style={{ display: "flex", fontFamily: "Marker", fontSize: 40 }}>Ministry of Comedy</div>
           {/* eslint-disable-next-line @next/next/no-img-element -- rendered into a PNG */}
@@ -413,7 +507,7 @@ export async function GET(request: Request) {
           }}
         >
           {shown.map((show, i) => (
-            <Note key={show.id} show={show} index={i} count={n} width={noteW} height={noteH} photos={photosFor(show)} />
+            <Note key={show.id} show={show} index={i} width={noteW} height={noteH} photos={photosFor(show)} />
           ))}
           {n === 0 && (
             <div
@@ -450,8 +544,9 @@ export async function GET(request: Request) {
           </div>
         )}
 
-        {/* Footer */}
-        <div style={{ display: "flex", flexDirection: "column", height: footerH, paddingLeft: LEFT, paddingRight: RIGHT, justifyContent: "center" }}>
+        {/* Footer, with clear space above it */}
+        <div style={{ display: "flex", height: footerGap, flexShrink: 0 }} />
+        <div style={{ display: "flex", flexDirection: "column", flexShrink: 0, height: footerH, paddingLeft: LEFT, paddingRight: RIGHT, justifyContent: "center" }}>
           <div style={{ display: "flex", alignItems: "center" }}>
             <div style={{ display: "flex", fontFamily: "Marker", fontSize: 46 }}>tickets</div>
             {/* eslint-disable-next-line @next/next/no-img-element -- rendered into a PNG */}
@@ -466,6 +561,7 @@ export async function GET(request: Request) {
             80 Feet Road, Koramangala. Front row is for the brave.
           </div>
         </div>
+        {safeBottom > 0 && <div style={{ display: "flex", height: safeBottom, flexShrink: 0 }} />}
       </div>
     ),
     {
