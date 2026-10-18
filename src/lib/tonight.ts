@@ -32,6 +32,8 @@ interface ShowRecord {
   languages?: string[];
   /** Faces for the poster, added by `npm run lineup` / merge from /mics. */
   posterPhotos?: { name: string; url: string }[];
+  /** "sold_out" when BookMyShow showed this session as sold out at scrape time */
+  availability?: string;
 }
 
 export interface TonightShow {
@@ -44,6 +46,7 @@ export interface TonightShow {
   languages: string[];
   bookingUrl: string; // absolute
   photos: { name: string; url: string }[]; // 2 at most
+  soldOut: boolean; // as scraped from BookMyShow; the /tonight page can override it
 }
 
 export interface Tonight {
@@ -157,6 +160,7 @@ export function getTonight(date?: string | null, now: Date = new Date()): Tonigh
       price: priceLabel(s),
       languages: s.languages ?? [],
       bookingUrl: absolute(s.bookingUrl),
+      soldOut: s.availability === "sold_out",
       photos: (s.posterPhotos ?? [])
         .filter((p) => p && typeof p.url === "string" && /^https?:\/\//.test(p.url))
         .slice(0, 2)
@@ -173,41 +177,6 @@ export function getTonight(date?: string | null, now: Date = new Date()): Tonigh
   };
 }
 
-/** Opening line of the WhatsApp message, one per night. */
-const HELLO: Record<string, string> = {
-  Friday: "Friday night, sorted 🎤",
-  Saturday: "Saturday plans? Laugh first, decide later 🎤",
-  Sunday: "Sunday funday, the actual fun part 🎤",
-};
-
-/** The WhatsApp message that goes with the poster. */
-export function tonightCaption(t: Tonight): string {
-  if (!t.shows.length) {
-    return [
-      `No shows tonight (${t.weekday}, ${t.dayMonth}). The mics are resting. 😴`,
-      "",
-      `Here's what's coming up: ${PUBLIC_SITE}`,
-    ].join("\n");
-  }
-
-  const blocks = t.shows.map((s) => {
-    // "X feat. Nishant Tanwar" + "with Nishant Tanwar" says it twice.
-    const title = s.performers.length ? s.title.replace(/\s+(feat\.?|ft\.?|featuring)\s+.*$/i, "") : s.title;
-    const lines = [`*${s.time} · ${title}*`];
-    lines.push(s.performers.length ? `with ${s.performers.join(", ")}` : "with some surprise acts 👀");
-    lines.push(`🎟️ ${s.bookingUrl}`);
-    return lines.join("\n");
-  });
-
-  const hello = HELLO[t.weekday] ?? "Comedy on a weeknight? Bold. We love it 🎤";
-
-  return [
-    `*${hello}*`,
-    `Here's who's on at Ministry of Comedy tonight, ${t.weekday} ${t.dayMonth}:`,
-    "",
-    blocks.join("\n\n"),
-    "",
-    "📍 80 Feet Road, 4th Block, Koramangala",
-    "Bring friends. Bring enemies. We'll handle the jokes.",
-  ].join("\n");
-}
+// The WhatsApp message lives in ./tonightCaption (no file access, so the
+// /tonight page can rebuild it in the browser when BOGO / sold out change).
+export { tonightCaption } from "./tonightCaption";

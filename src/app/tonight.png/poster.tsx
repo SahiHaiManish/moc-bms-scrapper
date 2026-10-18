@@ -3,6 +3,8 @@
  *   /tonight.jpg (what the /tonight page shares) and /tonight.png
  * Query: ?format=story (1080x1920, else 1080x1350), ?date=2026-10-17,
  *        ?todo=<the ticked line, instead of "go see comedy">
+ *        ?bogo=0-2  shows (by position tonight) with Buy 1 Get 1 FREE (post only)
+ *        ?sold=1    shows that are sold out; without it, BookMyShow's status is used
  *
  * The idea: a page torn from a comic's notebook. A to-do
  * list where the boring chores are crossed out and "go see comedy" gets the
@@ -210,14 +212,19 @@ function Note({
   width,
   height,
   photos: wanted,
+  bogo,
+  soldOut,
 }: {
   show: TonightShow;
   index: number;
   width: number;
   height: number;
   photos: { name: string; src: string }[];
+  bogo: boolean;
+  soldOut: boolean;
 }) {
   const z = noteBase(height);
+  const stickerSize = Math.round(Math.min(200, Math.max(140, height * 0.42)));
   const padL = width >= 600 ? 44 : 32;
   const padR = 26;
   const padB = 22;
@@ -382,6 +389,67 @@ function Note({
           <div style={{ display: "flex", flexShrink: 0, marginTop: gap2 }}>{names(innerW)}</div>
         )}
       </div>
+
+      {bogo && !soldOut && (
+        // Starburst sticker slapped on the top-right corner, half off the note.
+        <div
+          style={{
+            position: "absolute",
+            top: -Math.round(stickerSize * 0.3),
+            right: -Math.round(stickerSize * 0.28),
+            width: stickerSize,
+            height: stickerSize,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            transform: "rotate(12deg)",
+          }}
+        >
+          {/* eslint-disable-next-line @next/next/no-img-element -- rendered into a PNG */}
+          <img src={doodle.burst(RED, INK)} width={stickerSize} height={stickerSize} alt="" style={{ position: "absolute", top: 0, left: 0 }} />
+          <div style={{ display: "flex", flexDirection: "column", alignItems: "center", color: "#FFFFFF", fontFamily: "Marker", lineHeight: 0.95 }}>
+            <div style={{ display: "flex", fontSize: Math.round(stickerSize * 0.15) }}>BUY 1</div>
+            <div style={{ display: "flex", fontSize: Math.round(stickerSize * 0.15) }}>GET 1</div>
+            <div style={{ display: "flex", fontSize: Math.round(stickerSize * 0.2), color: "#FFE45C" }}>FREE</div>
+          </div>
+        </div>
+      )}
+
+      {soldOut && (
+        // Rubber stamp across the note.
+        <div
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            width,
+            height,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <div
+            style={{
+              display: "flex",
+              fontFamily: "Marker",
+              fontSize: Math.round(Math.min(width * 0.15, height * 0.24)),
+              color: RED,
+              border: `${Math.max(5, Math.round(width * 0.012))}px solid ${RED}`,
+              borderRadius: 14,
+              paddingTop: 4,
+              paddingBottom: 2,
+              paddingLeft: 22,
+              paddingRight: 22,
+              background: "rgba(255,254,248,0.82)",
+              transform: "rotate(-14deg)",
+              letterSpacing: 2,
+            }}
+          >
+            SOLD OUT
+          </div>
+        </div>
+      )}
     </div>
   );
 }
@@ -410,6 +478,15 @@ export async function renderPoster(params: URLSearchParams): Promise<ImageRespon
   // The story has room for the full to-do list until the night gets busy.
   const compact = story ? n >= 4 : n >= 3;
   const [choreA, choreB] = choresFor(tonight.date);
+  // BOGO / sold out, by position in tonight's list ("0-2"). BOGO is left off
+  // the story. Without ?sold, BookMyShow's sold-out status is used.
+  const positions = (v: string | null) =>
+    new Set((v ?? "").split(/[-,\s]+/).filter((x) => /^\d+$/.test(x)).map(Number));
+  const bogoSet = story ? new Set<number>() : positions(params.get("bogo"));
+  const soldSet = params.has("sold")
+    ? positions(params.get("sold"))
+    : new Set(tonight.shows.flatMap((s, i) => (s.soldOut ? [i] : [])));
+
   // The ticked line ("go see comedy" unless the /tonight page says otherwise).
   const todo = (params.get("todo") ?? "").replace(/\s+/g, " ").trim().slice(0, 40) || "go see comedy";
 
@@ -538,7 +615,16 @@ export async function renderPoster(params: URLSearchParams): Promise<ImageRespon
           }}
         >
           {shown.map((show, i) => (
-            <Note key={show.id} show={show} index={i} width={noteW} height={noteH} photos={photosFor(show)} />
+            <Note
+              key={show.id}
+              show={show}
+              index={i}
+              width={noteW}
+              height={noteH}
+              photos={photosFor(show)}
+              bogo={bogoSet.has(i)}
+              soldOut={soldSet.has(i)}
+            />
           ))}
           {n === 0 && (
             <div

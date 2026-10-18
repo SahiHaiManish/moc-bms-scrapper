@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 
-import { getTonight, tonightCaption } from "@/lib/tonight";
+import { getTonight } from "@/lib/tonight";
 
 import TonightStudio from "./TonightStudio";
 
@@ -21,7 +21,6 @@ export default async function TonightPage({
 }) {
   const { date } = await searchParams;
   const tonight = getTonight(typeof date === "string" ? date : null);
-  const caption = tonightCaption(tonight);
 
   // Changes whenever the shows, names or photos do, so phones never show a stale poster.
   let h = 5381;
@@ -36,7 +35,7 @@ export default async function TonightPage({
         query={query}
         date={tonight.date}
         alt={`Tonight at Ministry of Comedy, ${tonight.weekday} ${tonight.dayMonth}`}
-        caption={caption}
+        tonight={tonight}
       >
         <div>
           <p className="text-sm font-semibold uppercase tracking-widest text-yellow-400">

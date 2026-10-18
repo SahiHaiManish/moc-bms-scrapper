@@ -65,3 +65,15 @@ export const sparkle = (c: string) =>
 /** Strip of masking tape. */
 export const tape = () =>
   svg(150, 48, `<path d="M6 8 L 144 4 L 140 22 L 146 42 L 8 46 L 12 26 Z" fill="rgba(240,232,205,0.85)" stroke="rgba(160,150,120,0.5)" stroke-width="2"/>`);
+
+/** Spiky starburst sticker (for the BOGO offer). */
+export function burst(fill: string, edge: string): string {
+  const pts: string[] = [];
+  const n = 18;
+  for (let i = 0; i < n * 2; i++) {
+    const r = i % 2 ? 70 : 96 - (i % 4 === 0 ? 0 : 6);
+    const a = (Math.PI * i) / n - Math.PI / 2;
+    pts.push(`${(100 + r * Math.cos(a)).toFixed(1)},${(100 + r * Math.sin(a)).toFixed(1)}`);
+  }
+  return svg(200, 200, `<polygon points="${pts.join(" ")}" fill="${fill}" stroke="${edge}" stroke-width="5"/>`);
+}
