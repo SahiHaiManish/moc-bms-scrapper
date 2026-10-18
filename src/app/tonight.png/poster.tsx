@@ -1,7 +1,8 @@
 /**
- * GET /tonight.png                   tonight's poster, 1080x1350 (WhatsApp, Instagram feed)
- * GET /tonight.png?format=story      1080x1920 (Instagram / WhatsApp story)
- * GET /tonight.png?date=2026-10-17   another night, for previewing
+ * The /tonight poster, drawn by renderPoster() and served by:
+ *   /tonight.jpg (what the /tonight page shares) and /tonight.png
+ * Query: ?format=story (1080x1920, else 1080x1350), ?date=2026-10-17,
+ *        ?todo=<the ticked line, instead of "go see comedy">
  *
  * The idea: a page torn from a comic's notebook. A to-do
  * list where the boring chores are crossed out and "go see comedy" gets the
@@ -234,21 +235,24 @@ function Note({
   const performers = show.performers;
 
   // Names, as one line of text that wraps:
-  //   solo / double bill: every name in full ("Gaurav Madaan & Shubham Pujari")
-  //   lineup: two names, pictured comics first, then "+ k more"
-  let namesText: string;
-  if (performers.length === 0) namesText = "surprise acts (no spoilers)";
-  else if (performers.length <= 2) namesText = performers.join(" & ");
-  else {
-    const pictured = performers.filter((n) => wanted.some((p) => sameName(p.name, n)));
-    const two = [...pictured, ...performers.filter((n) => !pictured.includes(n))].slice(0, 2);
+  //   1-2 performers (solo, double bill, 2-person lineup): every name in full
+  //   bigger lineup: two people who are NOT in the photos, then "+ k more"
+  const namesFor = (shown: { name: string }[]): string => {
+    if (performers.length === 0) return "surprise acts (no spoilers)";
+    if (performers.length <= 2) return performers.join(" & ");
+    const others = performers.filter((n) => !shown.some((p) => sameName(p.name, n)));
+    const two = others.slice(0, 2);
+    const more = others.length - two.length;
     // non-breaking spaces keep "+ 6 more" on one line
-    namesText = `${two.join(", ")} +\u00a0${performers.length - 2}\u00a0more`;
-  }
+    return more > 0 ? `${two.join(", ")} +\u00a0${more}\u00a0more` : two.join(" & ");
+  };
+  const labelFor = (shown: { name: string }[]) => (performers.length > 2 && shown.length ? "also with" : "with");
 
   const namesMax = Math.round(z.names * (wanted.length ? 0.9 : 1));
   const namesMin = Math.round(z.names * 0.8); // never smaller than this
-  const namesH = (px: number, w: number) => px * 0.8 * 1.14 + lineCount(namesText, px, w, HAND_W) * px * 1.14;
+  const namesH = (text: string, px: number, w: number) => px * 0.8 * 1.14 + lineCount(text, px, w, HAND_W) * px * 1.14;
+  const withPhotos = namesFor(wanted);
+  const withoutPhotos = namesFor([]);
 
   type Plan = {
     titlePx: number;
@@ -271,12 +275,12 @@ function Note({
       if (size >= 70) {
         const w = innerW - polaroidsW(size, n) - 16;
         for (let px = namesMax; px >= namesMin; px -= 2) {
-          if (namesH(px, w) <= rest) return { titlePx: tf.px, photos: wanted, size, namesPx: px, below: false, ok: true };
+          if (namesH(withPhotos, px, w) <= rest) return { titlePx: tf.px, photos: wanted, size, namesPx: px, below: false, ok: true };
         }
       }
       // 2. Photos a little smaller, names underneath across the full width.
       for (let px = namesMax; px >= namesMin; px -= 2) {
-        const nh = namesH(px, innerW) + 8;
+        const nh = namesH(withPhotos, px, innerW) + 8;
         let s2 = Math.floor(Math.min(z.photo, (innerW * 0.8) / polaroidsW(1, n)));
         while (s2 >= 70 && polaroidH(s2) + nh > rest) s2 -= 2;
         if (s2 >= 70) return { titlePx: tf.px, photos: wanted, size: s2, namesPx: px, below: true, ok: true };
@@ -284,7 +288,7 @@ function Note({
       // 3. No room for a recognisable face: leave the photos off.
     }
     for (let px = z.names; px >= namesMin; px -= 2) {
-      if (namesH(px, innerW) <= rest) return { titlePx: tf.px, photos: [], size: 0, namesPx: px, below: false, ok: true };
+      if (namesH(withoutPhotos, px, innerW) <= rest) return { titlePx: tf.px, photos: [], size: 0, namesPx: px, below: false, ok: true };
     }
     return { titlePx: tf.px, photos: [], size: 0, namesPx: namesMin, below: false, ok: false };
   };
@@ -297,10 +301,12 @@ function Note({
   }
   const { photos, size, namesPx, below } = p;
   const titleFit = { px: p.titlePx };
+  const namesText = namesFor(photos);
+  const label = labelFor(photos);
 
-  const names = (w: number) => (
+  const names = (w: number) => !namesText ? null : (
     <div style={{ display: "flex", flexDirection: "column", width: w, flexShrink: 0, fontFamily: "Hand", fontSize: namesPx, color: INK, lineHeight: 1.12 }}>
-      <div style={{ display: "flex", fontSize: Math.round(namesPx * 0.8), opacity: 0.7 }}>with</div>
+      <div style={{ display: "flex", fontSize: Math.round(namesPx * 0.8), opacity: 0.7 }}>{label}</div>
       <div style={{ display: "flex", width: w }}>{namesText}</div>
     </div>
   );
@@ -380,8 +386,8 @@ function Note({
   );
 }
 
-export async function GET(request: Request) {
-  const params = new URL(request.url).searchParams;
+/** Draws the poster (PNG) for the given ?date / ?format / ?todo. */
+export async function renderPoster(params: URLSearchParams): Promise<ImageResponse> {
   const tonight = getTonight(params.get("date"));
   const fmt: Format = params.get("format") === "story" ? FORMATS.story : FORMATS.post;
   const { W, H, safeTop, safeBottom } = fmt;
@@ -404,6 +410,8 @@ export async function GET(request: Request) {
   // The story has room for the full to-do list until the night gets busy.
   const compact = story ? n >= 4 : n >= 3;
   const [choreA, choreB] = choresFor(tonight.date);
+  // The ticked line ("go see comedy" unless the /tonight page says otherwise).
+  const todo = (params.get("todo") ?? "").replace(/\s+/g, " ").trim().slice(0, 40) || "go see comedy";
 
   // Room for the sticky notes.
   const topH = 120;
@@ -486,14 +494,14 @@ export async function GET(request: Request) {
             <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", fontFamily: "Hand", fontSize: heroPx, lineHeight: 1.3, marginTop: 10, gap: 26 }}>
               <Struck text={choreA} px={heroPx} />
               <Struck text={choreB} px={heroPx} />
-              <Ticked text="go see comedy" px={heroPx} />
+              <Ticked text={todo} px={heroPx} />
             </div>
           ) : (
             <div style={{ display: "flex", flexDirection: "column", fontFamily: "Hand", fontSize: heroPx, lineHeight: 1.25, marginTop: 14 }}>
               {[
                 <Struck key="a" text={choreA} px={heroPx} />,
                 <Struck key="b" text={choreB} px={heroPx} />,
-                <Ticked key="c" text="go see comedy" px={heroPx} />,
+                <Ticked key="c" text={todo} px={heroPx} />,
               ].map((item, i) => (
                 <div key={i} style={{ display: "flex", gap: 14 }}>
                   <div style={{ display: "flex" }}>{`${i + 1}.`}</div>

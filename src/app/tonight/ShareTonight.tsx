@@ -26,7 +26,7 @@ export default function ShareTonight({ posterUrl, fileName, storyUrl, storyFileN
     const res = await fetch(url);
     if (!res.ok) throw new Error("Couldn't load the poster");
     const blob = await res.blob();
-    return new File([blob], name, { type: "image/png" });
+    return new File([blob], name, { type: blob.type || "image/jpeg" });
   }
 
   // Stories take just the image: Instagram ignores text sent with it.
