@@ -1,0 +1,133 @@
+{
+  "comics": [
+    {
+      "id": "abhinav-anand",
+      "name": "Abhinav Anand",
+      "aliases": [],
+      "photo": "/mics/comics/abhinav-anand.jpg?v=2026-10-17T09%3A02%3A16.554Z"
+    },
+    {
+      "id": "aditya-singh",
+      "name": "Aditya Singh",
+      "aliases": [
+        "aditya",
+        "singh",
+        "mumbai"
+      ],
+      "photo": "/mics/comics/aditya-singh.jpg?v=2026-10-18T09%3A16%3A46.705Z"
+    },
+    {
+      "id": "ayush-yetchina",
+      "name": "Ayush Yetchina",
+      "aliases": [
+        "ayush"
+      ],
+      "photo": "/mics/comics/ayush-yetchina.jpg?v=2026-10-17T09%3A15%3A40.860Z"
+    },
+    {
+      "id": "chaitanya-khare",
+      "name": "Chaitanya Khare",
+      "aliases": [
+        "chaitanya",
+        "khare"
+      ],
+      "photo": "/mics/comics/chaitanya-khare.jpg?v=2026-10-17T09%3A22%3A50.029Z"
+    },
+    {
+      "id": "joteen-patro",
+      "name": "Joteen Patro",
+      "aliases": [
+        "joteen",
+        "jotin",
+        "patro"
+      ],
+      "photo": "/mics/comics/joteen-patro.jpg?v=2026-10-17T09%3A26%3A38.226Z"
+    },
+    {
+      "id": "manish-jain",
+      "name": "Manish Jain",
+      "aliases": [
+        "manish",
+        "jain",
+        "manish jain (host)"
+      ],
+      "photo": "/mics/comics/manish-jain.jpg?v=2026-10-17T09%3A05%3A21.891Z"
+    },
+    {
+      "id": "manoj-prabakar",
+      "name": "Manoj Prabakar",
+      "aliases": [
+        "manoj",
+        "prabhakar"
+      ],
+      "photo": "/mics/comics/manoj-prabakar.jpg?v=2026-10-17T09%3A24%3A24.878Z"
+    },
+    {
+      "id": "nishant-tanwar",
+      "name": "Nishant Tanwar",
+      "aliases": [
+        "nishant",
+        "tanwar"
+      ],
+      "photo": "/mics/comics/nishant-tanwar.jpg?v=2026-10-17T09%3A12%3A57.224Z"
+    },
+    {
+      "id": "nitin-tanwar",
+      "name": "NITIN TANWAR",
+      "aliases": [
+        "nitin"
+      ],
+      "photo": "/mics/comics/nitin-tanwar.jpg?v=2026-10-17T09%3A07%3A47.686Z"
+    },
+    {
+      "id": "oninthough",
+      "name": "Oninthough",
+      "aliases": [],
+      "photo": "/mics/comics/oninthough.jpg?v=2026-10-17T09%3A15%3A52.544Z"
+    },
+    {
+      "id": "ruchi-kumari",
+      "name": "Ruchi Kumari",
+      "aliases": [
+        "ruchi"
+      ],
+      "photo": "/mics/comics/ruchi-kumari.jpg?v=2026-10-17T09%3A10%3A57.352Z"
+    },
+    {
+      "id": "shanon-harris",
+      "name": "Shanon Harris",
+      "aliases": [
+        "shanon",
+        "harris"
+      ],
+      "photo": "/mics/comics/shanon-harris.jpg?v=2026-10-17T09%3A08%3A57.514Z"
+    },
+    {
+      "id": "shashwat-maheshwari",
+      "name": "Shashwat Maheshwari",
+      "aliases": [
+        "shashwat",
+        "maheshwari"
+      ],
+      "photo": "/mics/comics/shashwat-maheshwari.jpg?v=2026-10-17T09%3A13%3A56.226Z"
+    },
+    {
+      "id": "somnath-padhy",
+      "name": "Somnath Padhy",
+      "aliases": [
+        "somnath",
+        "padhy"
+      ],
+      "photo": "/mics/comics/somnath-padhy.jpg?v=2026-10-17T09%3A09%3A57.305Z"
+    },
+    {
+      "id": "vaibhav-karn",
+      "name": "Vaibhav Karn",
+      "aliases": [
+        "vaibhav",
+        "karn"
+      ],
+      "photo": "/mics/comics/vaibhav-karn.jpg?v=2026-10-18T09%3A16%3A32.580Z"
+    }
+  ]
+}
