@@ -9,6 +9,7 @@ import { Show } from "@/lib/groupShows";
 import { formatInTimeZone } from "date-fns-tz";
 
 import Countdown from "./Countdown";
+import LineupDialog from "./LineupDialog";
 
 export type CardTag = "live" | "next" | "featured";
 
@@ -109,14 +110,7 @@ const featured = tags.includes("featured");
             {show.title}
           </h3>
 
-          {show.performers.length > 0 && (
-            <p className="mt-1.5 line-clamp-1 text-sm text-zinc-400 sm:mt-2 sm:line-clamp-none">
-              Featuring{" "}
-              <span className="text-zinc-200">
-                {show.performers.join(", ")}
-              </span>
-            </p>
-          )}
+          <LineupDialog title={show.title} performers={show.performers} />
         </div>
 
 
