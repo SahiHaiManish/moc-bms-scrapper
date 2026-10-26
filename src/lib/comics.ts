@@ -43,6 +43,23 @@ export function safeUrl(value: unknown): string | undefined {
   return /^https?:\/\//i.test(trimmed) ? trimmed : undefined;
 }
 
+/**
+ * The embeddable address of an Instagram reel/post link, or undefined when the
+ * link can't be embedded (a profile link, say) and should open on Instagram.
+ *   https://www.instagram.com/reel/DMIOYL7PxUv/?igsh=x -> https://www.instagram.com/reel/DMIOYL7PxUv/embed
+ */
+export function instagramEmbedUrl(url: string | undefined): string | undefined {
+  const m = url?.match(
+    /^https?:\/\/(?:www\.)?instagram\.com\/(?:[A-Za-z0-9._]+\/)?(reels?|p|tv)\/([A-Za-z0-9_-]+)/i
+  );
+
+  if (!m) return undefined;
+
+  const kind = m[1].toLowerCase().startsWith("reel") ? "reel" : m[1].toLowerCase();
+
+  return `https://www.instagram.com/${kind}/${m[2]}/embed`;
+}
+
 /** Matches a show's performer names (BookMyShow spelling) to roster entries. */
 export function resolveLineup(performers: string[], roster: Comic[]): LineupEntry[] {
   const byName = new Map<string, Comic>();

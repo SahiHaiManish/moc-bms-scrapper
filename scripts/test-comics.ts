@@ -1,6 +1,6 @@
 /** Offline tests for the lineup data.   npx tsx scripts/test-comics.ts */
 import assert from "node:assert/strict";
-import { emojiFor, normalizeName, resolveLineup, safeUrl } from "../src/lib/comics";
+import { emojiFor, instagramEmbedUrl, normalizeName, resolveLineup, safeUrl } from "../src/lib/comics";
 import { DEFAULT_PUBLIC_MICS_BASE, buildRoster, comicsFeedUrl, fetchRoster, instagramLink, photoLink, recordsFromFeed, toComic, toPublicPhoto } from "../src/lib/comicsFeed";
 
 let passed = 0;
@@ -173,6 +173,24 @@ test("fetchRoster: reads the feed live, maps it, and falls back to null on any f
   assert.equal(await fetchRoster({ MICS_LINEUPS_URL: "http://h" }, (async () => new Response("<html>", { status: 200 })) as typeof fetch), null);
   assert.equal(await fetchRoster({ MICS_LINEUPS_URL: "http://h" }, (async () => new Response("[]", { status: 200 })) as typeof fetch), null);
   assert.equal(await fetchRoster({}, ok), null); // not configured
+});
+
+test("instagram embed address: reels/posts embed, profiles and junk do not", () => {
+  const E = (u?: string) => instagramEmbedUrl(u);
+  assert.equal(E("https://www.instagram.com/reel/DMIOYL7PxUv/"), "https://www.instagram.com/reel/DMIOYL7PxUv/embed");
+  assert.equal(E("https://www.instagram.com/reel/DMIOYL7PxUv/?igsh=abc&utm_source=qr"), "https://www.instagram.com/reel/DMIOYL7PxUv/embed");
+  assert.equal(E("https://instagram.com/reel/AbC_-12"), "https://www.instagram.com/reel/AbC_-12/embed");
+  assert.equal(E("http://www.instagram.com/reels/XyZ9/"), "https://www.instagram.com/reel/XyZ9/embed");
+  assert.equal(E("https://www.instagram.com/someone/reel/QQQ1/"), "https://www.instagram.com/reel/QQQ1/embed");
+  assert.equal(E("https://www.instagram.com/p/Cx12_a/"), "https://www.instagram.com/p/Cx12_a/embed");
+  assert.equal(E("https://www.instagram.com/tv/Zz1/"), "https://www.instagram.com/tv/Zz1/embed");
+  // not embeddable -> undefined (the button then opens Instagram instead)
+  assert.equal(E("https://www.instagram.com/aman.jotwani/"), undefined);
+  assert.equal(E("https://www.instagram.com/reel/"), undefined);
+  assert.equal(E("https://evil.com/?u=https://www.instagram.com/reel/AAA/"), undefined);
+  assert.equal(E("https://instagram.com.evil.com/reel/AAA/"), undefined);
+  assert.equal(E("javascript:alert(1)"), undefined);
+  assert.equal(E(undefined), undefined);
 });
 
 Promise.all(pending).then(() => console.log(`\n${passed} comics tests passed`)).catch((err) => { console.error(err); process.exit(1); });

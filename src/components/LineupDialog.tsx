@@ -1,10 +1,10 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { ChevronRight, Users, X } from "lucide-react";
+import { ArrowLeft, ChevronRight, ExternalLink, Users, X } from "lucide-react";
 import { FaInstagram } from "react-icons/fa";
 
-import { Comic, LineupEntry, emojiFor, loadComics, resolveLineup } from "@/lib/comics";
+import { Comic, LineupEntry, emojiFor, instagramEmbedUrl, loadComics, resolveLineup } from "@/lib/comics";
 
 interface Props {
   /** show title, used as the dialog heading */
@@ -40,14 +40,59 @@ function Avatar({ entry }: { entry: LineupEntry }) {
   );
 }
 
+const reelPill =
+  "inline-flex shrink-0 items-center gap-1.5 rounded-full bg-zinc-800 px-3 py-1.5 text-xs font-semibold text-zinc-100 ring-1 ring-zinc-700 transition hover:bg-pink-500/15 hover:text-pink-200 hover:ring-pink-400/60 focus-visible:outline focus-visible:outline-2 focus-visible:outline-yellow-400";
+
+/** The reel, playing inside the dialog. Leaving this view removes the iframe, which stops the video. */
+function ReelPlayer({ entry, embedUrl }: { entry: LineupEntry; embedUrl: string }) {
+  const [loaded, setLoaded] = useState(false);
+
+  return (
+    <div className="flex min-h-0 flex-col overflow-y-auto overscroll-contain">
+      <div className="relative mx-auto h-[min(68vh,40rem)] w-full shrink-0 bg-black">
+        {!loaded && (
+          <div className="absolute inset-0 flex items-center justify-center text-sm text-zinc-500">
+            Loading reel…
+          </div>
+        )}
+
+        <iframe
+          src={embedUrl}
+          title={`${entry.name} on Instagram`}
+          loading="lazy"
+          allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
+          allowFullScreen
+          sandbox="allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox allow-presentation"
+          referrerPolicy="strict-origin-when-cross-origin"
+          onLoad={() => setLoaded(true)}
+          className="relative h-full w-full border-0 bg-black"
+        />
+      </div>
+
+      {/* private or non-embeddable reels show an Instagram error inside the frame: this is the way out */}
+      <a
+        href={entry.reel}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="flex items-center justify-center gap-2 border-t border-zinc-800 px-5 py-3 text-sm font-medium text-zinc-300 transition hover:text-white"
+      >
+        <ExternalLink size={15} />
+        Not playing? Open in Instagram
+      </a>
+    </div>
+  );
+}
+
 /**
  * "View lineup" box for a show card. Opens a dialog listing every comic on the
- * bill with a small photo and, when we have one, an Instagram reel button.
- * The roster is only downloaded the first time someone shows interest.
+ * bill with a small photo and, when we have one, a Reel button that plays the
+ * reel right inside the dialog. The roster is only downloaded the first time
+ * someone shows interest.
  */
 export default function LineupDialog({ title, performers }: Props) {
   const [open, setOpen] = useState(false);
   const [roster, setRoster] = useState<Comic[]>([]);
+  const [playing, setPlaying] = useState<LineupEntry | null>(null);
   const dialogRef = useRef<HTMLDialogElement>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
 
@@ -80,10 +125,12 @@ export default function LineupDialog({ title, performers }: Props) {
   if (performers.length === 0) return null;
 
   const lineup = resolveLineup(performers, roster);
+  const playingEmbed = playing ? instagramEmbedUrl(playing.reel) : undefined;
 
-  const close = () => {
+  const closeAll = () => {
     dialogRef.current?.close();
     setOpen(false);
+    setPlaying(null);
     triggerRef.current?.focus();
   };
 
@@ -115,27 +162,41 @@ export default function LineupDialog({ title, performers }: Props) {
         <dialog
           ref={dialogRef}
           aria-labelledby="lineup-title"
-          onClose={() => setOpen(false)}
+          onClose={() => {
+            setOpen(false);
+            setPlaying(null);
+          }}
           onClick={(e) => {
             // a click on the dimmed backdrop lands on the <dialog> element itself
-            if (e.target === dialogRef.current) close();
+            if (e.target === dialogRef.current) closeAll();
           }}
-          className="m-auto max-h-[85vh] w-[min(92vw,28rem)] overflow-hidden rounded-2xl border border-zinc-800 bg-zinc-900 p-0 text-white shadow-2xl shadow-black backdrop:bg-black/75 backdrop:backdrop-blur-sm"
+          className="m-auto max-h-[92vh] w-[min(94vw,28rem)] overflow-hidden rounded-2xl border border-zinc-800 bg-zinc-900 p-0 text-white shadow-2xl shadow-black backdrop:bg-black/75 backdrop:backdrop-blur-sm"
         >
-          <div className="flex max-h-[85vh] flex-col">
-            <header className="flex items-start gap-3 border-b border-zinc-800 px-5 py-4">
+          <div className="flex max-h-[92vh] flex-col">
+            <header className="flex items-center gap-3 border-b border-zinc-800 px-4 py-3.5 sm:px-5">
+              {playing && (
+                <button
+                  type="button"
+                  onClick={() => setPlaying(null)}
+                  aria-label="Back to lineup"
+                  className="-ml-1 flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-zinc-300 transition hover:bg-zinc-800 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-yellow-400"
+                >
+                  <ArrowLeft size={20} />
+                </button>
+              )}
+
               <div className="min-w-0 flex-1">
                 <p className="text-[11px] font-semibold uppercase tracking-[0.25em] text-yellow-400">
-                  Lineup
+                  {playing ? "Reel" : "Lineup"}
                 </p>
                 <h2 id="lineup-title" className="mt-1 line-clamp-2 text-lg font-bold leading-snug">
-                  {title}
+                  {playing ? playing.name : title}
                 </h2>
               </div>
 
               <button
                 type="button"
-                onClick={close}
+                onClick={closeAll}
                 aria-label="Close lineup"
                 className="-mr-1 flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-zinc-400 transition hover:bg-zinc-800 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-yellow-400"
               >
@@ -143,30 +204,50 @@ export default function LineupDialog({ title, performers }: Props) {
               </button>
             </header>
 
-            <ul className="divide-y divide-zinc-800/70 overflow-y-auto overscroll-contain px-5">
-              {lineup.map((entry) => (
-                <li key={entry.name} className="flex items-center gap-3 py-3">
-                  <Avatar entry={entry} />
+            {playing && playingEmbed ? (
+              <ReelPlayer entry={playing} embedUrl={playingEmbed} />
+            ) : (
+              <ul className="divide-y divide-zinc-800/70 overflow-y-auto overscroll-contain px-4 sm:px-5">
+                {lineup.map((entry) => {
+                  const embed = instagramEmbedUrl(entry.reel);
 
-                  <span className="min-w-0 flex-1 truncate font-medium text-zinc-100">
-                    {entry.name}
-                  </span>
+                  return (
+                    <li key={entry.name} className="flex items-center gap-3 py-3">
+                      <Avatar entry={entry} />
 
-                  {entry.reel && (
-                    <a
-                      href={entry.reel}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      aria-label={`Watch ${entry.name} on Instagram`}
-                      className="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-zinc-800 px-3 py-1.5 text-xs font-semibold text-zinc-100 ring-1 ring-zinc-700 transition hover:bg-pink-500/15 hover:text-pink-200 hover:ring-pink-400/60"
-                    >
-                      <FaInstagram size={14} className="text-pink-400" />
-                      Reel
-                    </a>
-                  )}
-                </li>
-              ))}
-            </ul>
+                      <span className="min-w-0 flex-1 truncate font-medium text-zinc-100">
+                        {entry.name}
+                      </span>
+
+                      {entry.reel &&
+                        (embed ? (
+                          <button
+                            type="button"
+                            onClick={() => setPlaying(entry)}
+                            aria-label={`Play ${entry.name}'s reel`}
+                            className={reelPill}
+                          >
+                            <FaInstagram size={14} className="text-pink-400" />
+                            Reel
+                          </button>
+                        ) : (
+                          // a profile link or anything else that can't be embedded
+                          <a
+                            href={entry.reel}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            aria-label={`Watch ${entry.name} on Instagram`}
+                            className={reelPill}
+                          >
+                            <FaInstagram size={14} className="text-pink-400" />
+                            Reel
+                          </a>
+                        ))}
+                    </li>
+                  );
+                })}
+              </ul>
+            )}
           </div>
         </dialog>
       )}
