@@ -1,43 +1,19 @@
 /**
- * Turns whatever Firebase returns into a clean Comic[]. Pure functions, no
- * network, so they are covered by scripts/test-comics.ts.
+ * Turns the mics app's public feed (/comics.json) into the roster the lineup
+ * dialog uses. Pure functions plus one small fetch helper; used by the
+ * /api/comics route and by `npm run sync-comics`, and covered by
+ * scripts/test-comics.ts.
  */
-import { Comic, normalizeName, safeUrl } from "../../src/lib/comics";
+import { Comic, normalizeName, safeUrl } from "./comics";
 
-// ---- Firestore REST value decoding ------------------------------------------
-
-type FsValue = Record<string, any>;
-
-export function decodeFirestoreValue(v: FsValue): unknown {
-  if (!v || typeof v !== "object") return undefined;
-  if ("stringValue" in v) return v.stringValue;
-  if ("integerValue" in v) return Number(v.integerValue);
-  if ("doubleValue" in v) return v.doubleValue;
-  if ("booleanValue" in v) return v.booleanValue;
-  if ("nullValue" in v) return null;
-  if ("timestampValue" in v) return v.timestampValue;
-  if ("arrayValue" in v) return (v.arrayValue.values ?? []).map(decodeFirestoreValue);
-  if ("mapValue" in v) {
-    return Object.fromEntries(
-      Object.entries(v.mapValue.fields ?? {}).map(([k, x]) => [k, decodeFirestoreValue(x as FsValue)])
-    );
-  }
-  return undefined;
-}
-
-export function decodeFirestoreDoc(doc: { name?: string; fields?: Record<string, FsValue> }): Record<string, unknown> {
-  const fields = Object.fromEntries(
-    Object.entries(doc.fields ?? {}).map(([k, v]) => [k, decodeFirestoreValue(v)])
-  );
-
-  return { _id: doc.name?.split("/").pop(), ...fields };
-}
+/** Where the mics app is on the internet (it is served under the website's /mics). */
+export const DEFAULT_PUBLIC_MICS_BASE = "https://ministryofcomedy.in/mics";
 
 // ---- Field mapping ------------------------------------------------------------
 
 /**
- * Your Firebase documents can name their fields differently; the first
- * of these that holds text wins. Add your own spelling here if one is missing.
+ * Feed records can name their fields differently; the first of these that holds
+ * text wins. Add your own spelling here if one is missing.
  */
 export const FIELD_ALIASES = {
   name: ["name", "fullName", "comicName", "comedian", "title", "displayName"],
@@ -47,13 +23,17 @@ export const FIELD_ALIASES = {
   reel: ["reel", "reelUrl", "reelURL", "reelLink", "instagramReel", "instagramReelUrl", "instagram", "instagramUrl", "instagramURL", "instagramLink", "insta", "instaLink", "ig"],
 } as const;
 
-function firstText(record: Record<string, unknown>, keys: readonly string[]): string | undefined {
-  // exact match first, then case-insensitive
-  const lower = new Map(Object.keys(record).map((k) => [k.toLowerCase(), k]));
+function lookup(record: Record<string, unknown>, key: string): unknown {
+  if (key in record) return record[key];
 
+  const found = Object.keys(record).find((k) => k.toLowerCase() === key.toLowerCase());
+
+  return found !== undefined ? record[found] : undefined;
+}
+
+function firstText(record: Record<string, unknown>, keys: readonly string[]): string | undefined {
   for (const key of keys) {
-    const actual = key in record ? key : lower.get(key.toLowerCase());
-    const value = actual !== undefined ? record[actual] : undefined;
+    const value = lookup(record, key);
 
     if (typeof value === "string" && value.trim()) return value.trim();
   }
@@ -61,57 +41,10 @@ function firstText(record: Record<string, unknown>, keys: readonly string[]): st
   return undefined;
 }
 
-export interface MapOptions {
-  /** the feed's address; relative photo links ("/comics/x.jpg") are resolved against it */
-  baseUrl?: string;
-  /** feed entries that have an id but no photo field get <photoBase>/comics/<id>.jpg (the mics app's photo route) */
-  photoBase?: string;
-  /** e.g. "my-app.appspot.com": turns a storage path like "comics/aman.jpg" into a URL */
-  storageBucket?: string;
-}
-
-/** "@aman" / "aman" -> https://www.instagram.com/aman/ ; real links are kept as they are. */
-export function instagramLink(value: string | undefined): string | undefined {
-  if (!value) return undefined;
-
-  const direct = safeUrl(value);
-  if (direct) return direct;
-
-  const handle = value.replace(/^@/, "").trim();
-
-  return /^[A-Za-z0-9._]{1,30}$/.test(handle) ? `https://www.instagram.com/${handle}/` : undefined;
-}
-
-export function photoLink(value: string | undefined, opts: MapOptions): string | undefined {
-  if (!value) return undefined;
-
-  const direct = safeUrl(value);
-  if (direct) return direct;
-
-  if (opts.baseUrl && !/^[a-z][a-z0-9+.-]*:/i.test(value)) {
-    try {
-      return safeUrl(new URL(value, opts.baseUrl).href);
-    } catch {
-      return undefined;
-    }
-  }
-
-  if (opts.storageBucket && !/^(gs:|data:|javascript:)/i.test(value)) {
-    return `https://firebasestorage.googleapis.com/v0/b/${opts.storageBucket}/o/${encodeURIComponent(
-      value.replace(/^\/+/, "")
-    )}?alt=media`;
-  }
-
-  return undefined;
-}
-
 /** A list of names from an array or from "a, b; c" text. */
 function nameList(record: Record<string, unknown>, keys: readonly string[]): string[] {
-  const lower = new Map(Object.keys(record).map((k) => [k.toLowerCase(), k]));
-
   for (const key of keys) {
-    const actual = key in record ? key : lower.get(key.toLowerCase());
-    const value = actual !== undefined ? record[actual] : undefined;
+    const value = lookup(record, key);
 
     const list = Array.isArray(value)
       ? value.filter((v): v is string => typeof v === "string")
@@ -126,15 +59,75 @@ function nameList(record: Record<string, unknown>, keys: readonly string[]): str
   return [];
 }
 
+export interface MapOptions {
+  /** the feed's address; relative photo links ("/comics/x.jpg") are resolved against it */
+  baseUrl?: string;
+  /** feed entries that have an id but no photo field get <photoBase>/comics/<id>.jpg (the mics app's photo route) */
+  photoBase?: string;
+  /**
+   * Public address of the mics app. Photos served by the mics app are rewritten
+   * to it, because the app writes links using whatever address it is running on
+   * (http://localhost:4000/mics/comics/x.jpg on a laptop).
+   */
+  publicBase?: string;
+}
+
+/** "@aman" / "aman" -> https://www.instagram.com/aman/ ; real links are kept as they are. */
+export function instagramLink(value: string | undefined): string | undefined {
+  if (!value) return undefined;
+
+  const direct = safeUrl(value);
+  if (direct) return direct;
+
+  const handle = value.replace(/^@/, "").trim();
+
+  return /^[A-Za-z0-9._]{1,30}$/.test(handle) ? `https://www.instagram.com/${handle}/` : undefined;
+}
+
+/**
+ *   http://localhost:4000/mics/comics/abhinav-anand.jpg?v=1
+ *   -> https://ministryofcomedy.in/mics/comics/abhinav-anand.jpg?v=1
+ * Links that aren't the mics app's photo route (a CDN, say) are left alone.
+ */
+export function toPublicPhoto(url: string, publicBase: string | undefined): string {
+  if (!publicBase) return url;
+
+  try {
+    const u = new URL(url);
+    const m = u.pathname.match(/^(?:\/mics)?\/comics\/(.+)$/);
+
+    return m ? `${publicBase.replace(/\/+$/, "")}/comics/${m[1]}${u.search}` : url;
+  } catch {
+    return url;
+  }
+}
+
+export function photoLink(value: string | undefined, opts: MapOptions): string | undefined {
+  if (!value) return undefined;
+
+  let url = safeUrl(value);
+
+  if (!url && opts.baseUrl && !/^[a-z][a-z0-9+.-]*:/i.test(value)) {
+    try {
+      url = safeUrl(new URL(value, opts.baseUrl).href);
+    } catch {
+      url = undefined;
+    }
+  }
+
+  return url ? toPublicPhoto(url, opts.publicBase) : undefined;
+}
+
 export function toComic(record: Record<string, unknown>, opts: MapOptions = {}): Comic | null {
   const name = firstText(record, FIELD_ALIASES.name);
   if (!name) return null;
 
-  const id = firstText(record, FIELD_ALIASES.id) ?? (typeof record._id === "number" ? String(record._id) : undefined);
+  const id = firstText(record, FIELD_ALIASES.id);
 
   let photo = photoLink(firstText(record, FIELD_ALIASES.photo), opts);
+
   if (!photo && id && opts.photoBase) {
-    photo = safeUrl(`${opts.photoBase.replace(/\/+$/, "")}/comics/${encodeURIComponent(id)}.jpg`);
+    photo = photoLink(`${opts.photoBase.replace(/\/+$/, "")}/comics/${encodeURIComponent(id)}.jpg`, opts);
   }
 
   const aliases = nameList(record, FIELD_ALIASES.aliases).filter(
@@ -185,7 +178,7 @@ export function buildRoster(records: Record<string, unknown>[], opts: MapOptions
   }
 
   return [...byName.values()]
-    .map((c) => JSON.parse(JSON.stringify({ ...c, aliases: c.aliases?.length ? c.aliases : undefined })) as Comic) // drop undefined/empty keys
+    .map((c) => JSON.parse(JSON.stringify({ ...c, aliases: c.aliases?.length ? c.aliases : undefined })) as Comic)
     .sort((a, b) => a.name.localeCompare(b.name));
 }
 
@@ -210,4 +203,32 @@ export function comicsFeedUrl(env: Record<string, string | undefined>): string |
   if (/\.json$/i.test(clean)) return clean.replace(/[^/]+$/, "comics.json");
 
   return `${clean}/comics.json`;
+}
+
+/**
+ * Downloads and maps the feed. Returns null when it can't be reached, isn't
+ * configured, or holds no usable comics, so callers can fall back.
+ */
+export async function fetchRoster(
+  env: Record<string, string | undefined>,
+  fetchImpl: typeof fetch = fetch,
+  init: RequestInit = {}
+): Promise<Comic[] | null> {
+  const feed = comicsFeedUrl(env);
+  if (!feed) return null;
+
+  try {
+    const res = await fetchImpl(feed, { ...init, signal: AbortSignal.timeout(8_000) });
+    if (!res.ok) return null;
+
+    const roster = buildRoster(recordsFromFeed(await res.json()), {
+      baseUrl: feed,
+      photoBase: feed.replace(/[?#].*$/, "").replace(/\/[^/]*$/, ""), // the feed's folder
+      publicBase: env.MICS_PUBLIC_URL?.trim() || DEFAULT_PUBLIC_MICS_BASE,
+    });
+
+    return roster.length ? roster : null;
+  } catch {
+    return null;
+  }
 }

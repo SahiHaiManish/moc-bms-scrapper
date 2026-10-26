@@ -1,27 +1,15 @@
 /** Offline tests for the lineup data.   npx tsx scripts/test-comics.ts */
 import assert from "node:assert/strict";
 import { emojiFor, normalizeName, resolveLineup, safeUrl } from "../src/lib/comics";
-import { buildRoster, comicsFeedUrl, decodeFirestoreDoc, instagramLink, photoLink, recordsFromFeed, toComic } from "./lib/comicsSource";
+import { DEFAULT_PUBLIC_MICS_BASE, buildRoster, comicsFeedUrl, fetchRoster, instagramLink, photoLink, recordsFromFeed, toComic, toPublicPhoto } from "../src/lib/comicsFeed";
 
 let passed = 0;
-const test = (name: string, fn: () => void) => { fn(); passed++; console.log(`  ✓ ${name}`); };
-
-test("Firestore REST documents are decoded", () => {
-  const rec = decodeFirestoreDoc({
-    name: "projects/p/databases/(default)/documents/comics/abc123",
-    fields: {
-      name: { stringValue: "Aman Jotwani" },
-      reel: { stringValue: "https://www.instagram.com/reel/XYZ/" },
-      followers: { integerValue: "1200" },
-      tags: { arrayValue: { values: [{ stringValue: "a" }] } },
-      meta: { mapValue: { fields: { ok: { booleanValue: true } } } },
-    },
-  });
-  assert.deepEqual(rec, {
-    _id: "abc123", name: "Aman Jotwani", reel: "https://www.instagram.com/reel/XYZ/",
-    followers: 1200, tags: ["a"], meta: { ok: true },
-  });
-});
+const pending: Promise<void>[] = [];
+const test = (name: string, fn: () => void | Promise<void>) => {
+  const r = fn();
+  const done = () => { passed++; console.log(`  ✓ ${name}`); };
+  if (r instanceof Promise) pending.push(r.then(done)); else done();
+};
 
 test("different field spellings map to name / photo / reel", () => {
   assert.deepEqual(toComic({ comicName: "A B", photoURL: "https://x/p.jpg", instagramReel: "https://instagram.com/reel/1" }),
@@ -38,15 +26,6 @@ test("instagram: links kept, @handles expanded, junk dropped", () => {
   assert.equal(instagramLink("javascript:alert(1)"), undefined);
   assert.equal(instagramLink("not a handle!"), undefined);
   assert.equal(instagramLink(undefined), undefined);
-});
-
-test("photos: links kept, storage paths need a bucket, unsafe schemes dropped", () => {
-  assert.equal(photoLink("https://cdn/x.jpg", {}), "https://cdn/x.jpg");
-  assert.equal(photoLink("comics/aman 1.jpg", {}), undefined);
-  assert.equal(photoLink("comics/aman 1.jpg", { storageBucket: "b.appspot.com" }),
-    "https://firebasestorage.googleapis.com/v0/b/b.appspot.com/o/comics%2Faman%201.jpg?alt=media");
-  assert.equal(photoLink("javascript:alert(1)", { storageBucket: "b" }), undefined);
-  assert.equal(photoLink("data:text/html,x", { storageBucket: "b" }), undefined);
 });
 
 test("roster: duplicates merged (fuller entry wins), nameless dropped, sorted A-Z, no undefined keys", () => {
@@ -146,4 +125,54 @@ test("no reel -> no reel in the lineup entry (so no button)", () => {
   assert.equal(c.reel, undefined);
 });
 
-console.log(`\n${passed} comics tests passed`);
+test("photo links: localhost / any host is rewritten to the public mics address", () => {
+  const pub = DEFAULT_PUBLIC_MICS_BASE;
+  assert.equal(pub, "https://ministryofcomedy.in/mics");
+
+  // the exact entry from a laptop run
+  assert.equal(
+    toPublicPhoto("http://localhost:4000/mics/comics/abhinav-anand.jpg?v=2026-10-17T09%3A02%3A16.554Z", pub),
+    "https://ministryofcomedy.in/mics/comics/abhinav-anand.jpg?v=2026-10-17T09%3A02%3A16.554Z"
+  );
+  // mics app without the /mics prefix (its own .vercel.app address), and an already-public link
+  assert.equal(toPublicPhoto("https://x.vercel.app/comics/a.jpg", pub), "https://ministryofcomedy.in/mics/comics/a.jpg");
+  assert.equal(toPublicPhoto("https://ministryofcomedy.in/mics/comics/a.jpg", pub), "https://ministryofcomedy.in/mics/comics/a.jpg");
+  // somebody else's CDN is left alone; no publicBase = no rewrite; trailing slash ok
+  assert.equal(toPublicPhoto("https://cdn.example.com/pics/a.jpg", pub), "https://cdn.example.com/pics/a.jpg");
+  assert.equal(toPublicPhoto("http://localhost:4000/mics/comics/a.jpg", undefined), "http://localhost:4000/mics/comics/a.jpg");
+  assert.equal(toPublicPhoto("http://localhost:4000/comics/a.jpg", pub + "/"), "https://ministryofcomedy.in/mics/comics/a.jpg");
+
+  // through the mapper, and never turns an unsafe value into a link
+  const rec = { name: "Abhinav Anand", photo: "http://localhost:4000/mics/comics/abhinav-anand.jpg?v=1", reel: "https://www.instagram.com/reel/DMIOYL7PxUv/" };
+  assert.deepEqual(toComic(rec, { publicBase: pub }), {
+    name: "Abhinav Anand", photo: "https://ministryofcomedy.in/mics/comics/abhinav-anand.jpg?v=1", reel: "https://www.instagram.com/reel/DMIOYL7PxUv/",
+  });
+  assert.equal(photoLink("javascript:alert(1)", { publicBase: pub }), undefined);
+});
+
+test("fetchRoster: reads the feed live, maps it, and falls back to null on any failure", async () => {
+  const feed = [
+    { id: "abhinav-anand", name: "Abhinav Anand", photo: "http://localhost:4000/mics/comics/abhinav-anand.jpg?v=1", reel: "https://www.instagram.com/reel/X/" },
+    { id: "n", name: "Nayab Sadaf" },
+  ];
+  const seen: string[] = [];
+  const ok = (async (url: any) => { seen.push(String(url)); return new Response(JSON.stringify(feed), { status: 200 }); }) as typeof fetch;
+
+  const roster = await fetchRoster({ MICS_LINEUPS_URL: "http://localhost:4000/lineups.json" }, ok);
+  assert.deepEqual(seen, ["http://localhost:4000/comics.json"]);
+  assert.equal(roster?.[0].photo, "https://ministryofcomedy.in/mics/comics/abhinav-anand.jpg?v=1");
+  assert.equal(roster?.[1].photo, "https://ministryofcomedy.in/mics/comics/n.jpg"); // id fallback, also public
+  assert.equal(roster?.[1].reel, undefined);
+
+  const custom = await fetchRoster({ MICS_COMICS_URL: "http://h/c.json", MICS_PUBLIC_URL: "https://example.org/m" }, ok);
+  assert.equal(custom?.[1].photo, "https://example.org/m/comics/n.jpg");
+
+  const status = (code: number) => (async () => new Response("x", { status: code })) as typeof fetch;
+  assert.equal(await fetchRoster({ MICS_LINEUPS_URL: "http://h" }, status(500)), null);
+  assert.equal(await fetchRoster({ MICS_LINEUPS_URL: "http://h" }, (async () => { throw new Error("offline"); }) as typeof fetch), null);
+  assert.equal(await fetchRoster({ MICS_LINEUPS_URL: "http://h" }, (async () => new Response("<html>", { status: 200 })) as typeof fetch), null);
+  assert.equal(await fetchRoster({ MICS_LINEUPS_URL: "http://h" }, (async () => new Response("[]", { status: 200 })) as typeof fetch), null);
+  assert.equal(await fetchRoster({}, ok), null); // not configured
+});
+
+Promise.all(pending).then(() => console.log(`\n${passed} comics tests passed`)).catch((err) => { console.error(err); process.exit(1); });

@@ -1,6 +1,6 @@
 /**
  * Comic roster used by the "View lineup" dialog. The roster lives in
- * public/comics.json, written by `npm run comics` from your Firebase.
+ * /api/comics, which reads the mics app's public feed.
  */
 
 export interface Comic {
@@ -92,15 +92,29 @@ export function resolveLineup(performers: string[], roster: Comic[]): LineupEntr
 
 let cached: Promise<Comic[]> | null = null;
 
+async function fetchList(url: string): Promise<Comic[] | null> {
+  try {
+    const res = await fetch(url);
+    if (!res.ok) return null;
+
+    const data = await res.json();
+
+    return Array.isArray(data) ? (data as Comic[]) : null;
+  } catch {
+    return null;
+  }
+}
+
+/** Live roster from /api/comics, or the saved snapshot if that is unavailable. */
 export function loadComics(): Promise<Comic[]> {
   if (!cached) {
-    cached = fetch("/comics.json")
-      .then((res) => (res.ok ? res.json() : []))
-      .then((data) => (Array.isArray(data) ? (data as Comic[]) : []))
-      .catch(() => {
-        cached = null; // let a later open try again
-        return [];
-      });
+    cached = (async () => {
+      const list = (await fetchList("/api/comics")) ?? (await fetchList("/comics.json"));
+
+      if (!list) cached = null; // let a later open try again
+
+      return list ?? [];
+    })();
   }
 
   return cached;

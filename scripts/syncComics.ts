@@ -1,21 +1,22 @@
 /**
- * Pulls the comics roster (name, photo, Instagram reel) from the mics app's
- * public feed and writes public/comics.json for the "View lineup" dialog.
+ * OPTIONAL. The website reads the comics feed live (src/app/api/comics), so
+ * you do not need this after adding a comic. It saves a snapshot to
+ * public/comics.json, which the website falls back to if the feed is ever
+ * unreachable.
  *
  *   npm run sync-comics
  *
- * The feed is the same one the website already reads for lineups and poster
- * photos, so no Firebase access is needed here. The address comes from
- * MICS_COMICS_URL, or is derived from MICS_LINEUPS_URL (set it in .env.local
- * if it is only configured on Vercel).
+ * The feed address comes from MICS_COMICS_URL, or is derived from
+ * MICS_LINEUPS_URL (set it in .env.local). Photo links are always rewritten to
+ * the public address (MICS_PUBLIC_URL, default https://ministryofcomedy.in/mics),
+ * so running this against localhost:4000 still gives links that work online.
  *
- * Safe by design: if the feed can't be reached or comes back empty, the
- * existing public/comics.json is left untouched.
+ * If the feed can't be reached or is empty, public/comics.json is left untouched.
  */
 import fs from "node:fs";
 import path from "node:path";
 
-import { buildRoster, comicsFeedUrl, recordsFromFeed } from "./lib/comicsSource";
+import { fetchRoster } from "../src/lib/comicsFeed";
 
 function loadEnvFile(file: string) {
   if (!fs.existsSync(file)) return;
@@ -32,34 +33,15 @@ loadEnvFile(path.join(process.cwd(), ".env"));
 const OUT = path.join(process.cwd(), "public", "comics.json");
 
 async function main() {
-  const feed = comicsFeedUrl(process.env);
-
-  if (!feed) {
-    console.error(
-      "No feed address. Set MICS_LINEUPS_URL (the mics app's .vercel.app address, as on Vercel) " +
-        "or MICS_COMICS_URL in .env.local."
-    );
+  if (!process.env.MICS_COMICS_URL && !process.env.MICS_LINEUPS_URL) {
+    console.error("No feed address. Set MICS_LINEUPS_URL (the mics app's address) or MICS_COMICS_URL in .env.local.");
     process.exit(1);
   }
 
-  const res = await fetch(feed, { signal: AbortSignal.timeout(20_000) });
+  const roster = await fetchRoster(process.env);
 
-  if (!res.ok) {
-    throw new Error(`${res.status} ${res.statusText} from ${feed}\n${(await res.text()).slice(0, 300)}`);
-  }
-
-  const json = await res.json();
-  const records = recordsFromFeed(json);
-
-  const roster = buildRoster(records, {
-    baseUrl: feed,
-    photoBase: feed.replace(/\/comics\.json$/i, ""),
-  });
-
-  if (roster.length === 0) {
-    console.error(`The feed answered but no comics could be read (${records.length} record(s)) from ${feed}`);
-    if (records[0]) console.error("First record's fields:", Object.keys(records[0]).join(", "));
-    console.error("If the field names differ, add them to FIELD_ALIASES in scripts/lib/comicsSource.ts. public/comics.json was left unchanged.");
+  if (!roster) {
+    console.error("Could not read any comics from the feed (unreachable, an error, or empty). public/comics.json was left unchanged.");
     process.exit(1);
   }
 
@@ -72,8 +54,4 @@ async function main() {
   );
 }
 
-main().catch((err) => {
-  console.error("Could not fetch comics:", err.message ?? err);
-  console.error("public/comics.json was left unchanged.");
-  process.exit(1);
-});
+main();
