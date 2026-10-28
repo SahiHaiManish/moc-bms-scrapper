@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { ArrowLeft, ChevronRight, ExternalLink, Users, X } from "lucide-react";
 import { FaInstagram } from "react-icons/fa";
 
-import { Comic, LineupEntry, emojiFor, instagramEmbedUrl, loadComics, resolveLineup } from "@/lib/comics";
+import { Comic, LineupEntry, emojiFor, instagramEmbedUrl, loadComics, normalizeName, resolveLineup } from "@/lib/comics";
 
 interface Props {
   /** show title, used as the dialog heading */
@@ -90,6 +90,15 @@ function ReelPlayer({ entry, embedUrl }: { entry: LineupEntry; embedUrl: string 
  * someone shows interest.
  */
 export default function LineupDialog({ title, performers }: Props) {
+  // one row per person, even if the bill spells someone two ways
+  const unique = performers.filter(
+    (p, i) => normalizeName(p) && performers.findIndex((q) => normalizeName(q) === normalizeName(p)) === i
+  );
+
+  // A solo show needs no lineup dialog: the name sits right on the card
+  // (the roster is then fetched up front, once, shared by every card).
+  const single = unique.length === 1;
+
   const [open, setOpen] = useState(false);
   const [roster, setRoster] = useState<Comic[]>([]);
   const [playing, setPlaying] = useState<LineupEntry | null>(null);
@@ -97,7 +106,7 @@ export default function LineupDialog({ title, performers }: Props) {
   const triggerRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
-    if (!open) return;
+    if (!open && !single) return;
 
     let cancelled = false;
     loadComics().then((list) => !cancelled && setRoster(list));
@@ -105,7 +114,7 @@ export default function LineupDialog({ title, performers }: Props) {
     return () => {
       cancelled = true;
     };
-  }, [open]);
+  }, [open, single]);
 
   // Native <dialog>: Esc, focus trapping and the top layer come for free.
   useEffect(() => {
@@ -122,10 +131,11 @@ export default function LineupDialog({ title, performers }: Props) {
     };
   }, [open]);
 
-  if (performers.length === 0) return null;
+  if (unique.length === 0) return null;
 
-  const lineup = resolveLineup(performers, roster);
+  const lineup = resolveLineup(unique, roster);
   const playingEmbed = playing ? instagramEmbedUrl(playing.reel) : undefined;
+  const soloEmbed = single ? instagramEmbedUrl(lineup[0].reel) : undefined;
 
   const closeAll = () => {
     dialogRef.current?.close();
@@ -136,6 +146,41 @@ export default function LineupDialog({ title, performers }: Props) {
 
   return (
     <>
+      {single ? (
+        <div className="mt-2 flex items-center gap-3 sm:mt-3">
+          <p className="min-w-0 flex-1 text-sm text-zinc-400">
+            Featuring <span className="text-zinc-200">{lineup[0].name}</span>
+          </p>
+
+          {lineup[0].reel &&
+            (soloEmbed ? (
+              <button
+                ref={triggerRef}
+                type="button"
+                onClick={() => {
+                  setPlaying(lineup[0]);
+                  setOpen(true);
+                }}
+                aria-label={`Play ${lineup[0].name}'s reel`}
+                className={reelPill}
+              >
+                <FaInstagram size={14} className="text-pink-400" />
+                Reel
+              </button>
+            ) : (
+              <a
+                href={lineup[0].reel}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`Watch ${lineup[0].name} on Instagram`}
+                className={reelPill}
+              >
+                <FaInstagram size={14} className="text-pink-400" />
+                Reel
+              </a>
+            ))}
+        </div>
+      ) : (
       <button
         ref={triggerRef}
         type="button"
@@ -151,12 +196,13 @@ export default function LineupDialog({ title, performers }: Props) {
         <span className="min-w-0 flex-1">
           <span className="block text-sm font-semibold text-white">View lineup</span>
           <span className="block text-xs text-zinc-500">
-            {performers.length} {performers.length === 1 ? "comic" : "comics"} on the bill
+            {unique.length} comics on the bill
           </span>
         </span>
 
         <ChevronRight size={18} className="shrink-0 text-zinc-500" />
       </button>
+      )}
 
       {open && (
         <dialog
@@ -174,7 +220,7 @@ export default function LineupDialog({ title, performers }: Props) {
         >
           <div className="flex max-h-[92vh] flex-col">
             <header className="flex items-center gap-3 border-b border-zinc-800 px-4 py-3.5 sm:px-5">
-              {playing && (
+              {playing && !single && (
                 <button
                   type="button"
                   onClick={() => setPlaying(null)}
