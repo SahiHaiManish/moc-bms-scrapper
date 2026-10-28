@@ -18,7 +18,7 @@ const LIVE_WINDOW_MIN = 30;
  * Coming Soon...) instead of sitting in time order. Set to false to keep
  * strict chronological order and rely on the tag + gold border alone.
  */
-const PIN_FEATURED_FIRST = true;
+const PIN_FEATURED_FIRST = false;
 
 const NONE: string[] = [];
 
