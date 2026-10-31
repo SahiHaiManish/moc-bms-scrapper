@@ -151,6 +151,9 @@ function noteBase(height: number) {
   return { time: 38, title: 32, names: 24, pad: 24, photo: 92 };
 }
 
+/** Smallest photo (px) still worth drawing. Busy nights (5+ shows) make short notes, so keep this modest. */
+const MIN_FACE = 54;
+
 /** A Polaroid with the name scribbled underneath. */
 function Polaroid({ src, name, size, tilt, firstOnly }: { src: string; name: string; size: number; tilt: number; firstOnly: boolean }) {
   const frame = Math.round(size * 0.07);
@@ -184,18 +187,32 @@ function Polaroid({ src, name, size, tilt, firstOnly }: { src: string; name: str
   );
 }
 
-/** Fetches a photo as a data URI; null when it can't be loaded in time. */
+/**
+ * Fetches a photo as a data URI; null when it can't be loaded. The photos live on the mics app
+ * (another serverless function that may be waking up), so give it a proper chance: up to 3 tries,
+ * 8 seconds each. A photo that still fails is left out, and the reason is logged.
+ */
 async function photoData(url: string): Promise<string | null> {
-  try {
-    const res = await fetch(url, { signal: AbortSignal.timeout(4000) });
-    const type = res.headers.get("content-type") ?? "";
-    if (!res.ok || !type.startsWith("image/")) return null;
-    const buf = Buffer.from(await res.arrayBuffer());
-    if (buf.length > 1_000_000) return null;
-    return `data:${type.split(";")[0]};base64,${buf.toString("base64")}`;
-  } catch {
-    return null;
+  let why = "";
+  for (let attempt = 1; attempt <= 3; attempt++) {
+    try {
+      const res = await fetch(url, { signal: AbortSignal.timeout(8000) });
+      const type = res.headers.get("content-type") ?? "";
+      if (!res.ok || !type.startsWith("image/")) {
+        why = `HTTP ${res.status} ${type}`;
+        if (res.status >= 400 && res.status < 500) break; // not going to get better
+      } else {
+        const buf = Buffer.from(await res.arrayBuffer());
+        if (buf.length > 4_000_000) { why = `too big (${buf.length} bytes)`; break; }
+        return `data:${type.split(";")[0]};base64,${buf.toString("base64")}`;
+      }
+    } catch (err) {
+      why = (err as Error).message;
+    }
+    await new Promise((r) => setTimeout(r, 400 * attempt));
   }
+  console.warn(`Poster photo skipped: ${url} (${why})`);
+  return null;
 }
 
 /** Polaroid height for a photo of `size`: frame, caption, and room for the tilt. */
@@ -278,8 +295,8 @@ function Note({
     if (n) {
       // 1. Photos with the names beside them.
       let size = Math.floor(Math.min(z.photo, (innerW * 0.64) / polaroidsW(1, n)));
-      while (size >= 70 && polaroidH(size) > rest) size -= 2;
-      if (size >= 70) {
+      while (size >= MIN_FACE && polaroidH(size) > rest) size -= 2;
+      if (size >= MIN_FACE) {
         const w = innerW - polaroidsW(size, n) - 16;
         for (let px = namesMax; px >= namesMin; px -= 2) {
           if (namesH(withPhotos, px, w) <= rest) return { titlePx: tf.px, photos: wanted, size, namesPx: px, below: false, ok: true };
@@ -289,8 +306,8 @@ function Note({
       for (let px = namesMax; px >= namesMin; px -= 2) {
         const nh = namesH(withPhotos, px, innerW) + 8;
         let s2 = Math.floor(Math.min(z.photo, (innerW * 0.8) / polaroidsW(1, n)));
-        while (s2 >= 70 && polaroidH(s2) + nh > rest) s2 -= 2;
-        if (s2 >= 70) return { titlePx: tf.px, photos: wanted, size: s2, namesPx: px, below: true, ok: true };
+        while (s2 >= MIN_FACE && polaroidH(s2) + nh > rest) s2 -= 2;
+        if (s2 >= MIN_FACE) return { titlePx: tf.px, photos: wanted, size: s2, namesPx: px, below: true, ok: true };
       }
       // 3. No room for a recognisable face: leave the photos off.
     }
