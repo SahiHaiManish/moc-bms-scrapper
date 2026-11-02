@@ -1,11 +1,28 @@
 {
   "comics": [
     {
+      "id": "aaquib-kolkar",
+      "name": "Aaquib Kolkar",
+      "aliases": [],
+      "photo": "/mics/comics/aaquib-kolkar.jpg?v=2026-10-31T08%3A42%3A58.771Z",
+      "reel": null
+    },
+    {
       "id": "abhinav-anand",
       "name": "Abhinav Anand",
       "aliases": [],
       "photo": "/mics/comics/abhinav-anand.jpg?v=2026-10-17T09%3A02%3A16.554Z",
       "reel": "https://www.instagram.com/reel/DMIOYL7PxUv/"
+    },
+    {
+      "id": "aditya-shridhar",
+      "name": "Aditya Shridhar",
+      "aliases": [
+        "Aditya Sridhar",
+        "Aditya SK"
+      ],
+      "photo": "/mics/comics/aditya-shridhar.jpg?v=2026-10-31T08%3A53%3A09.608Z",
+      "reel": "https://www.instagram.com/reel/CasMC1eA29Y/"
     },
     {
       "id": "aditya-singh",
@@ -28,6 +45,16 @@
       "reel": null
     },
     {
+      "id": "akshat",
+      "name": "Akshat",
+      "aliases": [
+        "akshatgram",
+        "akshat jain"
+      ],
+      "photo": "/mics/comics/akshat.jpg?v=2026-10-26T21%3A46%3A49.923Z",
+      "reel": "https://www.instagram.com/reel/DeJwcjqtGXq/"
+    },
+    {
       "id": "akshay-j-p",
       "name": "Akshay J P",
       "aliases": [
@@ -36,6 +63,47 @@
       ],
       "photo": "/mics/comics/akshay-j-p.jpg?v=2026-10-24T09%3A33%3A08.943Z",
       "reel": "https://www.instagram.com/reel/DdEPCpDuUUu/"
+    },
+    {
+      "id": "aman-jotwani",
+      "name": "Aman Jotwani",
+      "aliases": [],
+      "photo": "/mics/comics/aman-jotwani.jpg?v=2026-10-26T21%3A33%3A45.656Z",
+      "reel": "https://www.instagram.com/reel/DYCvBvtMnJ-/"
+    },
+    {
+      "id": "aman-mishra",
+      "name": "Aman Mishra",
+      "aliases": [],
+      "photo": "/mics/comics/aman-mishra.jpg?v=2026-10-26T21%3A33%3A29.488Z",
+      "reel": null
+    },
+    {
+      "name": "Aman Singh",
+      "aliases": [],
+      "photo": null,
+      "reel": "https://www.instagram.com/reel/DevWGVKobqq/"
+    },
+    {
+      "id": "anand-rathnam",
+      "name": "Anand Rathnam",
+      "aliases": [],
+      "photo": "/mics/comics/anand-rathnam.jpg?v=2026-10-26T21%3A55%3A53.012Z",
+      "reel": "https://www.instagram.com/reel/DakQqyOpO1W/"
+    },
+    {
+      "id": "anil-mishra",
+      "name": "Anil Mishra",
+      "aliases": [],
+      "photo": "/mics/comics/anil-mishra.jpg?v=2026-10-26T21%3A35%3A10.669Z",
+      "reel": null
+    },
+    {
+      "id": "ankit-kedia",
+      "name": "Ankit kedia",
+      "aliases": [],
+      "photo": "/mics/comics/ankit-kedia.jpg?v=2026-10-26T21%3A35%3A52.429Z",
+      "reel": null
     },
     {
       "id": "ashwin-srinivas",
@@ -84,11 +152,30 @@
       "reel": "https://www.instagram.com/reel/DAOV46rPWzU/"
     },
     {
+      "name": "Divyanshu Bajpai",
+      "aliases": [],
+      "photo": null,
+      "reel": "https://www.instagram.com/reel/DcrNjtXTShY/"
+    },
+    {
       "id": "gaurav-madaan",
       "name": "Gaurav Madaan",
       "aliases": [],
       "photo": "/mics/comics/gaurav-madaan.jpg?v=2026-10-23T11%3A44%3A41.590Z",
       "reel": null
+    },
+    {
+      "name": "Gaurav Singh",
+      "aliases": [],
+      "photo": null,
+      "reel": "https://www.instagram.com/reel/Da7JQ_KxFlh/"
+    },
+    {
+      "id": "gokul-kumar",
+      "name": "Gokul Kumar",
+      "aliases": [],
+      "photo": "/mics/comics/gokul-kumar.jpg?v=2026-10-28T12%3A07%3A36.234Z",
+      "reel": "https://www.instagram.com/reel/C-XZgIzPIOC/"
     },
     {
       "id": "harshit-mahawar",
@@ -100,6 +187,12 @@
       "reel": "https://www.instagram.com/reel/DZFbhqzhmxq/"
     },
     {
+      "name": "Joshua",
+      "aliases": [],
+      "photo": null,
+      "reel": "https://www.instagram.com/reel/Deq9QCsC1Re/"
+    },
+    {
       "id": "joteen-patro",
       "name": "Joteen Patro",
       "aliases": [
@@ -108,6 +201,20 @@
         "patro"
       ],
       "photo": "/mics/comics/joteen-patro.jpg?v=2026-10-17T09%3A26%3A38.226Z",
+      "reel": "https://www.instagram.com/reel/Dac6cSpxsIq/"
+    },
+    {
+      "id": "kashni-bathla",
+      "name": "Kashni Bathla",
+      "aliases": [],
+      "photo": "/mics/comics/kashni-bathla.jpg?v=2026-10-26T21%3A33%3A18.952Z",
+      "reel": null
+    },
+    {
+      "id": "kashyap-swaroop",
+      "name": "Kashyap Swaroop",
+      "aliases": [],
+      "photo": "/mics/comics/kashyap-swaroop.jpg?v=2026-10-26T21%3A33%3A18.954Z",
       "reel": null
     },
     {
@@ -120,6 +227,15 @@
       ],
       "photo": "/mics/comics/kelt-sreshth.jpg?v=2026-10-23T11%3A44%3A56.590Z",
       "reel": null
+    },
+    {
+      "id": "kishore-raghunathan",
+      "name": "Kishore Raghunathan",
+      "aliases": [
+        "Kishore R"
+      ],
+      "photo": "/mics/comics/kishore-raghunathan.jpg?v=2026-10-31T08%3A54%3A02.922Z",
+      "reel": "https://www.instagram.com/reel/C_siukXSnuR/"
     },
     {
       "id": "krishna-subramanian",
@@ -145,7 +261,7 @@
         "jain",
         "manish jain (host)"
       ],
-      "photo": "/mics/comics/manish-jain.jpg?v=2026-10-17T09%3A05%3A21.891Z",
+      "photo": "/mics/comics/manish-jain.jpg?v=2026-10-31T09%3A48%3A57.152Z",
       "reel": "https://www.instagram.com/reel/DcyNI7ISZjd/"
     },
     {
@@ -159,13 +275,31 @@
       "reel": null
     },
     {
+      "id": "mohd-suhel",
+      "name": "Mohd Suhel",
+      "aliases": [
+        "mohd. suhel",
+        "suhel",
+        "suhelbaz"
+      ],
+      "photo": "/mics/comics/mohd-suhel.jpg?v=2026-10-26T21%3A46%3A14.115Z",
+      "reel": "https://www.instagram.com/reel/Da-ev0NPRzp/"
+    },
+    {
+      "id": "nayab-sadaf",
+      "name": "Nayab sadaf",
+      "aliases": [],
+      "photo": "/mics/comics/nayab-sadaf.jpg?v=2026-10-26T21%3A38%3A54.114Z",
+      "reel": null
+    },
+    {
       "id": "neha-bobde",
       "name": "neha bobde",
       "aliases": [
         "bobde"
       ],
       "photo": "/mics/comics/neha-bobde.jpg?v=2026-10-23T11%3A51%3A03.819Z",
-      "reel": null
+      "reel": "https://www.instagram.com/reel/DOWHKeOk54n/"
     },
     {
       "id": "nishant-tanwar",
@@ -194,6 +328,19 @@
       "reel": null
     },
     {
+      "id": "raghav-batra",
+      "name": "Raghav Batra",
+      "aliases": [],
+      "photo": "/mics/comics/raghav-batra.jpg?v=2026-10-26T21%3A50%3A49.828Z",
+      "reel": null
+    },
+    {
+      "name": "Rahul Singh",
+      "aliases": [],
+      "photo": null,
+      "reel": "https://www.instagram.com/reel/DWs7Hd6AD7i/"
+    },
+    {
       "id": "rajat-thakur",
       "name": "Rajat Thakur",
       "aliases": [
@@ -203,13 +350,31 @@
       "reel": "https://www.instagram.com/reel/Db0w4NUzBBZ/"
     },
     {
+      "name": "Rakshith Manandi",
+      "aliases": [],
+      "photo": null,
+      "reel": "https://www.instagram.com/reel/DcYffuLoTgc/"
+    },
+    {
       "id": "ruchi-kumari",
       "name": "Ruchi Kumari",
       "aliases": [
         "ruchi"
       ],
       "photo": "/mics/comics/ruchi-kumari.jpg?v=2026-10-17T09%3A10%3A57.352Z",
-      "reel": null
+      "reel": "https://www.instagram.com/reel/DecFFtPtiPO/"
+    },
+    {
+      "name": "Rutuja Awaghad",
+      "aliases": [],
+      "photo": null,
+      "reel": "https://www.instagram.com/reel/Da-iIDit2AW/"
+    },
+    {
+      "name": "Sagar Joshi",
+      "aliases": [],
+      "photo": null,
+      "reel": "https://www.instagram.com/reel/Del0KFdCZk7/"
     },
     {
       "id": "samarpan-bose",
@@ -219,6 +384,12 @@
       ],
       "photo": "/mics/comics/samarpan-bose.jpg?v=2026-10-24T09%3A33%3A48.823Z",
       "reel": "https://www.instagram.com/reel/DdrEdF-BEpE/"
+    },
+    {
+      "name": "Sandipan Mukherjee",
+      "aliases": [],
+      "photo": null,
+      "reel": "https://www.instagram.com/reel/DeGy_JEuTe_/"
     },
     {
       "id": "sarat-uday",
@@ -248,6 +419,31 @@
       "reel": null
     },
     {
+      "id": "shivam-lakhanpal",
+      "name": "Shivam Lakhanpal",
+      "aliases": [],
+      "photo": "/mics/comics/shivam-lakhanpal.jpg?v=2026-10-26T21%3A53%3A17.147Z",
+      "reel": null
+    },
+    {
+      "id": "shivangi",
+      "name": "Shivangi Shrivastava",
+      "aliases": [
+        "Shivangi"
+      ],
+      "photo": "/mics/comics/shivangi.jpg?v=2026-11-01T09%3A11%3A25.617Z",
+      "reel": "https://www.instagram.com/reel/DJRXpEOvvZ5/"
+    },
+    {
+      "id": "shreeja-chaturvedi",
+      "name": "Shreeja Chaturvedi",
+      "aliases": [
+        "Shreeja"
+      ],
+      "photo": "/mics/comics/shreeja-chaturvedi.jpg?v=2026-10-26T21%3A46%3A30.046Z",
+      "reel": "https://www.instagram.com/reel/Ddil4nDuhJq/"
+    },
+    {
       "id": "shubham-pujari",
       "name": "Shubham Pujari",
       "aliases": [],
@@ -262,7 +458,19 @@
         "padhy"
       ],
       "photo": "/mics/comics/somnath-padhy.jpg?v=2026-10-17T09%3A09%3A57.305Z",
-      "reel": null
+      "reel": "https://www.instagram.com/reel/C2MuxE4P3OP/"
+    },
+    {
+      "name": "Spatica Ramanujam",
+      "aliases": [],
+      "photo": null,
+      "reel": "https://www.instagram.com/reel/DNNK0LYy5qf/"
+    },
+    {
+      "name": "Sushant Rawat",
+      "aliases": [],
+      "photo": null,
+      "reel": "https://www.instagram.com/reel/Ceveay7hskq/"
     },
     {
       "id": "vaibhav-karn",
@@ -272,7 +480,7 @@
         "karn"
       ],
       "photo": "/mics/comics/vaibhav-karn.jpg?v=2026-10-18T09%3A16%3A32.580Z",
-      "reel": null
+      "reel": "https://www.instagram.com/reel/DdQfeG-y4mP/"
     },
     {
       "id": "vishal-sivakumar",
@@ -282,7 +490,13 @@
         "shivakumar"
       ],
       "photo": "/mics/comics/vishal-sivakumar.jpg?v=2026-10-23T11%3A45%3A35.871Z",
-      "reel": null
+      "reel": "https://www.instagram.com/reel/DQyd4xIkwDT/"
+    },
+    {
+      "name": "Vivek Ojha",
+      "aliases": [],
+      "photo": null,
+      "reel": "https://www.instagram.com/reel/DcOFnuTPP6O/"
     }
   ]
 }
