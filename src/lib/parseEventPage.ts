@@ -23,6 +23,8 @@ export interface EventDetails {
   languages: string[];
 }
 
+import { readEventPage } from "./synopsisState";
+
 function stripHtml(html: string) {
   return html
     .replace(/<[^>]+>/g, " ")
@@ -122,6 +124,19 @@ console.error(err);
 
     const event = events[0];
 
+    // JSON-LD sometimes lacks an image or a price; the page itself has them.
+    const page = readEventPage(html);
+
+    const ldImage = Array.isArray(event.image)
+      ? event.image[0] ?? ""
+      : event.image ?? "";
+
+    const ldPrice = Number(
+      event.offers?.lowPrice ??
+      event.offers?.price ??
+      0
+    );
+
     return {
 
       eventId:
@@ -138,9 +153,7 @@ console.error(err);
       bookingUrl:
         event.url ?? "",
 
-      image: Array.isArray(event.image)
-        ? event.image[0] ?? ""
-        : event.image ?? "",
+      image: ldImage || page.image,
 
       venue:
         event.location?.name ?? "",
@@ -159,15 +172,11 @@ console.error(err);
       duration:
         event.duration ?? "",
 
-      price: Number(
-        event.offers?.lowPrice ??
-        event.offers?.price ??
-        0
-      ),
+      price: ldPrice > 0 ? ldPrice : page.price,
 
       currency:
         event.offers?.priceCurrency ??
-        "",
+        (ldPrice > 0 || page.price > 0 ? "INR" : ""),
 
       performers:
         Array.isArray(event.performer)
@@ -189,23 +198,19 @@ console.error(err);
     "⚠️ No usable JSON-LD found. Returning partial event."
   );
 
-  const title =
-    html.match(/<title>(.*?)<\/title>/i)?.[1]
-      ?.replace(/\s*\|.*$/, "")
-      ?.trim() ?? "";
+  // Use what the page itself says (clean title, banner, price, times) instead of
+  // the browser-tab title ("... comedy-shows Event Tickets Bengaluru - BookMyShow").
+  const page = readEventPage(html);
+
+  const title = page.title;
 
   const description =
     html.match(
       /<meta\s+name="description"\s+content="([^"]+)"/i
     )?.[1] ?? "";
 
-  const image =
-    html.match(
-      /<meta\s+property="og:image"\s+content="([^"]+)"/i
-    )?.[1] ?? "";
-
   return {
-    eventId: "",
+    eventId: page.eventId,
 
     title,
 
@@ -213,21 +218,21 @@ console.error(err);
 
     bookingUrl: "",
 
-    image,
+    image: page.image,
 
     venue: "",
 
     address: "",
 
-    startDate: "",
+    startDate: page.startDate,
 
-    endDate: "",
+    endDate: page.endDate,
 
     duration: "",
 
-    price: 0,
+    price: page.price,
 
-    currency: "",
+    currency: page.price > 0 ? "INR" : "",
 
     performers: [],
 

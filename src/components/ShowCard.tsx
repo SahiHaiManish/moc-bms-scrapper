@@ -28,6 +28,9 @@ export default function ShowCard({ show, tags = [], videoId }: Props) {
 
 const start = parseISO(show.startDate);
 const [playVideo, setPlayVideo] = useState(false);
+// a missing or unloadable poster gets a placeholder instead of a broken-image icon
+const [imgFailed, setImgFailed] = useState(false);
+const hasPrice = Number(show.price) > 0;
 const featured = tags.includes("featured");
 
   return (
@@ -47,13 +50,24 @@ const featured = tags.includes("featured");
           />
         ) : (
           <>
-            <Image
-              src={show.image}
-              alt={show.title}
-              fill
-              className="object-contain bg-zinc-950 p-2"
-              sizes="(max-width: 768px) 100vw, 400px"
-            />
+            {show.image && !imgFailed ? (
+              <Image
+                src={show.image}
+                alt={show.title}
+                fill
+                className="object-contain bg-zinc-950 p-2"
+                sizes="(max-width: 768px) 100vw, 400px"
+                onError={() => setImgFailed(true)}
+              />
+            ) : (
+              <div
+                role="img"
+                aria-label={show.title}
+                className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-zinc-900 via-zinc-950 to-black text-6xl"
+              >
+                🎤
+              </div>
+            )}
 
             <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-black via-black/40 to-transparent" />
 
@@ -138,12 +152,18 @@ const featured = tags.includes("featured");
 <div className="flex items-center justify-between border-t border-zinc-800 pt-3 sm:pt-4">
           <div>
             <p className="text-xs uppercase tracking-wider text-zinc-500">
-              Tickets from
+              {hasPrice ? "Tickets from" : "Tickets"}
             </p>
 
-            <p className="text-xl font-bold text-white sm:text-2xl">
-              ₹{show.price}
-            </p>
+            {hasPrice ? (
+              <p className="text-xl font-bold text-white sm:text-2xl">
+                ₹{show.price}
+              </p>
+            ) : (
+              <p className="text-base font-semibold text-zinc-300 sm:text-lg">
+                See price
+              </p>
+            )}
           </div>
 
           <a

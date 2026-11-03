@@ -13,128 +13,6 @@
     "description": "Comedy Shots presents Wild Comedy Nights Come on down with friends, family, enemies, random strangers, or by yourself for an absurd, edgy, and funny evening as these Bangalore regulars try to crack you up with their jokes. Add some food and beverages to the mix and the evening promises to be the one to remember. Come down and Support artists.",
     "venue": "Ministry Of Comedy: Koramangala",
     "address": "1018, Opp. Wooden Street, 80 Feet Road, 4th Block, Koramangala, Bengaluru, Karnataka 560034, India",
-    "startDate": "2026-11-02T21:00:00+05:30",
-    "endDate": "2026-11-02T22:10:00+05:30",
-    "duration": "PT1H10M",
-    "price": 199,
-    "currency": "INR",
-    "performers": [
-      "Anand Rathnam",
-      "Somnath Padhy",
-      "Joteen Patro"
-    ],
-    "languages": [
-      "English",
-      "Hindi"
-    ],
-    "sessionId": "ET00312493@20261102T2100",
-    "date": "Mon 2 Nov",
-    "time": "9:00 PM",
-    "availability": "available",
-    "scrapedAt": "2026-11-02T13:34:38.809Z"
-  },
-  {
-    "title": "Ministry of Comedy Presents!",
-    "category": "Stand up Comedy",
-    "image": "https://assets-in.bmscdn.com/nmcms/events/banner/desktop/media-desktop-ministry-of-comedy-presents-koramangala-0-2026-7-26-t-22-45-46.jpg",
-    "bookingUrl": "https://in.bookmyshow.com/events/pilot-gomma-an-aircrash-event-by-gommaboy/ET00433099",
-    "eventId": "ET00433099",
-    "regionCode": "BANG",
-    "language": [
-      "hinglish",
-      "hindi"
-    ],
-    "description": "Book online tickets for Ministry of Comedy Presents! (Koramangala) in Bengaluru on BookMyShow which is a comedy-shows event happening at Ministry Of Comedy: Koramangala",
-    "venue": "Ministry Of Comedy: Koramangala",
-    "address": "",
-    "startDate": "2026-11-02T23:00:00+05:30",
-    "endDate": "2026-11-03T00:30:00+05:30",
-    "duration": "",
-    "price": 0,
-    "currency": "",
-    "performers": [],
-    "languages": [],
-    "sessionId": "ET00433099@20261102T2300",
-    "date": "Mon 2 Nov",
-    "time": "11:00 PM",
-    "availability": "available",
-    "scrapedAt": "2026-11-02T13:35:25.728Z"
-  },
-  {
-    "title": "Stand Up Comedy Live",
-    "category": "Stand up Comedy",
-    "image": "https://assets-in.bmscdn.com/nmcms/events/banner/desktop/media-desktop-stand-up-comedy-live-0-2026-10-11-t-8-18-46.jpg",
-    "bookingUrl": "https://in.bookmyshow.com/events/stand-up-comedy-live/ET00312493",
-    "eventId": "ET00312493",
-    "regionCode": "BANG",
-    "language": [
-      "english",
-      "hindi"
-    ],
-    "description": "Comedy Shots presents Wild Comedy Nights Come on down with friends, family, enemies, random strangers, or by yourself for an absurd, edgy, and funny evening as these Bangalore regulars try to crack you up with their jokes. Add some food and beverages to the mix and the evening promises to be the one to remember. Come down and Support artists.",
-    "venue": "Ministry Of Comedy: Koramangala",
-    "address": "1018, Opp. Wooden Street, 80 Feet Road, 4th Block, Koramangala, Bengaluru, Karnataka 560034, India",
-    "startDate": "2026-11-03T21:00:00+05:30",
-    "endDate": "2026-11-03T22:10:00+05:30",
-    "duration": "PT1H10M",
-    "price": 199,
-    "currency": "INR",
-    "performers": [
-      "Anand Rathnam",
-      "Somnath Padhy",
-      "Joteen Patro"
-    ],
-    "languages": [
-      "English",
-      "Hindi"
-    ],
-    "sessionId": "ET00312493@20261103T2100",
-    "date": "Tue 3 Nov",
-    "time": "9:00 PM",
-    "availability": "available",
-    "scrapedAt": "2026-11-02T13:34:38.809Z"
-  },
-  {
-    "title": "Ministry of Comedy Presents!",
-    "category": "Stand up Comedy",
-    "image": "https://assets-in.bmscdn.com/nmcms/events/banner/desktop/media-desktop-ministry-of-comedy-presents-koramangala-0-2026-7-26-t-22-45-46.jpg",
-    "bookingUrl": "https://in.bookmyshow.com/events/pilot-gomma-an-aircrash-event-by-gommaboy/ET00433099",
-    "eventId": "ET00433099",
-    "regionCode": "BANG",
-    "language": [
-      "hinglish",
-      "hindi"
-    ],
-    "description": "Book online tickets for Ministry of Comedy Presents! (Koramangala) in Bengaluru on BookMyShow which is a comedy-shows event happening at Ministry Of Comedy: Koramangala",
-    "venue": "Ministry Of Comedy: Koramangala",
-    "address": "",
-    "startDate": "2026-11-03T23:00:00+05:30",
-    "endDate": "2026-11-04T00:30:00+05:30",
-    "duration": "",
-    "price": 0,
-    "currency": "",
-    "performers": [],
-    "languages": [],
-    "sessionId": "ET00433099@20261103T2300",
-    "date": "Tue 3 Nov",
-    "time": "11:00 PM",
-    "availability": "available",
-    "scrapedAt": "2026-11-02T13:35:25.728Z"
-  },
-  {
-    "title": "Stand Up Comedy Live",
-    "category": "Stand up Comedy",
-    "image": "https://assets-in.bmscdn.com/nmcms/events/banner/desktop/media-desktop-stand-up-comedy-live-0-2026-10-11-t-8-18-46.jpg",
-    "bookingUrl": "https://in.bookmyshow.com/events/stand-up-comedy-live/ET00312493",
-    "eventId": "ET00312493",
-    "regionCode": "BANG",
-    "language": [
-      "english",
-      "hindi"
-    ],
-    "description": "Comedy Shots presents Wild Comedy Nights Come on down with friends, family, enemies, random strangers, or by yourself for an absurd, edgy, and funny evening as these Bangalore regulars try to crack you up with their jokes. Add some food and beverages to the mix and the evening promises to be the one to remember. Come down and Support artists.",
-    "venue": "Ministry Of Comedy: Koramangala",
-    "address": "1018, Opp. Wooden Street, 80 Feet Road, 4th Block, Koramangala, Bengaluru, Karnataka 560034, India",
     "startDate": "2026-11-04T21:00:00+05:30",
     "endDate": "2026-11-04T22:10:00+05:30",
     "duration": "PT1H10M",
@@ -153,10 +31,10 @@
     "date": "Wed 4 Nov",
     "time": "9:00 PM",
     "availability": "available",
-    "scrapedAt": "2026-11-02T13:34:38.809Z"
+    "scrapedAt": "2026-11-03T15:03:53.640Z"
   },
   {
-    "title": "Ministry of Comedy Presents!",
+    "title": "Ministry of Comedy Presents! (Koramangala)",
     "category": "Stand up Comedy",
     "image": "https://assets-in.bmscdn.com/nmcms/events/banner/desktop/media-desktop-ministry-of-comedy-presents-koramangala-0-2026-7-26-t-22-45-46.jpg",
     "bookingUrl": "https://in.bookmyshow.com/events/pilot-gomma-an-aircrash-event-by-gommaboy/ET00433099",
@@ -166,24 +44,33 @@
       "hinglish",
       "hindi"
     ],
-    "description": "Book online tickets for Ministry of Comedy Presents! (Koramangala) in Bengaluru on BookMyShow which is a comedy-shows event happening at Ministry Of Comedy: Koramangala",
+    "description": "Book online tickets for Ministry of Comedy Presents! (Koramangala) in Bengaluru on BookMyShow which is a comedy-shows event",
     "venue": "Ministry Of Comedy: Koramangala",
-    "address": "",
+    "address": "1018, Opp. Wooden Street, 80 Feet Road, 4th Block, Koramangala, Bengaluru, Karnataka 560034, India",
     "startDate": "2026-11-04T23:00:00+05:30",
-    "endDate": "2026-11-05T00:30:00+05:30",
-    "duration": "",
-    "price": 0,
-    "currency": "",
-    "performers": [],
-    "languages": [],
+    "endDate": "2026-11-05T00:15:00+05:30",
+    "duration": "PT1H15M",
+    "price": 199,
+    "currency": "INR",
+    "performers": [
+      "Manish Jain (Comic)",
+      "Pronoy Chowdhury",
+      "Nisarg Avashia",
+      "Abhinav Anand",
+      "Sachin Kumar Gommaboy"
+    ],
+    "languages": [
+      "Hinglish",
+      "Hindi"
+    ],
     "sessionId": "ET00433099@20261104T2300",
     "date": "Wed 4 Nov",
     "time": "11:00 PM",
     "availability": "available",
-    "scrapedAt": "2026-11-02T13:35:25.728Z"
+    "scrapedAt": "2026-11-03T15:04:44.171Z"
   },
   {
-    "title": "Ministry of Comedy Presents!",
+    "title": "Ministry of Comedy Presents! (Koramangala)",
     "category": "Stand up Comedy",
     "image": "https://assets-in.bmscdn.com/nmcms/events/banner/desktop/media-desktop-ministry-of-comedy-presents-koramangala-0-2026-7-26-t-22-45-46.jpg",
     "bookingUrl": "https://in.bookmyshow.com/events/pilot-gomma-an-aircrash-event-by-gommaboy/ET00433099",
@@ -193,21 +80,30 @@
       "hinglish",
       "hindi"
     ],
-    "description": "Book online tickets for Ministry of Comedy Presents! (Koramangala) in Bengaluru on BookMyShow which is a comedy-shows event happening at Ministry Of Comedy: Koramangala",
+    "description": "Book online tickets for Ministry of Comedy Presents! (Koramangala) in Bengaluru on BookMyShow which is a comedy-shows event",
     "venue": "Ministry Of Comedy: Koramangala",
-    "address": "",
+    "address": "1018, Opp. Wooden Street, 80 Feet Road, 4th Block, Koramangala, Bengaluru, Karnataka 560034, India",
     "startDate": "2026-11-05T23:00:00+05:30",
-    "endDate": "2026-11-06T00:30:00+05:30",
-    "duration": "",
-    "price": 0,
-    "currency": "",
-    "performers": [],
-    "languages": [],
+    "endDate": "2026-11-06T00:15:00+05:30",
+    "duration": "PT1H15M",
+    "price": 199,
+    "currency": "INR",
+    "performers": [
+      "Manish Jain (Comic)",
+      "Pronoy Chowdhury",
+      "Nisarg Avashia",
+      "Abhinav Anand",
+      "Sachin Kumar Gommaboy"
+    ],
+    "languages": [
+      "Hinglish",
+      "Hindi"
+    ],
     "sessionId": "ET00433099@20261105T2300",
     "date": "Thu 5 Nov",
     "time": "11:00 PM",
     "availability": "available",
-    "scrapedAt": "2026-11-02T13:35:25.728Z"
+    "scrapedAt": "2026-11-03T15:04:44.171Z"
   },
   {
     "title": "Aamer Peeran's WIDE RANGE - a stand up comedy show",
@@ -237,7 +133,39 @@
     "date": "Sat 14 Nov",
     "time": "8:00 PM",
     "availability": "available",
-    "scrapedAt": "2026-11-02T13:36:43.227Z"
+    "scrapedAt": "2026-11-03T15:05:04.103Z"
+  },
+  {
+    "title": "Banker OP in The House",
+    "category": "Stand up Comedy",
+    "image": "https://assets-in.bmscdn.com/nmcms/events/banner/desktop/media-desktop-banker-op-in-the-house-0-2026-6-25-t-7-16-58.jpg",
+    "bookingUrl": "https://in.bookmyshow.com/events/piyush-sharma-live/ET00131954",
+    "eventId": "ET00131954",
+    "regionCode": "BANG",
+    "language": [
+      "english",
+      "hindi"
+    ],
+    "description": "From balance sheets to punchlines — Banker OP in The House is Piyush Sharma’s hilarious take on life as a banker-turned-comedian. Best known as the witty, straight-faced “Banker OP” , Piyush brings his unique brand of dry humor, corporate commentary, and middle-class madness to the stage. In this one-hour solo special, Piyush dives deep into the absurdity of office culture, growing up in a small town, Indian family quirks, and the existential crisis of working a 9-to-5. Expect razor-sharp observations, awkward silences, and a painfully funny reminder of your own corporate life.",
+    "venue": "Ministry Of Comedy: Koramangala",
+    "address": "1018, Opp. Wooden Street, 80 Feet Road, 4th Block, Koramangala, Bengaluru, Karnataka 560034, India",
+    "startDate": "2026-11-21T16:00:00+05:30",
+    "endDate": "2026-11-21T17:00:00+05:30",
+    "duration": "PT1H",
+    "price": 399,
+    "currency": "INR",
+    "performers": [
+      "Piyush Sharma"
+    ],
+    "languages": [
+      "English",
+      "Hindi"
+    ],
+    "sessionId": "ET00131954@20261121T1600",
+    "date": "Sat 21 Nov",
+    "time": "4:00 PM",
+    "availability": "available",
+    "scrapedAt": "2026-11-03T15:06:07.381Z"
   },
   {
     "title": "Vishnu Pai Live",
@@ -269,44 +197,12 @@
     "date": "Sat 21 Nov",
     "time": "8:00 PM",
     "availability": "available",
-    "scrapedAt": "2026-11-02T13:37:09.949Z"
+    "scrapedAt": "2026-11-03T15:06:24.951Z"
   },
   {
-    "title": "Banker OP in The House",
+    "title": "DUMP HIM storytelling",
     "category": "Stand up Comedy",
-    "image": "https://assets-in.bmscdn.com/nmcms/events/banner/desktop/media-desktop-banker-op-in-the-house-0-2026-6-25-t-7-16-58.jpg",
-    "bookingUrl": "https://in.bookmyshow.com/events/piyush-sharma-live/ET00131954",
-    "eventId": "ET00131954",
-    "regionCode": "BANG",
-    "language": [
-      "english",
-      "hindi"
-    ],
-    "description": "From balance sheets to punchlines — Banker OP in The House is Piyush Sharma’s hilarious take on life as a banker-turned-comedian. Best known as the witty, straight-faced “Banker OP” , Piyush brings his unique brand of dry humor, corporate commentary, and middle-class madness to the stage. In this one-hour solo special, Piyush dives deep into the absurdity of office culture, growing up in a small town, Indian family quirks, and the existential crisis of working a 9-to-5. Expect razor-sharp observations, awkward silences, and a painfully funny reminder of your own corporate life.",
-    "venue": "Ministry Of Comedy: Koramangala",
-    "address": "1018, Opp. Wooden Street, 80 Feet Road, 4th Block, Koramangala, Bengaluru, Karnataka 560034, India",
-    "startDate": "2026-11-22T16:00:00+05:30",
-    "endDate": "2026-11-22T17:00:00+05:30",
-    "duration": "PT1H",
-    "price": 399,
-    "currency": "INR",
-    "performers": [
-      "Piyush Sharma"
-    ],
-    "languages": [
-      "English",
-      "Hindi"
-    ],
-    "sessionId": "ET00131954@20261122T1600",
-    "date": "Sun 22 Nov",
-    "time": "4:00 PM",
-    "availability": "available",
-    "scrapedAt": "2026-11-02T13:36:52.208Z"
-  },
-  {
-    "title": "DUMP HIM storytelling comedy-shows Event Tickets Mumbai - BookMyShow",
-    "category": "Stand up Comedy",
-    "image": "",
+    "image": "https://assets-in.bmscdn.com/nmcms/events/banner/desktop/media-desktop-dump-him-then-swipe-right-0-2026-6-30-t-11-48-1.jpg",
     "bookingUrl": "https://in.bookmyshow.com/events/dump-him-breakup-comedy/ET00487524",
     "eventId": "ET00487524",
     "regionCode": "BANG",
@@ -314,20 +210,16 @@
       "hindi"
     ],
     "description": "Book online tickets for DUMP HIM storytelling in Mumbai on BookMyShow which is a comedy-shows event happening at Ministry Of Comedy: Koramangala",
-    "venue": "Ministry Of Comedy: Koramangala",
-    "address": "",
     "startDate": "2026-11-28T18:00:00+05:30",
     "endDate": "2026-11-28T19:30:00+05:30",
-    "duration": "",
-    "price": 0,
-    "currency": "",
-    "performers": [],
-    "languages": [],
+    "price": 299,
+    "currency": "INR",
+    "venue": "Ministry Of Comedy: Koramangala",
     "sessionId": "ET00487524@20261128T1800",
     "date": "Sat 28 Nov",
     "time": "6:00 PM",
     "availability": "available",
-    "scrapedAt": "2026-11-02T13:36:34.434Z"
+    "scrapedAt": "2026-11-03T15:05:58.344Z"
   },
   {
     "title": "SWIPE RIGHT matchmaking",
@@ -359,7 +251,7 @@
     "date": "Sat 28 Nov",
     "time": "8:00 PM",
     "availability": "available",
-    "scrapedAt": "2026-11-02T13:37:00.742Z"
+    "scrapedAt": "2026-11-03T15:06:16.163Z"
   },
   {
     "title": "To Whom It May Concern By Karan Veer Khurana",
@@ -389,7 +281,7 @@
     "date": "Sun 29 Nov",
     "time": "7:00 PM",
     "availability": "sold_out",
-    "scrapedAt": "2026-11-02T13:34:52.277Z"
+    "scrapedAt": "2026-11-03T15:04:02.428Z"
   },
   {
     "title": "To Whom It May Concern By Karan Veer Khurana",
@@ -419,64 +311,186 @@
     "date": "Sun 29 Nov",
     "time": "9:00 PM",
     "availability": "available",
-    "scrapedAt": "2026-11-02T13:34:52.277Z"
+    "scrapedAt": "2026-11-03T15:04:02.428Z"
   },
   {
-    "title": "Main Ab Bhi Wahin Hun Hindi storytelling Play in Bengaluru Tickets - BookMyShow",
+    "title": "Main Ab Bhi Wahin Hun",
     "category": "Storytelling",
-    "image": "",
+    "image": "https://assets-in.bmscdn.com/nmcms/events/banner/desktop/media-desktop-mai-ab-bhi-wahin-hun-0-2026-10-17-t-19-36-22.jpg",
     "bookingUrl": "https://in.bookmyshow.com/plays/mai-ab-bhi-wahin-hun/ET00520257",
     "eventId": "ET00520257",
     "regionCode": "BANG",
     "language": [
       "hindi"
     ],
-    "description": "Book tickets online for Main Ab Bhi Wahin Hun in Bengaluru on BookMyShow which is a Hindi classic play happening at Ministry Of Comedy: Koramangala",
+    "description": "Book tickets online for Main Ab Bhi Wahin Hun in Bengaluru on BookMyShow which is a Hindi classic play",
     "venue": "Ministry Of Comedy: Koramangala",
-    "address": "",
+    "address": "1018, Opp. Wooden Street, 80 Feet Road, 4th Block, Koramangala, Bengaluru, Karnataka 560034, India",
     "startDate": "2026-12-05T20:00:00+05:30",
     "endDate": "2026-12-05T21:30:00+05:30",
-    "duration": "",
-    "price": 0,
-    "currency": "",
-    "performers": [],
-    "languages": [],
+    "duration": "PT1H30M",
+    "price": 299,
+    "currency": "INR",
+    "languages": [
+      "Hindi"
+    ],
     "sessionId": "ET00520257@20261205T2000",
     "date": "Sat 5 Dec",
     "time": "8:00 PM",
     "availability": "available",
-    "scrapedAt": "2026-11-02T13:35:16.607Z"
+    "scrapedAt": "2026-11-03T15:04:11.288Z"
   },
   {
-    "title": "Yogi Mayandi and Friends- A Tamil Comedy Show comedy-shows Event Tickets Bengaluru - BookMyShow",
+    "title": "Mohd Suhel Live",
     "category": "Stand up Comedy",
-    "image": "",
+    "image": "https://assets-in.bmscdn.com/nmcms/events/banner/desktop/media-desktop-mohd-suhel-live-0-2026-7-25-t-16-49-9.jpg",
+    "bookingUrl": "https://in.bookmyshow.com/events/mohd-suhel-live/ET00408882",
+    "eventId": "ET00408882",
+    "regionCode": "BANG",
+    "language": [
+      "hindi",
+      "hinglish"
+    ],
+    "description": "Get ready for an evening of unapologetic laughs with Mohd. Suhel Live — a stand-up comedy show where Suhel dives into brutally honest takes on his life, his parents, his brother, and everything that makes family gatherings weirdly funny. From Mumbai versus Delhi banter to dark, deadpan humor and a few jokes that almost got him into trouble, Suhel brings it all with a straight face and razor-sharp timing. It’s a mix of relatable, risky, and ridiculously funny stories that make you laugh, flinch, and nod all at once. If you love sharp observational comedy, a bit of edge, and a comic who says the things everyone’s thinking but no one says out loud — this one’s for you. Book your tickets now for Mohd. Suhel Live — raw, honest, and dangerously funny.",
+    "venue": "Ministry Of Comedy: Koramangala",
+    "address": "1018, Opp. Wooden Street, 80 Feet Road, 4th Block, Koramangala, Bengaluru, Karnataka 560034, India",
+    "startDate": "2026-12-11T22:00:00+05:30",
+    "endDate": "2026-12-11T23:30:00+05:30",
+    "duration": "PT1H30M",
+    "price": 499,
+    "currency": "INR",
+    "performers": [
+      "Mohd. Suhel"
+    ],
+    "languages": [
+      "Hindi",
+      "Hinglish"
+    ],
+    "sessionId": "ET00408882@20261211T2200",
+    "date": "Fri 11 Dec",
+    "time": "10:00 PM",
+    "availability": "available",
+    "scrapedAt": "2026-11-03T15:04:20.017Z",
+    "posterPhotos": [
+      {
+        "name": "Mohd. Suhel",
+        "url": "https://ministryofcomedy.in/mics/comics/mohd-suhel.jpg?v=2026-10-26T21%3A46%3A14.115Z"
+      }
+    ]
+  },
+  {
+    "title": "Yogi Mayandi and Friends- A Tamil Comedy Show",
+    "category": "Stand up Comedy",
+    "image": "https://assets-in.bmscdn.com/nmcms/events/banner/desktop/media-desktop-yogi-and-friends-a-tamil-comedy-show-0-2026-10-18-t-15-3-25.jpg",
     "bookingUrl": "https://in.bookmyshow.com/events/third-wheel-squad-a-tamil-comedy-show/ET00452198",
     "eventId": "ET00452198",
     "regionCode": "BANG",
     "language": [
       "tamil"
     ],
-    "description": "Book online tickets for Yogi Mayandi and Friends- A Tamil Comedy Show in Bengaluru on BookMyShow which is a comedy-shows event happening at Ministry Of Comedy: Koramangala",
+    "description": "Yogi and friends is a tamil standup comedy show where comicstan fame Yogi , Mayandi and his friends bring thier best material to you . The show is recorded for Youtube release , so come be a part of the virality .",
     "venue": "Ministry Of Comedy: Koramangala",
-    "address": "",
+    "address": "1018, Opp. Wooden Street, 80 Feet Road, 4th Block, Koramangala, Bengaluru, Karnataka 560034, India",
     "startDate": "2026-12-12T18:00:00+05:30",
     "endDate": "2026-12-12T19:30:00+05:30",
-    "duration": "",
-    "price": 0,
-    "currency": "",
-    "performers": [],
-    "languages": [],
+    "duration": "PT1H30M",
+    "price": 349,
+    "currency": "INR",
+    "performers": [
+      "Divyanand V S",
+      "Yogi (Stand Up Comedian)",
+      "Krithin Kumar",
+      "Mayandi K. R."
+    ],
+    "languages": [
+      "Tamil"
+    ],
     "sessionId": "ET00452198@20261212T1800",
     "date": "Sat 12 Dec",
     "time": "6:00 PM",
     "availability": "available",
-    "scrapedAt": "2026-11-02T13:35:41.566Z"
+    "scrapedAt": "2026-11-03T15:05:48.020Z"
   },
   {
-    "title": "AIR 1: Standup Comedy by Harshit Mahawar Comedy Shows Event Tickets - BookMyShow",
+    "title": "Mohd Suhel Live",
     "category": "Stand up Comedy",
-    "image": "",
+    "image": "https://assets-in.bmscdn.com/nmcms/events/banner/desktop/media-desktop-mohd-suhel-live-0-2026-7-25-t-16-49-9.jpg",
+    "bookingUrl": "https://in.bookmyshow.com/events/mohd-suhel-live/ET00408882",
+    "eventId": "ET00408882",
+    "regionCode": "BANG",
+    "language": [
+      "hindi",
+      "hinglish"
+    ],
+    "description": "Get ready for an evening of unapologetic laughs with Mohd. Suhel Live — a stand-up comedy show where Suhel dives into brutally honest takes on his life, his parents, his brother, and everything that makes family gatherings weirdly funny. From Mumbai versus Delhi banter to dark, deadpan humor and a few jokes that almost got him into trouble, Suhel brings it all with a straight face and razor-sharp timing. It’s a mix of relatable, risky, and ridiculously funny stories that make you laugh, flinch, and nod all at once. If you love sharp observational comedy, a bit of edge, and a comic who says the things everyone’s thinking but no one says out loud — this one’s for you. Book your tickets now for Mohd. Suhel Live — raw, honest, and dangerously funny.",
+    "venue": "Ministry Of Comedy: Koramangala",
+    "address": "1018, Opp. Wooden Street, 80 Feet Road, 4th Block, Koramangala, Bengaluru, Karnataka 560034, India",
+    "startDate": "2026-12-12T20:00:00+05:30",
+    "endDate": "2026-12-12T21:30:00+05:30",
+    "duration": "PT1H30M",
+    "price": 499,
+    "currency": "INR",
+    "performers": [
+      "Mohd. Suhel"
+    ],
+    "languages": [
+      "Hindi",
+      "Hinglish"
+    ],
+    "sessionId": "ET00408882@20261212T2000",
+    "date": "Sat 12 Dec",
+    "time": "8:00 PM",
+    "availability": "available",
+    "scrapedAt": "2026-11-03T15:04:20.017Z",
+    "posterPhotos": [
+      {
+        "name": "Mohd. Suhel",
+        "url": "https://ministryofcomedy.in/mics/comics/mohd-suhel.jpg?v=2026-10-26T21%3A46%3A14.115Z"
+      }
+    ]
+  },
+  {
+    "title": "Mohd Suhel Live",
+    "category": "Stand up Comedy",
+    "image": "https://assets-in.bmscdn.com/nmcms/events/banner/desktop/media-desktop-mohd-suhel-live-0-2026-7-25-t-16-49-9.jpg",
+    "bookingUrl": "https://in.bookmyshow.com/events/mohd-suhel-live/ET00408882",
+    "eventId": "ET00408882",
+    "regionCode": "BANG",
+    "language": [
+      "hindi",
+      "hinglish"
+    ],
+    "description": "Get ready for an evening of unapologetic laughs with Mohd. Suhel Live — a stand-up comedy show where Suhel dives into brutally honest takes on his life, his parents, his brother, and everything that makes family gatherings weirdly funny. From Mumbai versus Delhi banter to dark, deadpan humor and a few jokes that almost got him into trouble, Suhel brings it all with a straight face and razor-sharp timing. It’s a mix of relatable, risky, and ridiculously funny stories that make you laugh, flinch, and nod all at once. If you love sharp observational comedy, a bit of edge, and a comic who says the things everyone’s thinking but no one says out loud — this one’s for you. Book your tickets now for Mohd. Suhel Live — raw, honest, and dangerously funny.",
+    "venue": "Ministry Of Comedy: Koramangala",
+    "address": "1018, Opp. Wooden Street, 80 Feet Road, 4th Block, Koramangala, Bengaluru, Karnataka 560034, India",
+    "startDate": "2026-12-13T19:00:00+05:30",
+    "endDate": "2026-12-13T20:30:00+05:30",
+    "duration": "PT1H30M",
+    "price": 499,
+    "currency": "INR",
+    "performers": [
+      "Mohd. Suhel"
+    ],
+    "languages": [
+      "Hindi",
+      "Hinglish"
+    ],
+    "sessionId": "ET00408882@20261213T1900",
+    "date": "Sun 13 Dec",
+    "time": "7:00 PM",
+    "availability": "available",
+    "scrapedAt": "2026-11-03T15:04:20.017Z",
+    "posterPhotos": [
+      {
+        "name": "Mohd. Suhel",
+        "url": "https://ministryofcomedy.in/mics/comics/mohd-suhel.jpg?v=2026-10-26T21%3A46%3A14.115Z"
+      }
+    ]
+  },
+  {
+    "title": "AIR 1: Standup Comedy by Harshit Mahawar",
+    "category": "Stand up Comedy",
+    "image": "https://assets-in.bmscdn.com/nmcms/events/banner/desktop/media-desktop-air-1-standup-comedy-by-harshit-mahawar-0-2026-7-8-t-9-26-32.jpg",
     "bookingUrl": "https://in.bookmyshow.com/events/linkedin-park/ET00428344",
     "eventId": "ET00428344",
     "regionCode": "BANG",
@@ -484,20 +498,31 @@
       "hinglish",
       "hindi"
     ],
-    "description": "Book online tickets for AIR 1: Standup Comedy by Harshit Mahawar on BookMyShow which is a Comedy Shows event happening at venue near you.",
+    "description": "Book online tickets for AIR 1: Standup Comedy by Harshit Mahawar in Mumbai on BookMyShow which is a comedy-shows event",
     "venue": "Ministry Of Comedy: Koramangala",
-    "address": "",
+    "address": "1018, Opp. Wooden Street, 80 Feet Road, 4th Block, Koramangala, Bengaluru, Karnataka 560034, India",
     "startDate": "2026-12-25T18:00:00+05:30",
     "endDate": "2026-12-25T19:30:00+05:30",
-    "duration": "",
-    "price": 0,
-    "currency": "",
-    "performers": [],
-    "languages": [],
+    "duration": "PT1H30M",
+    "price": 499,
+    "currency": "INR",
+    "performers": [
+      "Harshit Mahawar"
+    ],
+    "languages": [
+      "Hinglish",
+      "Hindi"
+    ],
     "sessionId": "ET00428344@20261225T1800",
     "date": "Fri 25 Dec",
     "time": "6:00 PM",
     "availability": "available",
-    "scrapedAt": "2026-11-02T13:35:50.337Z"
+    "scrapedAt": "2026-11-03T15:04:55.271Z",
+    "posterPhotos": [
+      {
+        "name": "Harshit Mahawar",
+        "url": "https://ministryofcomedy.in/mics/comics/harshit-mahawar.jpg?v=2026-10-23T11%3A50%3A51.538Z"
+      }
+    ]
   }
 ]

@@ -9,8 +9,8 @@ import { Comic, LineupEntry, emojiFor, instagramEmbedUrl, loadComics, normalizeN
 interface Props {
   /** show title, used as the dialog heading */
   title: string;
-  /** performer names as listed by BookMyShow */
-  performers: string[];
+  /** performer names as listed by BookMyShow (a record may not have the field at all) */
+  performers?: string[] | null;
 }
 
 function Avatar({ entry }: { entry: LineupEntry }) {
@@ -89,7 +89,9 @@ function ReelPlayer({ entry, embedUrl }: { entry: LineupEntry; embedUrl: string 
  * reel right inside the dialog. The roster is only downloaded the first time
  * someone shows interest.
  */
-export default function LineupDialog({ title, performers }: Props) {
+export default function LineupDialog({ title, performers: listed }: Props) {
+  const performers = Array.isArray(listed) ? listed.filter((p) => typeof p === "string") : [];
+
   // one row per person, even if the bill spells someone two ways
   const unique = performers.filter(
     (p, i) => normalizeName(p) && performers.findIndex((q) => normalizeName(q) === normalizeName(p)) === i

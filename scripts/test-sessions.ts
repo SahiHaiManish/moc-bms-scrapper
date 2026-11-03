@@ -11,6 +11,7 @@ import {
   parseDateLabel,
   parseIsoDurationMinutes,
   parseTime,
+  isIncomplete,
   partitionCache,
   resolveDate,
 } from "./lib/sessions";
@@ -182,16 +183,19 @@ test("labelFromIso round-trips through the parser", () => {
 
 console.log("partitionCache");
 
+// a properly scraped record: poster, price and a clean title
+const GOOD = { title: "Show", image: "https://x/p.jpg", price: 199 };
+
 test("fresh listings are reused, stale ones re-scraped, past sessions dropped", () => {
   const hours = (h: number) =>
     new Date(NOW.getTime() - h * 3_600_000).toISOString();
 
   const records = [
     // scraped 2h ago -> fresh
-    { eventId: "A", startDate: "2026-10-09T20:00:00+05:30", scrapedAt: hours(2) },
-    { eventId: "A", startDate: "2026-10-10T18:00:00+05:30", scrapedAt: hours(2) },
+    { ...GOOD, eventId: "A", startDate: "2026-10-09T20:00:00+05:30", scrapedAt: hours(2) },
+    { ...GOOD, eventId: "A", startDate: "2026-10-10T18:00:00+05:30", scrapedAt: hours(2) },
     // scraped 30h ago -> stale
-    { eventId: "B", startDate: "2026-10-12T20:00:00+05:30", scrapedAt: hours(30) },
+    { ...GOOD, eventId: "B", startDate: "2026-10-12T20:00:00+05:30", scrapedAt: hours(30) },
     // legacy record, no scrapedAt -> stale (forces migration)
     { eventId: "C", startDate: "2026-10-15T20:00:00+05:30" },
     // already happened -> gone
@@ -207,12 +211,35 @@ test("fresh listings are reused, stale ones re-scraped, past sessions dropped", 
 
 test("ttl of 0 (--force) makes everything stale", () => {
   const { fresh, stale } = partitionCache(
-    [{ eventId: "A", startDate: "2026-10-09T20:00:00+05:30", scrapedAt: NOW.toISOString() }],
+    [{ ...GOOD, eventId: "A", startDate: "2026-10-09T20:00:00+05:30", scrapedAt: NOW.toISOString() }],
     NOW,
     0
   );
   assert.equal(fresh.length, 0);
   assert.equal(stale.size, 1);
+});
+
+test("badly scraped records are re-scraped at once, even inside the TTL", () => {
+  const recent = new Date(NOW.getTime() - 3_600_000).toISOString(); // 1h ago, well inside 12h
+  const at = "2026-10-09T20:00:00+05:30";
+
+  const records = [
+    { ...GOOD, eventId: "ok", startDate: at, scrapedAt: recent },
+    { ...GOOD, eventId: "noImage", image: "", startDate: at, scrapedAt: recent },
+    { ...GOOD, eventId: "noPrice", price: 0, startDate: at, scrapedAt: recent },
+    { ...GOOD, eventId: "pageTitle", title: "Yogi Mayandi comedy-shows Event Tickets Bengaluru - BookMyShow", startDate: at, scrapedAt: recent },
+    // one bad session makes the whole listing stale
+    { ...GOOD, eventId: "mixed", startDate: at, scrapedAt: recent },
+    { ...GOOD, eventId: "mixed", price: 0, startDate: "2026-10-10T20:00:00+05:30", scrapedAt: recent },
+  ];
+
+  const { fresh, stale } = partitionCache(records, NOW, 12);
+
+  assert.deepEqual(fresh.map((r) => r.eventId), ["ok"]);
+  assert.deepEqual([...stale.keys()].sort(), ["mixed", "noImage", "noPrice", "pageTitle"]);
+  assert.equal(stale.get("mixed")!.length, 2); // the whole listing goes back, not one session
+  assert.equal(isIncomplete(GOOD as any), false);
+  assert.equal(isIncomplete({ ...GOOD, price: "199" } as any), false); // numeric strings are fine
 });
 
 console.log(`\n${passed} tests passed`);

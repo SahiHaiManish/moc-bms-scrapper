@@ -1,3 +1,4 @@
+import { looksLikePageTitle } from "../../src/lib/synopsisState";
 /**
  * Pure helpers for turning BookMyShow date/time labels into sessions.
  *
@@ -290,6 +291,23 @@ interface CachedRecord {
   eventId: string;
   startDate: string;
   scrapedAt?: string;
+  title?: string;
+  image?: string;
+  price?: number | string;
+}
+
+/**
+ * A saved record that is missing its poster or price, or has a browser-tab
+ * title, was scraped badly. It must not sit in the cache for 12 hours: it is
+ * re-scraped on the next sync. (A genuinely free show has no price, so it is
+ * simply re-checked every time, which is harmless.)
+ */
+export function isIncomplete(r: CachedRecord): boolean {
+  return (
+    !r.image ||
+    !(Number(r.price) > 0) ||
+    (typeof r.title === "string" && looksLikePageTitle(r.title))
+  );
 }
 
 /**
@@ -333,7 +351,7 @@ export function partitionCache<T extends CachedRecord>(
 
     const age = now.getTime() - newest;
 
-    if (ttlHours > 0 && age < ttlHours * 3_600_000) {
+    if (ttlHours > 0 && age < ttlHours * 3_600_000 && !list.some(isIncomplete)) {
       fresh.push(...list);
     } else {
       stale.set(eventId, list);

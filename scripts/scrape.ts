@@ -5,6 +5,7 @@ import scraperConfig from "../src/config/scraper.json";
 
 import { parseVenuePage } from "../src/lib/parseVenuePage";
 
+import { mergeListing } from "./lib/mergeDetails";
 import { partitionCache } from "./lib/sessions";
 import { filterVenueCards, isAtVenue } from "./lib/venueFilter";
 import {
@@ -180,8 +181,7 @@ console.log(
         );
 
       const base = {
-        ...summary,
-        ...details,
+        ...mergeListing(summary, details),
         // the venue page is the source of truth for identity
         eventId: summary.eventId || details.eventId,
         bookingUrl: summary.bookingUrl || details.bookingUrl,

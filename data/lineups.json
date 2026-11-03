@@ -1,3 +1,39 @@
 {
-  "lineups": []
+  "lineups": [
+    {
+      "slot": "20261102T2300",
+      "day": "Monday",
+      "time": "11:00 PM",
+      "performers": [
+        "Manoj Prabakar",
+        "Umesh Kanojia",
+        "Raghav Batra",
+        "Nayab sadaf",
+        "Manish",
+        "Dhruv Chaudhary",
+        "Devashish Mulye"
+      ],
+      "photos": [
+        {
+          "name": "Manoj Prabakar",
+          "url": "/mics/comics/manoj-prabakar.jpg?v=2026-10-17T09%3A24%3A24.878Z"
+        },
+        {
+          "name": "Devashish Mulye",
+          "url": "/mics/comics/devashish-mulye.jpg?v=2026-10-24T09%3A33%3A38.104Z"
+        }
+      ],
+      "reels": [
+        {
+          "name": "Manish",
+          "url": "https://www.instagram.com/reel/DcyNI7ISZjd/"
+        },
+        {
+          "name": "Devashish Mulye",
+          "url": "https://www.instagram.com/reel/DAOV46rPWzU/"
+        }
+      ],
+      "publishedAt": "2026-11-02T14:29:19.809Z"
+    }
+  ]
 }

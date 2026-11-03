@@ -7,6 +7,7 @@ import { parseEventPage } from "../../src/lib/parseEventPage";
 import { collectSessions } from "../collectSessions";
 import { Session, buildSessions, durationMinutesFrom } from "./sessions";
 import { VenueConfig, regionCookies } from "./venueFilter";
+import { firstPrice } from "./mergeDetails";
 
 /**
  * Everything needed to scrape ONE event, shared by:
@@ -258,8 +259,9 @@ export function sessionRecords(
     // an event page without venue data still sold seats at our venue
     venue: details.venue || VENUE.name,
     ...session,
-    // keep the listing price when a session has none of its own
-    price: session.price ?? details.price,
+    // the session's own price, else the listing's, else whatever the merged
+    // record already had; never a 0 that would hide a real price
+    price: firstPrice(session.price, details.price, (base as any).price),
     scrapedAt,
   }));
 }
