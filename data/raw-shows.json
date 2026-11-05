@@ -174,6 +174,66 @@
     "scrapedAt": "2026-11-03T15:04:44.171Z"
   },
   {
+    "category": "Stand up Comedy",
+    "language": [],
+    "regionCode": "BANG",
+    "eventId": "ET00453914",
+    "title": "Best In StandUp! (Koramangala)",
+    "description": "Book online tickets for Best In StandUp! (Koramangala) in Bengaluru on BookMyShow which is a comedy-shows event",
+    "bookingUrl": "https://in.bookmyshow.com/events/pilot-gomma-feat-gommaboy/ET00453914",
+    "image": "https://assets-in.bmscdn.com/nmcms/events/banner/desktop/media-desktop-best-in-standup-koramangala-0-2026-5-8-t-1-49-22.jpg",
+    "venue": "Ministry Of Comedy: Koramangala",
+    "address": "1018, Opp. Wooden Street, 80 Feet Road, 4th Block, Koramangala, Bengaluru, Karnataka 560034, India",
+    "startDate": "2026-11-06T22:00:00+05:30",
+    "endDate": "2026-11-06T23:25:00+05:30",
+    "duration": "PT1H25M",
+    "price": 225,
+    "currency": "INR",
+    "performers": [
+      "Manish Jain (Comic)",
+      "Abhinav Anand"
+    ],
+    "languages": [
+      "Hinglish",
+      "Hindi"
+    ],
+    "sessionId": "ET00453914@20261106T2200",
+    "date": "Fri 6 Nov",
+    "time": "10:00 PM",
+    "availability": "available",
+    "scrapedAt": "2026-11-05T20:53:08.667Z"
+  },
+  {
+    "category": "Stand up Comedy",
+    "language": [],
+    "regionCode": "BANG",
+    "eventId": "ET00476821",
+    "title": "Very Late Night StandUp Comedy Show!",
+    "description": "Book online tickets for Very Late Night StandUp Comedy Show! in Bengaluru on BookMyShow which is a comedy-shows event",
+    "bookingUrl": "https://in.bookmyshow.com/events/rajat-chauhan-live-koramangala/ET00476821",
+    "image": "https://assets-in.bmscdn.com/nmcms/events/banner/desktop/media-desktop-very-late-night-standup-comedy-show-0-2026-5-8-t-1-48-49.jpg",
+    "venue": "Ministry Of Comedy: Koramangala",
+    "address": "1018, Opp. Wooden Street, 80 Feet Road, 4th Block, Koramangala, Bengaluru, Karnataka 560034, India",
+    "startDate": "2026-11-06T23:59:00+05:30",
+    "endDate": "2026-11-07T01:14:00+05:30",
+    "duration": "PT1H15M",
+    "price": 225,
+    "currency": "INR",
+    "performers": [
+      "Manish Jain (Comic)",
+      "Pronoy Chowdhury"
+    ],
+    "languages": [
+      "Hindi",
+      "Hinglish"
+    ],
+    "sessionId": "ET00476821@20261106T2359",
+    "date": "Fri 6 Nov",
+    "time": "11:59 PM",
+    "availability": "available",
+    "scrapedAt": "2026-11-05T20:53:42.586Z"
+  },
+  {
     "title": "Gautham Govindan Live - Trial Show",
     "category": "Stand up Comedy",
     "image": "https://assets-in.bmscdn.com/nmcms/events/banner/desktop/media-desktop-gautham-govindan-live-trial-show-0-2026-10-9-t-15-52-23.jpg",
