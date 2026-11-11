@@ -1,3 +1,126 @@
 {
-  "lineups": []
+  "lineups": [
+    {
+      "slot": "20261111T2300",
+      "day": "Wednesday",
+      "time": "11:00 PM",
+      "performers": [
+        "Akash Nath",
+        "Ajay Rathore",
+        "Manish Jain",
+        "Nayab sadaf",
+        "Manoj Prabakar",
+        "Manjeet Sarkar",
+        "Samarpan Bose"
+      ],
+      "photos": [
+        {
+          "name": "Ajay Rathore",
+          "url": "/mics/comics/ajay-rathore.jpg?v=2026-10-23T11%3A44%3A21.950Z"
+        },
+        {
+          "name": "Manoj Prabakar",
+          "url": "/mics/comics/manoj-prabakar.jpg?v=2026-10-17T09%3A24%3A24.878Z"
+        }
+      ],
+      "reels": [
+        {
+          "name": "Manish Jain",
+          "url": "https://www.instagram.com/reel/DcyNI7ISZjd/"
+        },
+        {
+          "name": "Samarpan Bose",
+          "url": "https://www.instagram.com/reel/DdrEdF-BEpE/"
+        }
+      ],
+      "publishedAt": "2026-11-11T08:21:04.151Z"
+    },
+    {
+      "slot": "20261112T2300",
+      "day": "Thursday",
+      "time": "11:00 PM",
+      "performers": [
+        "Devashish Mulye",
+        "Kishore Raghunathan",
+        "Manish Jain",
+        "Aman Mishra",
+        "Akshay",
+        "Meghana Jayaprakash",
+        "Manjeet Sarkar",
+        "Gokul Kumar"
+      ],
+      "photos": [
+        {
+          "name": "Kishore Raghunathan",
+          "url": "/mics/comics/kishore-raghunathan.jpg?v=2026-10-31T08%3A54%3A02.922Z"
+        },
+        {
+          "name": "Gokul Kumar",
+          "url": "/mics/comics/gokul-kumar.jpg?v=2026-10-28T12%3A07%3A36.234Z"
+        }
+      ],
+      "reels": [
+        {
+          "name": "Devashish Mulye",
+          "url": "https://www.instagram.com/reel/DAOV46rPWzU/"
+        },
+        {
+          "name": "Kishore Raghunathan",
+          "url": "https://www.instagram.com/reel/C_siukXSnuR/"
+        },
+        {
+          "name": "Manish Jain",
+          "url": "https://www.instagram.com/reel/DcyNI7ISZjd/"
+        },
+        {
+          "name": "Akshay",
+          "url": "https://www.instagram.com/reel/DdEPCpDuUUu/"
+        },
+        {
+          "name": "Gokul Kumar",
+          "url": "https://www.instagram.com/reel/C-XZgIzPIOC/"
+        }
+      ],
+      "publishedAt": "2026-11-11T08:28:29.174Z"
+    },
+    {
+      "slot": "20261113T2200",
+      "day": "Friday",
+      "time": "10:00 PM",
+      "performers": [
+        "Abhinav Anand",
+        "Umesh Kanojia",
+        "Shivam Lakhanpal",
+        "Manjeet Sarkar",
+        "Ankit Kedia",
+        "Neha Bobde",
+        "Manish Jain"
+      ],
+      "photos": [
+        {
+          "name": "Shivam Lakhanpal",
+          "url": "/mics/comics/shivam-lakhanpal.jpg?v=2026-10-26T21%3A53%3A17.147Z"
+        },
+        {
+          "name": "Neha Bobde",
+          "url": "/mics/comics/neha-bobde.jpg?v=2026-10-23T11%3A51%3A03.819Z"
+        }
+      ],
+      "reels": [
+        {
+          "name": "Abhinav Anand",
+          "url": "https://www.instagram.com/reel/DMIOYL7PxUv/"
+        },
+        {
+          "name": "Neha Bobde",
+          "url": "https://www.instagram.com/reel/DOWHKeOk54n/"
+        },
+        {
+          "name": "Manish Jain",
+          "url": "https://www.instagram.com/reel/DcyNI7ISZjd/"
+        }
+      ],
+      "publishedAt": "2026-11-11T08:30:09.811Z"
+    }
+  ]
 }

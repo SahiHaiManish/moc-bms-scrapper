@@ -1,111 +1,5 @@
 [
   {
-    "title": "Stand Up Comedy Live",
-    "category": "Stand up Comedy",
-    "image": "https://assets-in.bmscdn.com/nmcms/events/banner/desktop/media-desktop-stand-up-comedy-live-0-2026-10-11-t-8-18-46.jpg",
-    "bookingUrl": "https://in.bookmyshow.com/events/stand-up-comedy-live/ET00312493",
-    "eventId": "ET00312493",
-    "regionCode": "BANG",
-    "language": [
-      "english",
-      "hindi"
-    ],
-    "description": "Comedy Shots presents Wild Comedy Nights Come on down with friends, family, enemies, random strangers, or by yourself for an absurd, edgy, and funny evening as these Bangalore regulars try to crack you up with their jokes. Add some food and beverages to the mix and the evening promises to be the one to remember. Come down and Support artists.",
-    "venue": "Ministry Of Comedy: Koramangala",
-    "address": "1018, Opp. Wooden Street, 80 Feet Road, 4th Block, Koramangala, Bengaluru, Karnataka 560034, India",
-    "startDate": "2026-11-04T21:00:00+05:30",
-    "endDate": "2026-11-04T22:10:00+05:30",
-    "duration": "PT1H10M",
-    "price": 199,
-    "currency": "INR",
-    "performers": [
-      "Anand Rathnam",
-      "Somnath Padhy",
-      "Joteen Patro"
-    ],
-    "languages": [
-      "English",
-      "Hindi"
-    ],
-    "sessionId": "ET00312493@20261104T2100",
-    "date": "Wed 4 Nov",
-    "time": "9:00 PM",
-    "availability": "available",
-    "scrapedAt": "2026-11-03T15:03:53.640Z"
-  },
-  {
-    "title": "Ministry of Comedy Presents! (Koramangala)",
-    "category": "Stand up Comedy",
-    "image": "https://assets-in.bmscdn.com/nmcms/events/banner/desktop/media-desktop-ministry-of-comedy-presents-koramangala-0-2026-7-26-t-22-45-46.jpg",
-    "bookingUrl": "https://in.bookmyshow.com/events/pilot-gomma-an-aircrash-event-by-gommaboy/ET00433099",
-    "eventId": "ET00433099",
-    "regionCode": "BANG",
-    "language": [
-      "hinglish",
-      "hindi"
-    ],
-    "description": "Book online tickets for Ministry of Comedy Presents! (Koramangala) in Bengaluru on BookMyShow which is a comedy-shows event",
-    "venue": "Ministry Of Comedy: Koramangala",
-    "address": "1018, Opp. Wooden Street, 80 Feet Road, 4th Block, Koramangala, Bengaluru, Karnataka 560034, India",
-    "startDate": "2026-11-04T23:00:00+05:30",
-    "endDate": "2026-11-05T00:15:00+05:30",
-    "duration": "PT1H15M",
-    "price": 199,
-    "currency": "INR",
-    "performers": [
-      "Manish Jain (Comic)",
-      "Pronoy Chowdhury",
-      "Nisarg Avashia",
-      "Abhinav Anand",
-      "Sachin Kumar Gommaboy"
-    ],
-    "languages": [
-      "Hinglish",
-      "Hindi"
-    ],
-    "sessionId": "ET00433099@20261104T2300",
-    "date": "Wed 4 Nov",
-    "time": "11:00 PM",
-    "availability": "available",
-    "scrapedAt": "2026-11-03T15:04:44.171Z"
-  },
-  {
-    "title": "Ministry of Comedy Presents! (Koramangala)",
-    "category": "Stand up Comedy",
-    "image": "https://assets-in.bmscdn.com/nmcms/events/banner/desktop/media-desktop-ministry-of-comedy-presents-koramangala-0-2026-7-26-t-22-45-46.jpg",
-    "bookingUrl": "https://in.bookmyshow.com/events/pilot-gomma-an-aircrash-event-by-gommaboy/ET00433099",
-    "eventId": "ET00433099",
-    "regionCode": "BANG",
-    "language": [
-      "hinglish",
-      "hindi"
-    ],
-    "description": "Book online tickets for Ministry of Comedy Presents! (Koramangala) in Bengaluru on BookMyShow which is a comedy-shows event",
-    "venue": "Ministry Of Comedy: Koramangala",
-    "address": "1018, Opp. Wooden Street, 80 Feet Road, 4th Block, Koramangala, Bengaluru, Karnataka 560034, India",
-    "startDate": "2026-11-05T23:00:00+05:30",
-    "endDate": "2026-11-06T00:15:00+05:30",
-    "duration": "PT1H15M",
-    "price": 199,
-    "currency": "INR",
-    "performers": [
-      "Manish Jain (Comic)",
-      "Pronoy Chowdhury",
-      "Nisarg Avashia",
-      "Abhinav Anand",
-      "Sachin Kumar Gommaboy"
-    ],
-    "languages": [
-      "Hinglish",
-      "Hindi"
-    ],
-    "sessionId": "ET00433099@20261105T2300",
-    "date": "Thu 5 Nov",
-    "time": "11:00 PM",
-    "availability": "available",
-    "scrapedAt": "2026-11-03T15:04:44.171Z"
-  },
-  {
     "category": "Stand up Comedy",
     "language": [],
     "regionCode": "BANG",
@@ -182,6 +76,139 @@
     ]
   },
   {
+    "category": "Stand up Comedy",
+    "language": [
+      "english",
+      "hindi"
+    ],
+    "regionCode": "BANG",
+    "eventId": "ET00312493",
+    "title": "Stand Up Comedy Live",
+    "description": "Comedy Shots presents Wild Comedy Nights Come on down with friends, family, enemies, random strangers, or by yourself for an absurd, edgy, and funny evening as these Bangalore regulars try to crack you up with their jokes. Add some food and beverages to the mix and the evening promises to be the one to remember. Come down and Support artists.",
+    "bookingUrl": "https://in.bookmyshow.com/events/stand-up-comedy-live/ET00312493",
+    "image": "https://assets-in.bmscdn.com/nmcms/events/banner/desktop/media-desktop-stand-up-comedy-live-0-2026-10-11-t-8-18-46.jpg",
+    "venue": "Ministry Of Comedy: Koramangala",
+    "address": "1018, Opp. Wooden Street, 80 Feet Road, 4th Block, Koramangala, Bengaluru, Karnataka 560034, India",
+    "startDate": "2026-11-11T21:00:00+05:30",
+    "endDate": "2026-11-11T22:10:00+05:30",
+    "duration": "PT1H10M",
+    "price": 199,
+    "currency": "INR",
+    "performers": [
+      "Anand Rathnam",
+      "Somnath Padhy",
+      "Joteen Patro"
+    ],
+    "languages": [
+      "English",
+      "Hindi"
+    ],
+    "sessionId": "ET00312493@20261111T2100",
+    "date": "Wed 11 Nov",
+    "time": "9:00 PM",
+    "availability": "available",
+    "scrapedAt": "2026-11-11T11:42:31.795Z"
+  },
+  {
+    "category": "Stand up Comedy",
+    "language": [
+      "hinglish",
+      "hindi"
+    ],
+    "regionCode": "BANG",
+    "eventId": "ET00433099",
+    "title": "Ministry of Comedy Presents! (Koramangala)",
+    "description": "Book online tickets for Ministry of Comedy Presents! (Koramangala) in Bengaluru on BookMyShow which is a comedy-shows event",
+    "bookingUrl": "https://in.bookmyshow.com/events/pilot-gomma-an-aircrash-event-by-gommaboy/ET00433099",
+    "image": "https://assets-in.bmscdn.com/nmcms/events/banner/desktop/media-desktop-ministry-of-comedy-presents-koramangala-0-2026-7-26-t-22-45-46.jpg",
+    "venue": "Ministry Of Comedy: Koramangala",
+    "address": "1018, Opp. Wooden Street, 80 Feet Road, 4th Block, Koramangala, Bengaluru, Karnataka 560034, India",
+    "startDate": "2026-11-11T23:00:00+05:30",
+    "endDate": "2026-11-12T00:15:00+05:30",
+    "duration": "PT1H15M",
+    "price": 199,
+    "currency": "INR",
+    "performers": [
+      "Akash Nath",
+      "Ajay Rathore",
+      "Manish Jain",
+      "Nayab sadaf",
+      "Manoj Prabakar",
+      "Manjeet Sarkar",
+      "Samarpan Bose"
+    ],
+    "languages": [
+      "Hinglish",
+      "Hindi"
+    ],
+    "sessionId": "ET00433099@20261111T2300",
+    "date": "Wed 11 Nov",
+    "time": "11:00 PM",
+    "availability": "available",
+    "scrapedAt": "2026-11-11T11:42:08.575Z",
+    "lineupPublishedAt": "2026-11-11T08:21:04.151Z",
+    "posterPhotos": [
+      {
+        "name": "Ajay Rathore",
+        "url": "https://ministryofcomedy.in/mics/comics/ajay-rathore.jpg?v=2026-10-23T11%3A44%3A21.950Z"
+      },
+      {
+        "name": "Manoj Prabakar",
+        "url": "https://ministryofcomedy.in/mics/comics/manoj-prabakar.jpg?v=2026-10-17T09%3A24%3A24.878Z"
+      }
+    ]
+  },
+  {
+    "category": "Stand up Comedy",
+    "language": [
+      "hinglish",
+      "hindi"
+    ],
+    "regionCode": "BANG",
+    "eventId": "ET00433099",
+    "title": "Ministry of Comedy Presents! (Koramangala)",
+    "description": "Book online tickets for Ministry of Comedy Presents! (Koramangala) in Bengaluru on BookMyShow which is a comedy-shows event",
+    "bookingUrl": "https://in.bookmyshow.com/events/pilot-gomma-an-aircrash-event-by-gommaboy/ET00433099",
+    "image": "https://assets-in.bmscdn.com/nmcms/events/banner/desktop/media-desktop-ministry-of-comedy-presents-koramangala-0-2026-7-26-t-22-45-46.jpg",
+    "venue": "Ministry Of Comedy: Koramangala",
+    "address": "1018, Opp. Wooden Street, 80 Feet Road, 4th Block, Koramangala, Bengaluru, Karnataka 560034, India",
+    "startDate": "2026-11-12T23:00:00+05:30",
+    "endDate": "2026-11-13T00:15:00+05:30",
+    "duration": "PT1H15M",
+    "price": 199,
+    "currency": "INR",
+    "performers": [
+      "Devashish Mulye",
+      "Kishore Raghunathan",
+      "Manish Jain",
+      "Aman Mishra",
+      "Akshay",
+      "Meghana Jayaprakash",
+      "Manjeet Sarkar",
+      "Gokul Kumar"
+    ],
+    "languages": [
+      "Hinglish",
+      "Hindi"
+    ],
+    "sessionId": "ET00433099@20261112T2300",
+    "date": "Thu 12 Nov",
+    "time": "11:00 PM",
+    "availability": "available",
+    "scrapedAt": "2026-11-11T11:42:08.575Z",
+    "lineupPublishedAt": "2026-11-11T08:28:29.174Z",
+    "posterPhotos": [
+      {
+        "name": "Kishore Raghunathan",
+        "url": "https://ministryofcomedy.in/mics/comics/kishore-raghunathan.jpg?v=2026-10-31T08%3A54%3A02.922Z"
+      },
+      {
+        "name": "Gokul Kumar",
+        "url": "https://ministryofcomedy.in/mics/comics/gokul-kumar.jpg?v=2026-10-28T12%3A07%3A36.234Z"
+      }
+    ]
+  },
+  {
     "title": "Aamer Peeran's WIDE RANGE - a stand up comedy show",
     "category": "Stand up Comedy",
     "image": "https://assets-in.bmscdn.com/nmcms/events/banner/desktop/media-desktop-aamer-peeran-on-tour-0-2026-8-30-t-16-5-36.jpg",
@@ -210,6 +237,41 @@
     "time": "8:00 PM",
     "availability": "available",
     "scrapedAt": "2026-11-03T15:05:04.103Z"
+  },
+  {
+    "category": "Stand up Comedy",
+    "language": [],
+    "regionCode": "BANG",
+    "eventId": "ET00495380",
+    "title": "Let Your Stories Meet Mine: Nishant Tanwar LIVE!",
+    "description": "Book online tickets for Let Your Stories Meet Mine: Nishant Tanwar LIVE! in Bengaluru on BookMyShow which is a comedy-shows event",
+    "bookingUrl": "https://in.bookmyshow.com/events/nishant-tanwar-live/ET00495380",
+    "image": "https://assets-in.bmscdn.com/nmcms/events/banner/desktop/media-desktop-let-your-stories-meet-mine-nishant-tanwar-live-0-2026-5-8-t-14-5-16.jpg",
+    "venue": "Ministry Of Comedy: Koramangala",
+    "address": "1018, Opp. Wooden Street, 80 Feet Road, 4th Block, Koramangala, Bengaluru, Karnataka 560034, India",
+    "startDate": "2026-11-15T17:00:00+05:30",
+    "endDate": "2026-11-15T18:30:00+05:30",
+    "duration": "PT1H30M",
+    "price": 599,
+    "currency": "INR",
+    "performers": [
+      "Nishant Tanwar"
+    ],
+    "languages": [
+      "Hindi",
+      "Hinglish"
+    ],
+    "sessionId": "ET00495380@20261115T1700",
+    "date": "Sun 15 Nov",
+    "time": "5:00 PM",
+    "availability": "available",
+    "scrapedAt": "2026-11-11T11:43:13.161Z",
+    "posterPhotos": [
+      {
+        "name": "Nishant Tanwar",
+        "url": "https://ministryofcomedy.in/mics/comics/nishant-tanwar.jpg?v=2026-10-17T09%3A12%3A57.224Z"
+      }
+    ]
   },
   {
     "title": "Banker OP in The House",
@@ -388,6 +450,34 @@
     "time": "9:00 PM",
     "availability": "available",
     "scrapedAt": "2026-11-03T15:04:02.428Z"
+  },
+  {
+    "category": "Stand up Comedy",
+    "language": [],
+    "regionCode": "BANG",
+    "eventId": "ET00516975",
+    "title": "Pomegranate: Stand up Comedy by Ashutosh Jamadagni",
+    "description": "Book online tickets for Pomegranate: Stand up Comedy by Ashutosh Jamadagni in Bengaluru on BookMyShow which is a comedy-shows event",
+    "bookingUrl": "https://in.bookmyshow.com/events/pomegranate-stand-up-comedy-by-ashutosh-jamadagni/ET00516975",
+    "image": "https://assets-in.bmscdn.com/nmcms/events/banner/desktop/media-desktop-pomegranate-stand-up-comedy-by-ashutosh-jamadagni-0-2026-11-5-t-18-42-57.jpg",
+    "venue": "Ministry Of Comedy: Koramangala",
+    "address": "1018, Opp. Wooden Street, 80 Feet Road, 4th Block, Koramangala, Bengaluru, Karnataka 560034, India",
+    "startDate": "2026-12-05T18:00:00+05:30",
+    "endDate": "2026-12-05T19:30:00+05:30",
+    "duration": "PT1H30M",
+    "price": 399,
+    "currency": "INR",
+    "performers": [
+      "Ashutosh Jamadagni"
+    ],
+    "languages": [
+      "English"
+    ],
+    "sessionId": "ET00516975@20261205T1800",
+    "date": "Sat 5 Dec",
+    "time": "6:00 PM",
+    "availability": "available",
+    "scrapedAt": "2026-11-11T11:45:24.376Z"
   },
   {
     "title": "Main Ab Bhi Wahin Hun",

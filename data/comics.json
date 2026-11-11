@@ -85,6 +85,12 @@
       "reel": "https://www.instagram.com/reel/DevWGVKobqq/"
     },
     {
+      "name": "Amrit Dash",
+      "aliases": [],
+      "photo": null,
+      "reel": "https://www.instagram.com/reel/C37kRU4RdkP/"
+    },
+    {
       "id": "anand-rathnam",
       "name": "Anand Rathnam",
       "aliases": [],
@@ -503,6 +509,12 @@
       "aliases": [],
       "photo": null,
       "reel": "https://www.instagram.com/reel/DcOFnuTPP6O/"
+    },
+    {
+      "name": "Vivek Sisaudia",
+      "aliases": [],
+      "photo": null,
+      "reel": "https://www.instagram.com/reel/DarQA-jgoyJ/"
     }
   ]
 }
