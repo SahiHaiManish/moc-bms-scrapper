@@ -270,7 +270,7 @@ function Note({
     // non-breaking spaces keep "+ 6 more" on one line
     return more > 0 ? `${two.join(", ")} +\u00a0${more}\u00a0more` : two.join(" & ");
   };
-  const labelFor = (shown: { name: string }[]) => (performers.length > 2 && shown.length ? "also with" : "with");
+  const labelFor = (shown: { name: string }[]) => (performers.length > 2 && shown.length ? "also feat." : "feat.");
 
   const namesMax = Math.round(z.names * (wanted.length ? 0.9 : 1));
   const namesMin = Math.round(z.names * 0.8); // never smaller than this
@@ -492,8 +492,9 @@ export async function renderPoster(params: URLSearchParams): Promise<ImageRespon
       return src ? [{ name: p.name, src }] : [];
     });
   const n = shown.length;
-  // The story has room for the full to-do list until the night gets busy.
-  const compact = story ? n >= 4 : n >= 3;
+  // The to-do list takes a compact row from 3 shows on, in both formats: on the story the 3 notes
+  // otherwise get only ~210px each, too short for a recognisable photo.
+  const compact = n >= 3;
   const [choreA, choreB] = choresFor(tonight.date);
   // BOGO / sold out, by position in tonight's list ("0-2"). BOGO is left off
   // the story. Without ?sold, BookMyShow's sold-out status is used.
