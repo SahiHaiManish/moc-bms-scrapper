@@ -145,52 +145,6 @@
     "category": "Stand up Comedy",
     "language": [],
     "regionCode": "BANG",
-    "eventId": "ET00453914",
-    "title": "Best In StandUp! (Koramangala)",
-    "description": "Book online tickets for Best In StandUp! (Koramangala) in Bengaluru on BookMyShow which is a comedy-shows event",
-    "bookingUrl": "https://in.bookmyshow.com/events/pilot-gomma-feat-gommaboy/ET00453914",
-    "image": "https://assets-in.bmscdn.com/nmcms/events/banner/desktop/media-desktop-best-in-standup-koramangala-0-2026-5-8-t-1-49-22.jpg",
-    "venue": "Ministry Of Comedy: Koramangala",
-    "address": "1018, Opp. Wooden Street, 80 Feet Road, 4th Block, Koramangala, Bengaluru, Karnataka 560034, India",
-    "startDate": "2026-11-13T22:00:00+05:30",
-    "endDate": "2026-11-13T23:25:00+05:30",
-    "duration": "PT1H25M",
-    "price": 199,
-    "currency": "INR",
-    "performers": [
-      "Abhinav Anand",
-      "Umesh Kanojia",
-      "Shivam Lakhanpal",
-      "Manjeet Sarkar",
-      "Ankit Kedia",
-      "Neha Bobde",
-      "Manish Jain"
-    ],
-    "languages": [
-      "Hinglish",
-      "Hindi"
-    ],
-    "sessionId": "ET00453914@20261113T2200",
-    "date": "Fri 13 Nov",
-    "time": "10:00 PM",
-    "availability": "available",
-    "scrapedAt": "2026-11-13T14:24:32.185Z",
-    "lineupPublishedAt": "2026-11-11T08:30:09.811Z",
-    "posterPhotos": [
-      {
-        "name": "Shivam Lakhanpal",
-        "url": "https://ministryofcomedy.in/mics/comics/shivam-lakhanpal.jpg?v=2026-10-26T21%3A53%3A17.147Z"
-      },
-      {
-        "name": "Neha Bobde",
-        "url": "https://ministryofcomedy.in/mics/comics/neha-bobde.jpg?v=2026-10-23T11%3A51%3A03.819Z"
-      }
-    ]
-  },
-  {
-    "category": "Stand up Comedy",
-    "language": [],
-    "regionCode": "BANG",
     "eventId": "ET00420407",
     "title": "Very Late Night Comedy Show! (Koramangala)",
     "description": "Badhiya show hoga. Last show in the city, there`s no stand-up comedy show in the city after this. Great vibe, killer acoustics, and a handpicked lineup that always delivers laughs — from rising talent to seasoned pros. We’ve got a 4.5-star rating on Google for a reason: people leave happier than they came. Come for the comedy, stay for the mood.",
@@ -247,48 +201,14 @@
     "date": "Sat 14 Nov",
     "time": "8:00 PM",
     "availability": "available",
-    "scrapedAt": "2026-11-03T15:05:04.103Z"
-  },
-  {
-    "category": "Stand up Comedy",
-    "language": [],
-    "regionCode": "BANG",
-    "eventId": "ET00453914",
-    "title": "Best In StandUp! (Koramangala)",
-    "description": "Book online tickets for Best In StandUp! (Koramangala) in Bengaluru on BookMyShow which is a comedy-shows event",
-    "bookingUrl": "https://in.bookmyshow.com/events/pilot-gomma-feat-gommaboy/ET00453914",
-    "image": "https://assets-in.bmscdn.com/nmcms/events/banner/desktop/media-desktop-best-in-standup-koramangala-0-2026-5-8-t-1-49-22.jpg",
-    "venue": "Ministry Of Comedy: Koramangala",
-    "address": "1018, Opp. Wooden Street, 80 Feet Road, 4th Block, Koramangala, Bengaluru, Karnataka 560034, India",
-    "startDate": "2026-11-14T22:00:00+05:30",
-    "endDate": "2026-11-14T23:25:00+05:30",
-    "duration": "PT1H25M",
-    "price": 199,
-    "currency": "INR",
-    "performers": [
-      "Manish Jain (Comic)",
-      "Abhinav Anand"
-    ],
-    "languages": [
-      "Hinglish",
-      "Hindi"
-    ],
-    "sessionId": "ET00453914@20261114T2200",
-    "date": "Sat 14 Nov",
-    "time": "10:00 PM",
-    "availability": "available",
-    "scrapedAt": "2026-11-13T14:24:32.185Z",
+    "scrapedAt": "2026-11-03T15:05:04.103Z",
     "posterPhotos": [
       {
-        "name": "Manish Jain (Comic)",
-        "url": "https://ministryofcomedy.in/mics/comics/manish-jain.jpg?v=2026-10-31T09%3A48%3A57.152Z"
-      },
-      {
-        "name": "Abhinav Anand",
-        "url": "https://ministryofcomedy.in/mics/comics/abhinav-anand.jpg?v=2026-10-17T09%3A02%3A16.554Z"
+        "name": "Aamer Peeran",
+        "url": "https://ministryofcomedy.in/mics/comics/aamer-peeran.jpg?v=2026-11-14T10%3A57%3A31.159Z"
       }
     ]
-  }, 
+  },
   {
     "category": "Stand up Comedy",
     "language": [],
@@ -306,10 +226,13 @@
     "price": 250,
     "currency": "INR",
     "performers": [
-      "Manish Jain (Comic)",
-      "Pronoy Chowdhury",
-      "Nisarg Avashia",
-      "Vaibhav Karn"
+      "Krishna Subramanian",
+      "Aman Mishra",
+      "Akshay",
+      "Manish Jain",
+      "hari krishna",
+      "Mehran",
+      "Nitin Tanwar"
     ],
     "languages": [
       "Hindi",
@@ -319,40 +242,61 @@
     "date": "Sat 14 Nov",
     "time": "11:59 PM",
     "availability": "available",
-    "scrapedAt": "2026-11-13T14:24:55.795Z"
+    "scrapedAt": "2026-11-13T14:24:55.795Z",
+    "lineupPublishedAt": "2026-11-14T10:52:13.458Z",
+    "posterPhotos": [
+      {
+        "name": "Krishna Subramanian",
+        "url": "https://ministryofcomedy.in/mics/comics/krishna-subramanian.jpg?v=2026-10-24T22%3A53%3A45.635Z"
+      },
+      {
+        "name": "Nitin Tanwar",
+        "url": "https://ministryofcomedy.in/mics/comics/nitin-tanwar.jpg?v=2026-10-25T07%3A46%3A14.202Z"
+      }
+    ]
   },
-  {
+    {
     "category": "Stand up Comedy",
     "language": [],
     "regionCode": "BANG",
-    "eventId": "ET00495380",
-    "title": "Let Your Stories Meet Mine: Nishant Tanwar LIVE!",
-    "description": "Book online tickets for Let Your Stories Meet Mine: Nishant Tanwar LIVE! in Bengaluru on BookMyShow which is a comedy-shows event",
-    "bookingUrl": "https://in.bookmyshow.com/events/nishant-tanwar-live/ET00495380",
-    "image": "https://assets-in.bmscdn.com/nmcms/events/banner/desktop/media-desktop-let-your-stories-meet-mine-nishant-tanwar-live-0-2026-5-8-t-14-5-16.jpg",
+    "eventId": "ET00453914",
+    "title": "Best In StandUp! (Koramangala)",
+    "description": "Book online tickets for Best In StandUp! (Koramangala) in Bengaluru on BookMyShow which is a comedy-shows event",
+    "bookingUrl": "https://in.bookmyshow.com/events/pilot-gomma-feat-gommaboy/ET00453914",
+    "image": "https://assets-in.bmscdn.com/nmcms/events/banner/desktop/media-desktop-best-in-standup-koramangala-0-2026-5-8-t-1-49-22.jpg",
     "venue": "Ministry Of Comedy: Koramangala",
     "address": "1018, Opp. Wooden Street, 80 Feet Road, 4th Block, Koramangala, Bengaluru, Karnataka 560034, India",
-    "startDate": "2026-11-15T17:00:00+05:30",
-    "endDate": "2026-11-15T18:30:00+05:30",
-    "duration": "PT1H30M",
-    "price": 599,
+    "startDate": "2026-11-15T20:00:00+05:30",
+    "endDate": "2026-11-15T21:25:00+05:30",
+    "duration": "PT1H25M",
+    "price": 225,
     "currency": "INR",
     "performers": [
-      "Nishant Tanwar"
+      "Neha Bobde",
+      "Shivam Lakhanpal",
+      "Dwip Rachchh",
+      "Umesh Kanojia",
+      "Abhinav Anand",
+      "Manish Jain"
     ],
     "languages": [
-      "Hindi",
-      "Hinglish"
+      "Hinglish",
+      "Hindi"
     ],
-    "sessionId": "ET00495380@20261115T1700",
+    "sessionId": "ET00453914@20261115T2000",
     "date": "Sun 15 Nov",
-    "time": "5:00 PM",
+    "time": "8:00 PM",
     "availability": "available",
-    "scrapedAt": "2026-11-11T11:43:13.161Z",
+    "scrapedAt": "2026-11-15T09:00:09.248Z",
+    "lineupPublishedAt": "2026-11-15T08:58:03.763Z",
     "posterPhotos": [
       {
-        "name": "Nishant Tanwar",
-        "url": "https://ministryofcomedy.in/mics/comics/nishant-tanwar.jpg?v=2026-10-17T09%3A12%3A57.224Z"
+        "name": "Neha Bobde",
+        "url": "https://ministryofcomedy.in/mics/comics/neha-bobde.jpg?v=2026-10-23T11%3A51%3A03.819Z"
+      },
+      {
+        "name": "Shivam Lakhanpal",
+        "url": "https://ministryofcomedy.in/mics/comics/shivam-lakhanpal.jpg?v=2026-10-26T21%3A53%3A17.147Z"
       }
     ]
   },
@@ -376,9 +320,11 @@
     "price": 199,
     "currency": "INR",
     "performers": [
-      "Manish Jain (Comic)",
-      "Pronoy Chowdhury",
-      "Nisarg Avashia"
+      "Navin",
+      "Somnath Padhy",
+      "Nitin Tanwar",
+      "Abhinav Anand",
+      "Vaibhav Arora"
     ],
     "languages": [
       "Hindi",
@@ -388,41 +334,20 @@
     "date": "Sun 15 Nov",
     "time": "9:30 PM",
     "availability": "available",
-    "scrapedAt": "2026-11-13T14:25:17.448Z"
+    "scrapedAt": "2026-11-13T14:25:17.448Z",
+    "lineupPublishedAt": "2026-11-15T08:57:36.662Z",
+    "posterPhotos": [
+      {
+        "name": "Navin",
+        "url": "https://ministryofcomedy.in/mics/comics/navin.jpg?v=2026-11-15T08%3A57%3A06.749Z"
+      },
+      {
+        "name": "Vaibhav Arora",
+        "url": "https://ministryofcomedy.in/mics/comics/vaibhav-arora.jpg?v=2026-11-15T08%3A53%3A10.853Z"
+      }
+    ]
   },
-  {
-    "category": "Stand up Comedy",
-    "language": [],
-    "regionCode": "BANG",
-    "eventId": "ET00420407",
-    "title": "Very Late Night Comedy Show! (Koramangala)",
-    "description": "Badhiya show hoga. Last show in the city, there`s no stand-up comedy show in the city after this. Great vibe, killer acoustics, and a handpicked lineup that always delivers laughs — from rising talent to seasoned pros. We’ve got a 4.5-star rating on Google for a reason: people leave happier than they came. Come for the comedy, stay for the mood.",
-    "bookingUrl": "https://in.bookmyshow.com/events/kaafi-mazzedaar-jokes-koramangala/ET00420407",
-    "image": "https://assets-in.bmscdn.com/nmcms/events/banner/desktop/media-desktop-very-late-night-comedy-show-koramangala-0-2025-2-8-t-11-58-53.jpg",
-    "venue": "Ministry Of Comedy: Koramangala",
-    "address": "1018, Opp. Wooden Street, 80 Feet Road, 4th Block, Koramangala, Bengaluru, Karnataka 560034, India",
-    "startDate": "2026-11-15T23:00:00+05:30",
-    "endDate": "2026-11-16T00:15:00+05:30",
-    "duration": "PT1H15M",
-    "price": 250,
-    "currency": "INR",
-    "performers": [
-      "Manish Jain (Comic)",
-      "Pronoy Chowdhury",
-      "Nisarg Avashia",
-      "Vaibhav Karn"
-    ],
-    "languages": [
-      "Hindi",
-      "Hinglish"
-    ],
-    "sessionId": "ET00420407@20261115T2300",
-    "date": "Sun 15 Nov",
-    "time": "11:00 PM",
-    "availability": "available",
-    "scrapedAt": "2026-11-13T14:24:55.795Z"
-  },
-  {
+   {
     "title": "Banker OP in The House",
     "category": "Stand up Comedy",
     "image": "https://assets-in.bmscdn.com/nmcms/events/banner/desktop/media-desktop-banker-op-in-the-house-0-2026-6-25-t-7-16-58.jpg",

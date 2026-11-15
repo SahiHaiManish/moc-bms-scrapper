@@ -1,6 +1,13 @@
 {
   "comics": [
     {
+      "id": "aamer-peeran",
+      "name": "Aamer Peeran",
+      "aliases": [],
+      "photo": "/mics/comics/aamer-peeran.jpg?v=2026-11-14T10%3A57%3A31.159Z",
+      "reel": "https://www.instagram.com/reel/Da0Hioqp5yM/"
+    },
+    {
       "id": "aaquib-kolkar",
       "name": "Aaquib Kolkar",
       "aliases": [],
@@ -56,10 +63,11 @@
     },
     {
       "id": "akshay-j-p",
-      "name": "Akshay J P",
+      "name": "Akshay Paraikkal",
       "aliases": [
         "Akshay",
-        "paraikkal"
+        "paraikkal",
+        "akshay j p"
       ],
       "photo": "/mics/comics/akshay-j-p.jpg?v=2026-10-24T09%3A33%3A08.943Z",
       "reel": "https://www.instagram.com/reel/DdEPCpDuUUu/"
@@ -190,6 +198,13 @@
       "reel": "https://www.instagram.com/reel/C-XZgIzPIOC/"
     },
     {
+      "id": "hari-krishna",
+      "name": "hari krishna",
+      "aliases": [],
+      "photo": "/mics/comics/hari-krishna.jpg?v=2026-11-14T10%3A50%3A17.402Z",
+      "reel": "https://www.instagram.com/reel/DOttK-XE_tc/"
+    },
+    {
       "id": "harshit-mahawar",
       "name": "harshit mahawar",
       "aliases": [
@@ -254,7 +269,7 @@
       "name": "Krishna Subramanian",
       "aliases": [],
       "photo": "/mics/comics/krishna-subramanian.jpg?v=2026-10-24T22%3A53%3A45.635Z",
-      "reel": null
+      "reel": "https://www.instagram.com/reel/DaAbtDetTip/"
     },
     {
       "id": "mangu-singh",
@@ -296,6 +311,15 @@
       ],
       "photo": "/mics/comics/mohd-suhel.jpg?v=2026-10-26T21%3A46%3A14.115Z",
       "reel": "https://www.instagram.com/reel/Da-ev0NPRzp/"
+    },
+    {
+      "id": "navin",
+      "name": "Navin",
+      "aliases": [
+        "Navin Kumar"
+      ],
+      "photo": "/mics/comics/navin.jpg?v=2026-11-15T08%3A57%3A06.749Z",
+      "reel": "https://www.instagram.com/reel/Dc43OLuSn4i/"
     },
     {
       "id": "nayab-sadaf",
@@ -489,6 +513,13 @@
       "aliases": [],
       "photo": null,
       "reel": "https://www.instagram.com/reel/Ceveay7hskq/"
+    },
+    {
+      "id": "vaibhav-arora",
+      "name": "Vaibhav Arora",
+      "aliases": [],
+      "photo": "/mics/comics/vaibhav-arora.jpg?v=2026-11-15T08%3A53%3A10.853Z",
+      "reel": "https://www.instagram.com/reel/DeO7QJUv25l/"
     },
     {
       "id": "vaibhav-karn",
