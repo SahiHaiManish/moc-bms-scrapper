@@ -126,7 +126,7 @@ const TWO_DAYS = { [ist(1)]: ["8:00 PM", "10:00 PM"], [ist(2)]: ["6:30 PM"] };
     assert.deepEqual(parseEventLink(u), want);
     assert.deepEqual(parseEventLink(u + "?webview=true#x"), want);
     assert.deepEqual(parseEventLink(u + "/date-time/MCBK"), want);
-    assert.deepEqual(parseEventLink(u.replace("et2mzyb7ed", "ET2MZYB7ED")).eventId, "ET2MZYB7ED");
+    assert.deepEqual(parseEventLink(u.replace("et2mzyb7ed", "ET2MZYB7ED")), { eventId: "ET2MZYB7ED", url: u.replace("et2mzyb7ed", "ET2MZYB7ED") });
   });
 
   await test("a re-add replaces records whatever case the stored id is in", () => {
