@@ -1,88 +1,86 @@
 {
   "lineups": [
     {
-      "slot": "20261115T2000",
-      "day": "Sunday",
-      "time": "8:00 PM",
+      "slot": "20261119T2100",
+      "day": "Thursday",
+      "time": "09:00 PM",
       "performers": [
-        "Neha Bobde",
+        "Devashish Mulye",
         "Shivam Lakhanpal",
-        "Dwip Rachchh",
-        "Umesh Kanojia",
+        "Ravi Kumar Gowda",
+        "Rakshith Manandi",
+        "Dakshit",
         "Abhinav Anand",
-        "Manish Jain"
+        "Priyank Sahgal"
       ],
       "photos": [
         {
-          "name": "Neha Bobde",
-          "url": "/mics/comics/neha-bobde.jpg?v=2026-10-23T11%3A51%3A03.819Z"
+          "name": "Devashish Mulye",
+          "url": "/mics/comics/devashish-mulye.jpg?v=2026-10-24T09%3A33%3A38.104Z"
         },
         {
-          "name": "Shivam Lakhanpal",
-          "url": "/mics/comics/shivam-lakhanpal.jpg?v=2026-10-26T21%3A53%3A17.147Z"
+          "name": "Abhinav Anand",
+          "url": "/mics/comics/abhinav-anand.jpg?v=2026-10-17T09%3A02%3A16.554Z"
         }
       ],
       "reels": [
         {
-          "name": "Neha Bobde",
-          "url": "https://www.instagram.com/reel/DOWHKeOk54n/"
+          "name": "Devashish Mulye",
+          "url": "https://www.instagram.com/reel/DAOV46rPWzU/"
+        },
+        {
+          "name": "Rakshith Manandi",
+          "url": "https://www.instagram.com/reel/DcYffuLoTgc/"
+        },
+        {
+          "name": "Dakshit",
+          "url": "https://www.instagram.com/reel/DeJ3LnpvjOw/"
         },
         {
           "name": "Abhinav Anand",
           "url": "https://www.instagram.com/reel/DMIOYL7PxUv/"
-        },
-        {
-          "name": "Manish Jain",
-          "url": "https://www.instagram.com/reel/DcyNI7ISZjd/"
         }
       ],
-      "publishedAt": "2026-11-15T08:58:03.763Z"
+      "publishedAt": "2026-11-19T15:03:14.454Z"
     },
     {
-      "slot": "20261115T2130",
-      "day": "Sunday",
-      "time": "09:30 PM",
+      "slot": "20261119T2230",
+      "day": "Thursday",
+      "time": "10:30 PM",
       "performers": [
-        "Navin",
-        "Vaibhav Arora",
-        "Somnath Padhy",
+        "Anil Mishra",
+        "Dwip Rachchh",
+        "Fazal Ahmad",
+        "Akash Nath",
+        "Ruchi Kumari",
         "Nitin Tanwar",
-        "Abhinav Anand",
-        "Manish Jain"
+        "Devashish Mulye"
       ],
       "photos": [
         {
-          "name": "Navin",
-          "url": "/mics/comics/navin.jpg?v=2026-11-15T08%3A57%3A06.749Z"
+          "name": "Ruchi Kumari",
+          "url": "/mics/comics/ruchi-kumari.jpg?v=2026-10-17T09%3A10%3A57.352Z"
         },
         {
-          "name": "Vaibhav Arora",
-          "url": "/mics/comics/vaibhav-arora.jpg?v=2026-11-15T08%3A53%3A10.853Z"
+          "name": "Nitin Tanwar",
+          "url": "/mics/comics/nitin-tanwar.jpg?v=2026-10-25T07%3A46%3A14.202Z"
         }
       ],
       "reels": [
         {
-          "name": "Navin",
-          "url": "https://www.instagram.com/reel/Dc43OLuSn4i/"
+          "name": "Fazal Ahmad",
+          "url": "https://www.instagram.com/reel/DdYdxgPpbXJ/"
         },
         {
-          "name": "Vaibhav Arora",
-          "url": "https://www.instagram.com/reel/DeO7QJUv25l/"
+          "name": "Ruchi Kumari",
+          "url": "https://www.instagram.com/reel/DecFFtPtiPO/"
         },
         {
-          "name": "Somnath Padhy",
-          "url": "https://www.instagram.com/reel/C2MuxE4P3OP/"
-        },
-        {
-          "name": "Abhinav Anand",
-          "url": "https://www.instagram.com/reel/DMIOYL7PxUv/"
-        },
-        {
-          "name": "Manish Jain",
-          "url": "https://www.instagram.com/reel/DcyNI7ISZjd/"
+          "name": "Devashish Mulye",
+          "url": "https://www.instagram.com/reel/DAOV46rPWzU/"
         }
       ],
-      "publishedAt": "2026-11-15T13:43:57.312Z"
+      "publishedAt": "2026-11-19T16:28:17.722Z"
     },
     {
       "slot": "20261122T2000",

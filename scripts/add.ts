@@ -2,7 +2,7 @@
  * Add one event (or a few) to the site from their links, without scraping
  * everything:
  *
- *   npm run add -- https://in.bookmyshow.com/events/some-show/ET00312493
+ *   npm run add -- https://in.bookmyshow.com/events/some-show/ET00312493   (ids like .../et2mzyb7ed work too)
  *   npm run add -- <link> <link> --category="Improv Comedy"
  *
  * It reads that event's page, collects every date and time at Ministry of

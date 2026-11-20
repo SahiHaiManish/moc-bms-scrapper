@@ -113,7 +113,7 @@ export function isAtVenue(
   cfg: VenueConfig,
   allowedEvents: string[] = []
 ): { ok: boolean; reason: string } {
-  if (event.eventId && allowedEvents.includes(event.eventId)) {
+  if (event.eventId && allowedEvents.some((id) => id.toUpperCase() === event.eventId.toUpperCase())) {
     return { ok: true, reason: "listed in allowedEvents" };
   }
 

@@ -20,11 +20,11 @@ import { isAtVenue } from "./venueFilter";
 export const DEFAULT_CATEGORY = "Stand up Comedy";
 
 export interface EventLink {
-  eventId: string; // "ET00312493"
+  eventId: string; // upper-cased: "ET00312493" or "ET2MZYB7ED"
   url: string; // clean link, no query string
 }
 
-const EVENT_PATH = /^\/(events|plays|sports|activities)\/([^/]+)\/(ET\d{8})(?:\/|$)/i;
+const EVENT_PATH = /^\/(events|plays|sports|activities)\/([^/]+)\/(ET[A-Z0-9]{8})(?:\/|$)/i;
 
 /**
  * Accepts the link as copied from the browser: query strings, a trailing
@@ -49,13 +49,17 @@ export function parseEventLink(input: string): EventLink | { error: string } {
     return {
       error:
         "Couldn't find an event id (ET…) in that link. It should look like " +
-        `https://${VENUE.host}/events/<show-name>/ET00312493`,
+        `https://${VENUE.host}/events/<show-name>/ET00312493` +
+        " (or an id like et2mzyb7ed)",
     };
   }
 
+  // BookMyShow ids are "ET" + 8 digits (older) or 8 letters/digits (newer, and
+  // lowercase in the address bar). The id is upper-cased for our records but
+  // kept exactly as typed in the link we open.
   const eventId = match[3].toUpperCase();
 
-  return { eventId, url: `${url.origin}/${match[1].toLowerCase()}/${match[2]}/${eventId}` };
+  return { eventId, url: `${url.origin}/${match[1].toLowerCase()}/${match[2]}/${match[3]}` };
 }
 
 /** Replace every record of `eventId` with `records`; everything else untouched. */
@@ -64,7 +68,7 @@ export function replaceEventRecords<T extends { eventId: string; startDate: stri
   eventId: string,
   records: T[]
 ): T[] {
-  return [...existing.filter((r) => r.eventId !== eventId), ...records].sort(
+  return [...existing.filter((r) => r.eventId.toUpperCase() !== eventId.toUpperCase()), ...records].sort(
     (a, b) => Date.parse(a.startDate) - Date.parse(b.startDate)
   );
 }
@@ -124,7 +128,7 @@ export async function addEvent(
     return { kind: "refused", title, reason: normalCheck.reason };
   }
 
-  const existing = previous.find((r) => r.eventId === link.eventId);
+  const existing = previous.find((r) => r.eventId.toUpperCase() === link.eventId);
 
   const [category, categorySource] = opts.category
     ? ([opts.category, "flag"] as const)

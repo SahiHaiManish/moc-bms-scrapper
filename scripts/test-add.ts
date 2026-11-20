@@ -116,11 +116,26 @@ const TWO_DAYS = { [ist(1)]: ["8:00 PM", "10:00 PM"], [ist(2)]: ["6:30 PM"] };
     assert.deepEqual(parseEventLink(LINK.url), want);
     assert.deepEqual(parseEventLink(LINK.url + "?webview=true&utm=x#top"), want);
     assert.deepEqual(parseEventLink(LINK.url + "/date-time/MCBK"), want);
-    assert.deepEqual(parseEventLink("  " + LINK.url.replace("ET0", "et0") + "  "), want);
+    assert.deepEqual(parseEventLink("  " + LINK.url.replace("ET0", "et0") + "  "), { eventId: "ET00312493", url: LINK.url.replace("ET0", "et0") });
+  });
+
+  await test("accepts the newer letters-and-digits ids, keeping the link as typed", () => {
+    const u = "https://in.bookmyshow.com/events/nri-irl-ft-aishwarya-taukari-koramangala/et2mzyb7ed";
+    const want = { eventId: "ET2MZYB7ED", url: u };
+
+    assert.deepEqual(parseEventLink(u), want);
+    assert.deepEqual(parseEventLink(u + "?webview=true#x"), want);
+    assert.deepEqual(parseEventLink(u + "/date-time/MCBK"), want);
+    assert.deepEqual(parseEventLink(u.replace("et2mzyb7ed", "ET2MZYB7ED")).eventId, "ET2MZYB7ED");
+  });
+
+  await test("a re-add replaces records whatever case the stored id is in", () => {
+    const out = replaceEventRecords([{ eventId: "et2mzyb7ed", startDate: "2099-01-01" }, { eventId: "ETOTHER001", startDate: "2099-01-02" }], "ET2MZYB7ED", [{ eventId: "ET2MZYB7ED", startDate: "2099-01-03" }]);
+    assert.deepEqual(out.map((r) => r.eventId), ["ETOTHER001", "ET2MZYB7ED"]);
   });
 
   await test("rejects things that aren't an event link, with a helpful message", () => {
-    for (const bad of ["ET00312493", "not a link", "https://ae.bookmyshow.com/events/x/ET00312493", "https://in.bookmyshow.com/explore/c/venues/x/mcbk"]) {
+    for (const bad of ["ET00312493", "not a link", "https://ae.bookmyshow.com/events/x/ET00312493", "https://in.bookmyshow.com/explore/c/venues/x/mcbk", "https://in.bookmyshow.com/events/x/ET123"]) {
       const r = parseEventLink(bad);
       assert.ok("error" in r && r.error.length > 10, bad);
     }
